@@ -2,6 +2,7 @@
   "name": "msmvc/msmvc",
   "type": "project",
   "description": "The MSmvc with all it's helpers",
+  "version": "0.0.0",
   "keywords": [
     "mvc",
     "framework"
@@ -9,9 +10,11 @@
   "homepage": "https://github.com/go2destroy/MSmvc",
   "time": "2015-10-15",
   "license": "MIT",
-  "minimum-stability": "dev",
   "require": {
     "php": ">=5.6.0"
+  },
+  "config": {
+    "vendor-dir": "../"
   },
   "authors": [
     {

@@ -36,7 +36,7 @@ class MS_compress extends MS_core implements MS_mainInterface
 	}
 
 	/**
-	 * @throws Exception: if we cannot create a zip file we throw an exception
+	 * @throws \Exception: if we cannot create a zip file we throw an exception
 	 */
 	public function createNewZip() {
 		$this->archiveFile = new MS_zip();
@@ -49,7 +49,7 @@ class MS_compress extends MS_core implements MS_mainInterface
 	/**
 	 * @param $name : the name of the new directory
 	 *
-	 * @throws Exception: if we cannot write to the archive we throw an exception
+	 * @throws \Exception: if we cannot write to the archive we throw an exception
 	 */
 	public function createNewDirectory($name) {
 		if($this->__get('writeAble') == TRUE) {
@@ -63,7 +63,7 @@ class MS_compress extends MS_core implements MS_mainInterface
 	/**
 	 * @param $file : the zip file to use
 	 *
-	 * @throws Exception: if we cannot open the zip file we throw an exception
+	 * @throws \Exception : if we cannot open the zip file we throw an exception
 	 */
 	public function openArchive($file) {
 		$this->__set('archiveFile', new ZipArchive());
@@ -78,7 +78,7 @@ class MS_compress extends MS_core implements MS_mainInterface
 	 * @param      $file : the file to add to the archive
 	 * @param null $name : the new name for the file
 	 *
-	 * @throws Exception: if we cannot write to the archive we throw an exception
+	 * @throws \Exception: if we cannot write to the archive we throw an exception
 	 */
 	public function addFile($file, $name = NULL) {
 		if($this->__get('writeAble') == TRUE) {
@@ -99,7 +99,7 @@ class MS_compress extends MS_core implements MS_mainInterface
 	 * @param $fileName
 	 * @param $content
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function addString($fileName, $content) {
 		if($this->__get('writeAble') == TRUE) {
