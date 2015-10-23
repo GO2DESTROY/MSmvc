@@ -1,0 +1,22 @@
+{
+  "name": "msmvc/msmvc",
+  "type": "project",
+  "description": "The MSmvc with all it's helpers",
+  "keywords": [
+    "mvc",
+    "framework"
+  ],
+  "homepage": "https://github.com/go2destroy/MSmvc",
+  "time": "2015-10-15",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.6.0"
+  },
+  "authors": [
+    {
+      "name": "Maurice Schurink",
+      "role": "Developer"
+    }
+  ]
+}
