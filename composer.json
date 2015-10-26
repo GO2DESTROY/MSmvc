@@ -2,7 +2,10 @@
   "name": "msmvc/msmvc",
   "type": "project",
   "description": "The MSmvc with all it's helpers",
+<<<<<<< HEAD
   "version": "1.0.0",
+=======
+>>>>>>> refs/remotes/origin/development
   "keywords": [
     "mvc",
     "framework"

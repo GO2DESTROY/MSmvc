@@ -65,7 +65,7 @@ class MS_router
 		$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
 		$uri          = utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
 		if(empty($uri)) {
-			$uri = 'home';
+			$uri = '/';
 		}
 		$this->uri = $uri;
 	}
