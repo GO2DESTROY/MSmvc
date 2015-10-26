@@ -2,7 +2,6 @@
   "name": "msmvc/msmvc",
   "type": "project",
   "description": "The MSmvc with all it's helpers",
-  "version": "0.0.0",
   "keywords": [
     "mvc",
     "framework"

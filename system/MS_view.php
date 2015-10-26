@@ -13,8 +13,8 @@ class MS_view extends \system\MS_core implements blueprints\MS_mainInterface
 	}
 
 	public function loadView($file) {
-		if(is_array($this->data)) {
-			extract($this->data, EXTR_SKIP);
+		if(is_array($this->__get('data'))) {
+			extract($this->__get('data'), EXTR_SKIP);
 		}
 		return include dirname($_SERVER["SCRIPT_FILENAME"]).'/public/views/' . $file . '.php';
 	}

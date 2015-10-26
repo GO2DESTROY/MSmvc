@@ -24,6 +24,11 @@ class MS_controller extends \system\MS_core implements blueprints\MS_mainInterfa
 		$view->__set('data', $data);
 		return $view->loadView($file);
 	}
+
+	public function json($data) {
+		header('Content-Type: application/json');
+		return json_encode($data);
+	}
 }
 // this method will load the controller and execute it
 // besides that it will make sure a helper can get called it will request it from the core which will call spl
