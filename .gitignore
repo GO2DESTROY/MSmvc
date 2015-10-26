@@ -5,13 +5,13 @@
 
 ## Directory-based project format:
 .idea/
-
 uploads/*
 
 controllers/*
 models/*
 logs/*
 
+!/controllers/example.php
 !*.gitkeep
 
 # if you remove the above rule, at least ignore the following:
