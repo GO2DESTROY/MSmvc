@@ -3,6 +3,7 @@ namespace system\helpers;
 
 use blueprints\MS_mainInterface;
 use system\MS_core;
+use system\pipelines\MS_pipeline;
 
 class MS_db extends MS_core implements MS_mainInterface
 {
@@ -23,7 +24,7 @@ class MS_db extends MS_core implements MS_mainInterface
 	 */
 	private function loadConfig() {
 		if(empty(self::$configSet)) {
-			self::$configSet = include './config/database.php';    //we load this once
+			self::$configSet = MS_pipeline::returnConfig('database');    //we load this once
 		}
 	}
 

@@ -4,6 +4,8 @@
  * same goes for the error and exception handler
 */
 namespace system;
+use system\pipelines\MS_pipeline;
+
 class MS_core
 {
 	protected $environment;
@@ -18,10 +20,10 @@ class MS_core
 	}
 
 	private function loadConfig() {
-		$configFile            = include dirname($_SERVER["SCRIPT_FILENAME"]).'/config/config.php';
+		$configFile            = MS_pipeline::returnConfig('config');
 		$this->environment = $configFile['environment'];
 		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
-			$errorFile           = include dirname($_SERVER["SCRIPT_FILENAME"]).'/config/errors.php';
+			$errorFile           = MS_pipeline::returnConfig('errors');
 			$this->errorSettings = $errorFile[$this->environment];
 			set_exception_handler([$this, 'exceptionHandler']);
 			set_error_handler([$this, 'errorHandler']);
