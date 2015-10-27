@@ -10,11 +10,6 @@ class MS_search
 	public $pronunciationMatch = false; // checks for the pronunciation of the words optimized for the english language
 	public $acceptance         = 0;//lower values for optimized speed. 0 will disable this feature and give the best results
 
-	function __construct() {
-		$this->dataSet = ['apple', 'pineapple', 'banana', 'orange', 'radish', 'carrot', 'pea', 'bean', 'potato'];
-	}
-
-
 	public function returnClosest($input) {
 		$difference = -1;
 		foreach($this->dataSet as $dataRow) {
