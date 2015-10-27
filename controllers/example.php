@@ -4,8 +4,9 @@ class example extends MS_controller
 {
  public function index()
  {
-$pipeline = new \system\pipelines\MS_pipeline();
-	 var_dump($pdsfipeline->loadRoutes());
+$search = new \system\helpers\MS_search();
+	 $search->pronunciationMatch = true;
+	 var_dump($search->returnOrdered('beans'));
 	 //return $this->view('example');
  }
 }
