@@ -4,7 +4,7 @@ namespace system\helpers;
 
 use system\MS_core;
 
-class MS_secure extends MS_core
+class MS_secure
 {
 	/**
 	 * @param     $input          : the value your wish to hash

@@ -1,6 +1,6 @@
 <?php
 
-class MS_view extends \system\MS_core implements blueprints\MS_mainInterface
+class MS_view implements blueprints\MS_mainInterface
 {
 	private $data;
 

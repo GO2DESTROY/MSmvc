@@ -10,7 +10,7 @@
  *                  callback Todo:            optimize it for the MSmvc
  */
 namespace system;
-class MS_curl extends MS_core
+class MS_curl
 {
 	public  $method         = 'VIEW';            // enum POST,GET,DELETE,VIEW,SHOW,PUT,UPLOAD,DOWNLOAD,FTP_SHOW
 	public  $url;                        // string

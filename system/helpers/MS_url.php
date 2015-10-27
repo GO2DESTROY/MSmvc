@@ -19,7 +19,7 @@ class MS_url extends MS_main
 	 * @param null $properties : the properties for the controller to use
 	 *
 	 * @return mixed : we execute the controller
-	 * @throws Exception: in case it doesn't exist we throw an error
+	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public function callControllerByName($name, $properties = NULL) {
 		if(!empty($this->configSet->references[$name])) {
@@ -53,7 +53,7 @@ class MS_url extends MS_main
 	 * @param      $name       : the name of the url to use
 	 * @param null $properties : the properties to replace the url variables with
 	 *
-	 * @throws Exception: in case it doesn't exist we throw an error
+	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public function setUrlByName($name, $properties = NULL) {
 		if(!empty($this->configSet->references[$name])) {
@@ -80,7 +80,7 @@ class MS_url extends MS_main
 	 * @param      $name       : the name of the url to use
 	 * @param null $properties : the properties to replace the url variables with
 	 *
-	 * @throws Exception: in case it doesn't exist we throw an error
+	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public static function controller($name, $properties = NULL) {
 		$call = new MS_url();
@@ -96,7 +96,7 @@ class MS_url extends MS_main
 	 * @param null $properties : the properties to replace the url variables with
 	 *
 	 * @return mixed: the uri string to return
-	 * @throws Exception: in case it doesn't exist we throw an error
+	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public static function url($name, $properties = NULL) {
 		$url = new MS_url();

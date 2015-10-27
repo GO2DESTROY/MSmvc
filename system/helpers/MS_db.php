@@ -5,7 +5,7 @@ use blueprints\MS_mainInterface;
 use system\MS_core;
 use system\pipelines\MS_pipeline;
 
-class MS_db extends MS_core implements MS_mainInterface
+class MS_db implements MS_mainInterface
 {
 	private        $collectionSetReference;
 	private        $collectionSet;

@@ -1,6 +1,6 @@
 <?php
 
-class MS_controller extends \system\MS_core implements blueprints\MS_mainInterface
+class MS_controller implements blueprints\MS_mainInterface
 {
 	private $requestController;
 	private $controllerName;

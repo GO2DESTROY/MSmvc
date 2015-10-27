@@ -8,7 +8,7 @@ namespace system\helpers;
 use blueprints\MS_mainInterface;
 use system\MS_core;
 
-class MS_image extends MS_core implements MS_mainInterface
+class MS_image implements MS_mainInterface
 {
 	private $mainImage;    //GD image
 	private $mainImageSize;    //image sizes
