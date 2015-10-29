@@ -16,6 +16,7 @@ class MS_view implements blueprints\MS_mainInterface
 		if(is_array($this->__get('data'))) {
 			extract($this->__get('data'), EXTR_SKIP);
 		}
+		header('Content-Type: text/html; charset=utf-8');
 		return include dirname($_SERVER["SCRIPT_FILENAME"]).'/public/views/' . $file . '.php';
 	}
 
