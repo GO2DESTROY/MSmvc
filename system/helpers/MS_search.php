@@ -1,8 +1,6 @@
 <?php
 namespace system\helpers;
 
-use blueprints\MS_mainInterface;
-
 class MS_search
 {
 
