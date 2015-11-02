@@ -17,13 +17,12 @@ class MS_search
 	public function returnClosest($input) {
 		$difference = -1;
 		foreach($this->dataSet as $dataRow) {
-			if($this->pronunciationMatch == TRUE) {
+			if($this->pronunciationMatch === TRUE) {
 				$lev = levenshtein(metaphone($input, $this->acceptance), metaphone($dataRow, $this->acceptance));
 			}
 			else {
 				$lev = levenshtein($input, $dataRow);
 			}
-			var_dump($lev);
 			if($lev == 0) {
 				$closest    = $dataRow;
 				$difference = 0;

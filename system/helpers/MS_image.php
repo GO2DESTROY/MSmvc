@@ -6,7 +6,6 @@
 namespace system\helpers;
 
 use blueprints\MS_mainInterface;
-use system\MS_core;
 
 class MS_image implements MS_mainInterface
 {

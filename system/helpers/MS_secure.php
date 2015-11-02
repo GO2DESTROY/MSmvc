@@ -2,8 +2,6 @@
 
 namespace system\helpers;
 
-use system\MS_core;
-
 class MS_secure
 {
 	/**

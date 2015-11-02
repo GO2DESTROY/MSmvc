@@ -7,7 +7,7 @@
  * @version         0.1
  *                  Todo:            Improve debug options, Cookie support,ftp over ssl/tls, Kerberos support for ftp,
  *                  SFTP support, ftp file download, ftp download and upload directories, multicurl calls, async
- *                  callback Todo:            optimize it for the MSmvc
+ *                  callback
  */
 namespace system;
 class MS_curl
