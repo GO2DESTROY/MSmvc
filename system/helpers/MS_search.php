@@ -7,7 +7,6 @@ class MS_search
 	public $dataSet; // array of values
 	public $pronunciationMatch = FALSE; // checks for the pronunciation of the words optimized for the english language
 	public $acceptance         = 0;//lower values for optimized speed. 0 will disable this feature and give the best results
-	public $limit              = 0;
 
 	/**
 	 * @param string $input : the input value to search on
