@@ -4,9 +4,10 @@ namespace system\helpers;
 class MS_search
 {
 
-	public $dataSet; // array of values
-	public $pronunciationMatch = FALSE; // checks for the pronunciation of the words optimized for the english language
-	public $acceptance         = 0;//lower values for optimized speed. 0 will disable this feature and give the best results
+	public  $dataSet; // array of values
+	public  $pronunciationMatch = FALSE; // checks for the pronunciation of the words optimized for the english language
+	public  $acceptance         = 0;//lower values for optimized speed. 0 will disable this feature and give the best results
+	private $compareMethod;
 
 	/**
 	 * @param string $input : the input value to search on
@@ -15,13 +16,15 @@ class MS_search
 	 */
 	public function returnClosest($input) {
 		$difference = -1;
+		if($this->pronunciationMatch === TRUE) {
+			$this->compareMethod = 'compareDataSetPronunciation';
+		}
+		else {
+			$this->compareMethod = 'compareDataSet';
+		}
 		foreach($this->dataSet as $dataRow) {
-			if($this->pronunciationMatch === TRUE) {
-				$lev = levenshtein(metaphone($input, $this->acceptance), metaphone($dataRow, $this->acceptance));
-			}
-			else {
-				$lev = levenshtein($input, $dataRow);
-			}
+			$method = $this->compareMethod;
+			$lev = $this->$method($input, $dataRow);
 			if($lev == 0) {
 				$closest    = $dataRow;
 				$difference = 0;
@@ -35,6 +38,14 @@ class MS_search
 			}
 		}
 		return ['result' => $closest, 'exact' => $exact, 'difference' => $difference];
+	}
+
+	private function compareDataSetPronunciation($input, $dataRow) {
+		return levenshtein(metaphone($input, $this->acceptance), metaphone($dataRow, $this->acceptance));
+	}
+
+	private function compareDataSet($input, $dataRow) {
+		return levenshtein($input, $dataRow);
 	}
 
 	/**

@@ -19,13 +19,13 @@ class MS_controller implements blueprints\MS_mainInterface
 	 *
 	 * @return mixed    : the view page to return
 	 */
-	public function view($file, $data = NULL) {
+	protected function view($file, $data = NULL) {
 		$view = new MS_view();
 		$view->__set('data', $data);
 		return $view->loadView($file);
 	}
 
-	public function json($data) {
+	protected function json($data) {
 		header('Content-Type: application/json');
 		return json_encode($data);
 	}
