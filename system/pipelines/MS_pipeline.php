@@ -5,38 +5,27 @@ namespace system\pipelines;
 use blueprints\MS_mainInterface;
 use system\MS_core;
 
-class MS_pipeline extends MS_core implements MS_mainInterface
+class MS_pipeline
 {
 	public static $routes;
-	public function loadRequest()
-	{
+	public static $dataSetsLocation;
 
+	function __construct() {
+		$this->openDataSetsLocation();
 	}
-	public static function returnConfig($file)
-	{
-		return include dirname($_SERVER["SCRIPT_FILENAME"]).'/config/'.$file.'.php';
+
+	public static function returnConfig($file) {
+		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $file . '.php';
 	}
-	public function loadRoutes()
-	{
-		var_dump($this);
+
+	private function openDataSetsLocation() {
+		if(empty(self::$dataSetsLocation)) {
+			self::$dataSetsLocation = $this->openPhpFile('/datasets.php');
+		}
+	}
+
+	private function openPhpFile($file) {
+		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/'.$file.'.php';
 	}
 // todo: make a pipeline sublayer to interacte with data providers
-	/**
-	 * @param $name  : the key to use for the magic method
-	 * @param $value : the value to use for the magic method
-	 *
-	 * @return mixed: the interface
-	 */
-	public function __set($name, $value) {
-		$this->$name = $value;
-	}
-
-	/**
-	 * @param $name : the key to use for the magic method
-	 *
-	 * @return mixed: the interface
-	 */
-	public function __get($name) {
-		return $this->$name;
-	}
 }
