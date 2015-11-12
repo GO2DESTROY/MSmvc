@@ -1,6 +1,6 @@
 {
   "name": "msmvc/msmvc",
-  "type": "project",
+  "type": "library",
   "description": "The MSmvc with all it's helpers",
   "keywords": [
     "mvc",
