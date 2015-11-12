@@ -2,15 +2,13 @@
 
 namespace system\pipelines;
 
-use blueprints\MS_mainInterface;
-use system\MS_core;
-
 class MS_pipeline
 {
-	public static $dataSets;
-	public static $dataSetsLocation;
-	public        $requestedDataSet;
-	private       $requestTypeHandler;
+	public static  $dataSets;
+	public static  $dataSetsLocation;
+	public         $requestedDataSet;
+	private        $requestTypeHandler;
+	public static $configCollections;
 
 	function __construct() {
 		if(empty(self::$dataSetsLocation)) {
@@ -19,10 +17,13 @@ class MS_pipeline
 		}
 	}
 
-	public static function returnConfig($file) {
-		$configData                   = new MS_pipeline();
-		$configData->requestedDataSet = $file;
-		return $configData->getRequestedData();
+	public static function returnConfig($file, $force = FALSE) {
+		if($force === TRUE || !isset(self::$configCollections[$file])) {
+			$configData                     = new MS_pipeline();
+			$configData->requestedDataSet   = $file;
+			self::$configCollections[$file] = $configData->getRequestedData();
+		}
+		return self::$configCollections[$file];
 	}
 
 	public function getRequestedData() {
@@ -53,11 +54,11 @@ class MS_pipeline
 	}
 
 	private function openJsonFile() {
-		return json_decode(file_get_contents(dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.json'),true);
+		return json_decode(file_get_contents(dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.json'), TRUE);
 	}
 
 	private function openDataBaseFile() {
-		return 34; //no need to cache the dataConnecter since MS_database already does this
+		return 42; //no need to cache the dataConnecter since MS_database already does this
 	}
 // todo: make a pipeline sublayer to interacte with data providers
 }

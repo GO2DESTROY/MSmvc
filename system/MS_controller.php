@@ -1,17 +1,10 @@
 <?php
 
-class MS_controller implements blueprints\MS_mainInterface
+namespace system;
+class MS_controller
 {
 	private $requestController;
 	private $controllerName;
-
-	public function __set($name, $value) {
-		$this->$name = $value;
-	}
-
-	public function __get($name) {
-		return $this->$name;
-	}
 
 	/**
 	 * @param      $file : the view file to load
@@ -25,10 +18,13 @@ class MS_controller implements blueprints\MS_mainInterface
 		return $view->loadView($file);
 	}
 
+	/**
+	 * @param $data : the data to be converted to a json string
+	 *
+	 * @return string : a json string
+	 */
 	protected function json($data) {
 		header('Content-Type: application/json');
 		return json_encode($data);
 	}
 }
-// this method will load the controller and execute it
-// besides that it will make sure a helper can get called it will request it from the core which will call spl

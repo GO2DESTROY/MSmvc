@@ -7,6 +7,7 @@
  * todo: add json and xml support
  */
  return [
+	 'routes' => 'php',
 	 'config' => 'php',
 	 'database' => 'php', // only php / json is supported
 	 'errors' => 'php',

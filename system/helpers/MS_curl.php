@@ -9,7 +9,7 @@
  *                  SFTP support, ftp file download, ftp download and upload directories, multicurl calls, async
  *                  callback
  */
-namespace system;
+namespace system\helpers;
 class MS_curl
 {
 	public  $method         = 'VIEW';            // enum POST,GET,DELETE,VIEW,SHOW,PUT,UPLOAD,DOWNLOAD,FTP_SHOW

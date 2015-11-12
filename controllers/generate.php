@@ -1,6 +1,7 @@
 <?php
 
 use system\generators\MS_generate;
+use system\MS_controller;
 
 class generate extends MS_controller
 {

@@ -2,6 +2,8 @@
 
 // here we open a class main this is the core of the system this makes sure the MVC boots up
 namespace system;
+// this file contains a lot of dirty code we have to improve this in the near future
+use system\pipelines\MS_pipeline;
 
 class MS_main extends MS_core
 {
@@ -18,7 +20,7 @@ class MS_main extends MS_core
 	 * we load the config files and set the config collection sets
 	 */
 	protected function configLoader() {
-		include './config/routes.php';
+		MS_pipeline::returnConfig('routes');
 		$this->configSet->routes     = MS_route::returnRouteCollection();
 		$this->configSet->references = MS_Route::returnReferenceCollection();
 	}
@@ -49,6 +51,5 @@ class MS_main extends MS_core
 
 	public function index() {
 		$this->boot();
-		//return include './config/routes.php';
 	}
 }

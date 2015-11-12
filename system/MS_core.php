@@ -4,6 +4,8 @@
  * same goes for the error and exception handler
 */
 namespace system;
+
+use system\MS_view;
 use system\pipelines\MS_pipeline;
 
 class MS_core
@@ -19,8 +21,11 @@ class MS_core
 		$this->loadConfig();
 	}
 
+	/**
+	 * we load the config files so we know how to handle error's and exceptions
+	 */
 	private function loadConfig() {
-		$configFile            = MS_pipeline::returnConfig('config');
+		$configFile        = MS_pipeline::returnConfig('config');
 		$this->environment = $configFile['environment'];
 		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
 			$errorFile           = MS_pipeline::returnConfig('errors');
@@ -31,16 +36,29 @@ class MS_core
 		}
 	}
 
+	/**
+	 * this will handle the exceptions
+	 * @param $exception: exception to handle
+	 */
 	public function exceptionHandler($exception) {
 		if($this->errorSettings['logs']['log_exceptions']['log'] === TRUE) {
 			$this->addToLog($this->errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
 		}
-		$view = new \MS_view;
+		$view = new MS_view;
 		$data = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
 		$view->__set('data', $data);
 		$view->loadView('system/exceptionDump');
 	}
 
+	/**
+	 * this method will handle the errors
+	 *
+	 * @param      $errno      : error number
+	 * @param      $errstr     : error message
+	 * @param      $errfile    : error file
+	 * @param      $errline    : error line
+	 * @param null $errcontext : local variables
+	 */
 	public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext = NULL) {
 		switch($errno) {
 			case E_USER_ERROR:
@@ -61,11 +79,14 @@ class MS_core
 		}
 
 		$data = ['type' => $type, 'message' => $errstr, 'date' => date("Y-m-d H:i:s"), 'location' => $errfile, 'line' => $errline, 'variables' => $errcontext, 'backtrace' => debug_backtrace()];
-		$view = new \MS_view;
+		$view = new MS_view;
 		$view->__set('data', $data);
 		$view->loadView('system/errorDump');
 	}
 
+	/**
+	 * this method will handle the fatal errors and sends them to the errorHandler
+	 */
 	public function fatal_handler() {
 		$error = error_get_last();
 		if(($error['type'] === E_ERROR) || ($error['type'] === E_USER_ERROR)) {
@@ -87,8 +108,12 @@ class MS_core
 		}
 	}
 
+	/**
+	 * @param $file : the file to write to
+	 * @param $line : the line to add to the log
+	 */
 	private function addToLog($file, $line) {
-		$fp = fopen(dirname($_SERVER["SCRIPT_FILENAME"]).$file, 'a');
+		$fp = fopen(dirname($_SERVER["SCRIPT_FILENAME"]) . $file, 'a');
 		if(is_array($line)) {
 			foreach($line as $singleWord) {
 				fwrite($fp, $singleWord . ' ');
