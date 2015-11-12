@@ -14,24 +14,10 @@
     "mnsami/composer-custom-directory-installer": "1.0.*",
     "monolog/monolog": "*"
   },
-<<<<<<< HEAD
-  "extra":
-  {
-    "assets":
-    {
-      "actions":
-      [
-        {
-          "type": "copy",
-          "target": "../"
-        }
-      ]
-=======
   "extra": {
     "installer-paths": {
       "./monolog/": ["monolog/monolog"],
       "../": ["msmvc/msmvc"]
->>>>>>> refs/remotes/origin/development
     }
   },
   "authors": [
