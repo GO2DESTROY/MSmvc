@@ -10,19 +10,14 @@
   "time": "2015-10-15",
   "license": "MIT",
   "require": {
-    "php": ">=5.6.0"
+    "php": ">=5.6.0",
+    "mnsami/composer-custom-directory-installer": "1.0.*",
+    "monolog/monolog": "*"
   },
-  "extra":
-  {
-    "assets":
-    {
-      "actions":
-      [
-        {
-          "type": "copy",
-          "target": "/"
-        }
-      ]
+  "extra": {
+    "installer-paths": {
+      "./monolog/": ["monolog/monolog"],
+      "../": ["msmvc/msmvc"]
     }
   },
   "authors": [
