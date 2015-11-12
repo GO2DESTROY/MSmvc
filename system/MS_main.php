@@ -2,6 +2,7 @@
 
 // here we open a class main this is the core of the system this makes sure the MVC boots up
 namespace system;
+
 // this file contains a lot of dirty code we have to improve this in the near future
 use system\pipelines\MS_pipeline;
 
@@ -32,7 +33,7 @@ class MS_main extends MS_core
 
 		if($router->currentRequestMethod == 'CLI') {
 			$route = $router->matchCommand();
-			unset($router->variables['m']);	// re remove the method request from the variables
+			unset($router->variables['m']);    // re remove the method request from the variables
 		}
 		else {
 			$route = $router->matchRoute();
