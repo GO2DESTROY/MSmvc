@@ -1,4 +1,5 @@
-<html xmlns="http://www.w3.org/1999/html">
+<!DOCTYPE HTML>
+<html>
 <head>
 	<title>MSmvc Exception</title>
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>

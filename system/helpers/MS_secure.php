@@ -2,9 +2,7 @@
 
 namespace system\helpers;
 
-use system\MS_core;
-
-class MS_secure extends MS_core
+class MS_secure
 {
 	/**
 	 * @param     $input          : the value your wish to hash
@@ -19,7 +17,7 @@ class MS_secure extends MS_core
 		for($i = 0; $i < 22; $i++) {
 			$salt .= $salt_chars[array_rand($salt_chars)];
 		}
-		return crypt($input, sprintf('$2a$%02d$', $rounds) . $salt);
+		return crypt($input, sprintf('$2y$%02d$', $rounds) . $salt);
 	}
 
 	/**
@@ -35,7 +33,7 @@ class MS_secure extends MS_core
 	/**
 	 * @param $string         : the string to encrypt
 	 * @param $key            : the key to use for the encryption
-	 *                        we use Rijdael 256 for encryption comparable to AES
+	 *                        we use Rijdael 256 for encryption
 	 *
 	 * @return string : the encrypted string
 	 */
@@ -47,7 +45,7 @@ class MS_secure extends MS_core
 	/**
 	 * @param $encrypted_string : the string to decrypt
 	 * @param $key              : the key to use for the encryption
-	 *                          we use Rijdael 256 for encryption comparable to AES
+	 *                          we use Rijdael 256 for encryption
 	 *
 	 * @return string: the decrypted string
 	 */

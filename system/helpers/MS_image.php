@@ -6,9 +6,8 @@
 namespace system\helpers;
 
 use blueprints\MS_mainInterface;
-use system\MS_core;
 
-class MS_image extends MS_core implements MS_mainInterface
+class MS_image implements MS_mainInterface
 {
 	private $mainImage;    //GD image
 	private $mainImageSize;    //image sizes
@@ -41,7 +40,7 @@ class MS_image extends MS_core implements MS_mainInterface
 	/**
 	 * @param $file : the image file to use
 	 *
-	 * @throws Exception: thrown when the image isn't gif, jpeg, or png
+	 * @throws \Exception: thrown when the image isn't gif, jpeg, or png
 	 */
 	public function setImage($file) {
 		$this->mainImageSize = getimagesize($file);
@@ -94,7 +93,7 @@ class MS_image extends MS_core implements MS_mainInterface
 	 * @param        $quality
 	 *
 	 * @return bool: $the image that we return
-	 * @throws Exception: in case the type doesn't match we throw an exception
+	 * @throws \Exception: in case the type doesn't match we throw an exception
 	 */
 	public function returnImage($name, $type = 'gif', $quality) {
 		switch($type) {
@@ -135,7 +134,7 @@ class MS_image extends MS_core implements MS_mainInterface
 	 * @param       $filterType : the filter type to apply to the image
 	 * @param array $parameters : the parameters to use for the filter : level, r,g,b
 	 *
-	 * @throws Exception: in case the request filter doesn't exist we throw an error
+	 * @throws \Exception: in case the request filter doesn't exist we throw an error
 	 */
 	public function applyFilter($filterType, $parameters = [NULL]) {
 		switch($filterType) {
@@ -185,7 +184,7 @@ class MS_image extends MS_core implements MS_mainInterface
 	/**
 	 * @param $mode : the mode used for the flip: horizontal,vertical, and both are supported
 	 *
-	 * @throws Exception: if the mode is not supported we throw an exception
+	 * @throws \Exception: if the mode is not supported we throw an exception
 	 */
 	public function flip($mode) {
 		switch($mode) {
@@ -214,7 +213,7 @@ class MS_image extends MS_core implements MS_mainInterface
 	/**
 	 * @param $mode : the mode to use for the auto crop: transparent, black, white, and sides
 	 *
-	 * @throws Exception: if the mode is not supported we throw an exception
+	 * @throws \Exception: if the mode is not supported we throw an exception
 	 */
 	public function autoCrop($mode) {
 		switch($mode) {

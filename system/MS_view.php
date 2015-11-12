@@ -1,6 +1,7 @@
 <?php
 
-class MS_view extends \system\MS_core implements blueprints\MS_mainInterface
+namespace system;
+class MS_view
 {
 	private $data;
 
@@ -12,15 +13,21 @@ class MS_view extends \system\MS_core implements blueprints\MS_mainInterface
 		$this->$name = $value;
 	}
 
+	/**
+	 * @param $file : the view files to load
+	 *
+	 * @return mixed: the view files is returned and filled with provided data
+	 */
 	public function loadView($file) {
 		if(is_array($this->__get('data'))) {
 			extract($this->__get('data'), EXTR_SKIP);
 		}
-		return include dirname($_SERVER["SCRIPT_FILENAME"]).'/public/views/' . $file . '.php';
+		header('Content-Type: text/html; charset=utf-8');
+		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/public/views/' . $file . '.php';	//maybe use pipelines for the loading
 	}
 
 	/**
-	 * @param $array: the array or object to display
+	 * @param $array : the array or object to display
 	 *
 	 * @return string: the array or object now in string
 	 */
@@ -28,12 +35,12 @@ class MS_view extends \system\MS_core implements blueprints\MS_mainInterface
 		$string = '<ul>';
 		if(is_array($array) || is_object($array)) {
 			foreach($array as $key => $value) {
-				if(is_array($value) || is_object($value) || is_resource($value) ) {
+				if(is_array($value) || is_object($value) || is_resource($value)) {
 					$value = $this->dumpArray($value);
-					$string .= '<li><span class="highlight">' . $key . '</span> <small>'.gettype($value).' ['.count($value).']</small> ' . $value . ' </li>';
+					$string .= '<li><span class="highlight">' . $key . '</span> <small>' . gettype($value) . ' [' . count($value) . ']</small> ' . $value . ' </li>';
 				}
 				else {
-					$string .= '<li><span class="highlight">' . $key . '</span> ' . $value . ' <small>'.gettype($value).' ['.strlen($value).']</small></li>';
+					$string .= '<li><span class="highlight">' . $key . '</span> ' . $value . ' <small>' . gettype($value) . ' [' . strlen($value) . ']</small></li>';
 				}
 			}
 		}

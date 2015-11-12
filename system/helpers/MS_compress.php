@@ -7,9 +7,8 @@
 namespace system\helpers;
 
 use blueprints\MS_mainInterface;
-use system\MS_core;
 
-class MS_compress extends MS_core implements MS_mainInterface
+class MS_compress implements MS_mainInterface
 {
 	private $archiveFile;
 	private $openZipFile;
