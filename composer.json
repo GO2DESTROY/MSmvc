@@ -17,7 +17,7 @@
   "extra": {
     "installer-paths": {
       "./monolog/": ["monolog/monolog"],
-      "../": ["msmvc/msmvc"]
+      "../../": ["msmvc/msmvc"]
     }
   },
   "authors": [
