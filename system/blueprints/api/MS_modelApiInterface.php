@@ -18,7 +18,7 @@ interface MS_modelApiInterface
 	 *
 	 * @return bool: show view for an existing resource
 	 */
-	public function retrieveSingle($id);
+	public function retrieveSingleResource($id);
 
 	/**
 	 * @param $id : the primary key for this resource

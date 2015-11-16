@@ -1,7 +1,5 @@
 <?php
 
-//todo: make a url helper and give accesss to the segments and routes these are only used in the class not outside
-
 namespace system;
 class MS_router
 {
@@ -60,6 +58,9 @@ class MS_router
 		}
 	}
 
+	/**
+	 * we get the current url with the get values and without the server route
+	 */
 	private function grabUrl() {
 		$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
 		$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
@@ -74,6 +75,11 @@ class MS_router
 		$this->segments = explode('/', $this->uri);
 	}
 
+	/**
+	 * @param $route : The route to examine on segment matches
+	 *
+	 * @return bool: match true or false
+	 */
 	private function matchSegments($route) {
 		$routeParts = explode('/', $route);
 		if(count($this->segments) != count($routeParts)) {
@@ -97,6 +103,12 @@ class MS_router
 		return TRUE;
 	}
 
+	/**
+	 * @param $routeSet : the routes to loop through
+	 *
+	 * @return mixed: the controller with the method to call
+	 * @throws \Exception
+	 */
 	private function matchMethod($routeSet) {
 		foreach($routeSet as $action) {
 			if(is_array($action['methods'])) {
@@ -117,7 +129,11 @@ class MS_router
 		throw new \Exception('The current method and route is not defined within the routes');
 	}
 
-	public function matchRoute() {
+	/**
+	 * @return mixed
+	 * @throws \Exception: The current URI is not defined within the routes
+	 */
+	private function matchRoute() {
 		foreach($this->routes as $route => $routeSet) {
 			if($route == $this->uri || $this->matchSegments($route) == TRUE) {
 				return $this->matchMethod($routeSet);
@@ -127,15 +143,34 @@ class MS_router
 		throw new \Exception('The current URI is not defined within the routes');
 	}
 
-	public function matchCommand() {
+
+	/**
+	 * @return mixed: the controller
+	 * @throws \Exception: The current command is not defined within the routes
+	 */
+	private function matchCommand() {
 		foreach($this->routes as $route => $routeSet) {
 			if(getopt('m:')['m'] == $route) {
-				$controller = $this->matchMethod($routeSet);
-				$this->variables = getopt('m:'.$controller['action']['parameters']);
+				$controller      = $this->matchMethod($routeSet);
+				$this->variables = getopt('m:' . $controller['action']['parameters']);
+				unset($this->variables['m']);
 				return $controller;
 				break 1;
 			}
 		}
 		throw new \Exception('The current command is not defined within the routes');
+	}
+
+	/**
+	 * @return mixed
+	 * @throws \Exception: the current command or URI id not defined within the routes settings
+	 */
+	public function matchRequest() {
+		if($this->currentRequestMethod == 'CLI') {
+			return $this->matchCommand();
+		}
+		else {
+			return $this->matchRoute();
+		}
 	}
 }

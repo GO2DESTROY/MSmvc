@@ -2,17 +2,13 @@
 
 namespace system\helpers;
 
-use system\MS_main;
+use system\MS_Route;
 
-class MS_url extends MS_main
+class MS_url
 {
 	private $segments;
 	private $uriParts;
 	private $uri;
-
-	function __construct() {
-		parent::__construct();
-	}
 
 	/**
 	 * @param      $name       : the name of the controller
@@ -22,8 +18,8 @@ class MS_url extends MS_main
 	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public function callControllerByName($name, $properties = NULL) {
-		if(!empty($this->configSet->references[$name])) {
-			$controllerRequest = explode('@', $this->configSet->references[$name]['action']['uses']);
+		if(!empty(MS_route::returnReferenceCollection()[$name])) {
+			$controllerRequest = explode('@', MS_route::returnReferenceCollection()[$name]['action']['uses']);
 			$controller        = new $controllerRequest[0];
 			if($properties != NULL) {
 				return call_user_func_array([$controller, $controllerRequest[1]], $properties);
@@ -44,6 +40,9 @@ class MS_url extends MS_main
 		$this->segments = explode('/', $uri);
 	}
 
+	/**
+	 * set $this->uri
+	 */
 	private function setUri() {
 		$this->uri = implode('/', $this->uriParts);
 	}
@@ -55,9 +54,9 @@ class MS_url extends MS_main
 	 *
 	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
-	public function setUrlByName($name, $properties = NULL) {
-		if(!empty($this->configSet->references[$name])) {
-			$this->setSegments($this->configSet->references[$name]['uri']);
+	public function getUrlByName($name, $properties = NULL) {
+		if(!empty(MS_route::returnReferenceCollection()[$name])) {
+			$this->setSegments(MS_route::returnReferenceCollection()[$name]['uri']);
 			//	$uri = $this->segments;
 			foreach($this->segments as $segment) {
 				if(strpos($segment, '{') !== FALSE && strpos($segment, '}') !== FALSE) {
@@ -80,11 +79,12 @@ class MS_url extends MS_main
 	 * @param      $name       : the name of the url to use
 	 * @param null $properties : the properties to replace the url variables with
 	 *
+	 * @return mixed: method
 	 * @throws \Exception: in case it doesn't exist we throw an error
 	 */
 	public static function controller($name, $properties = NULL) {
 		$call = new MS_url();
-		$call->callControllerByName($name, $properties);
+		return $call->callControllerByName($name, $properties);
 	}
 
 	public function __get($name) {
@@ -100,7 +100,7 @@ class MS_url extends MS_main
 	 */
 	public static function url($name, $properties = NULL) {
 		$url = new MS_url();
-		$url->setUrlByName($name, $properties);
+		$url->getUrlByName($name, $properties);
 		return $url->__get('uri');
 	}
 }
