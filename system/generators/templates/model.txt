@@ -21,8 +21,8 @@ class $name$ implements blueprints\api\MS_modelApiInterface
 	 *
 	 * @return bool: show view for an existing resource
 	 */
-	public function retrieveSingle($id) {
-		// TODO: Implement retrieveSingle() method.
+	public function retrieveSingleResource($id) {
+		// TODO: Implement retrieveSingleResource() method.
 	}
 
 	/**

@@ -9,7 +9,7 @@ class generate extends MS_controller
 		MS_generate::generateController($name);
 	}
 	public function model($name) {
-		MS_generate::generateController($name);
+		MS_generate::generateModel($name);
 	}
 
 }

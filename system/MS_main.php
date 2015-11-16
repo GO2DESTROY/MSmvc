@@ -8,36 +8,22 @@ use system\pipelines\MS_pipeline;
 
 class MS_main extends MS_core
 {
-	public    $currentUrl;
-	protected $configSet;
-
-	function __construct() {
-		parent::__construct();
-		$this->configSet = new \stdClass();
-		$this->configLoader();
-	}
+	public $currentUrl;
 
 	/**
-	 * we load the config files and set the config collection sets
+	 * First we load the routes config
+	 * Then we get the routes them self
+	 * check the method of communication CLI vs HTTP
+	 * Finally we call The Controller
+	 *
+	 * @return mixed: The controller
+	 * @throws \Exception
 	 */
-	protected function configLoader() {
+	public function boot() {
 		MS_pipeline::returnConfig('routes');
-		$this->configSet->routes     = MS_route::returnRouteCollection();
-		$this->configSet->references = MS_Route::returnReferenceCollection();
-	}
-
-	private function boot() {
-		$router = new MS_router;
-
-		$router->routes = $this->configSet->routes;
-
-		if($router->currentRequestMethod == 'CLI') {
-			$route = $router->matchCommand();
-			unset($router->variables['m']);    // re remove the method request from the variables
-		}
-		else {
-			$route = $router->matchRoute();
-		}
+		$router            = new MS_router;
+		$router->routes    = MS_route::returnRouteCollection();
+		$route             = $router->matchRequest();
 		$controllerRequest = explode('@', $route['action']['uses']);
 		$controller        = new $controllerRequest[0];
 
@@ -47,10 +33,5 @@ class MS_main extends MS_core
 		else {
 			return $controller->$controllerRequest[1]();
 		}
-
-	}
-
-	public function index() {
-		$this->boot();
 	}
 }

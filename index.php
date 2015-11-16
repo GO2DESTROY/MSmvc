@@ -6,4 +6,4 @@
 include_once './system/MS_core.php';
 include_once './system/MS_main.php';
 $MS_main = new system\MS_main();
-$MS_main->index();
+$MS_main->boot();
