@@ -5,5 +5,4 @@ This version contains all the helpers
 composer require msmvc/msmvc
 
 # Requirments
-php 5.6 is currently required.
-Note: it should work on 5.4 and 5.5 but it isn't fully tested
+php 5.4 is currently required.
