@@ -8,10 +8,9 @@ php:
   - 7.0
 
 # Commands to be run before your environment runs.
-before_script:
-  - composer install
+install:
   - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - composer update --prefer-dist
 
 # fast_finish: If your build fails do not continue trying to build, just stop.
 matrix:
