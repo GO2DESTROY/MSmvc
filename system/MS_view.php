@@ -23,7 +23,7 @@ class MS_view
 			extract($this->__get('data'), EXTR_SKIP);
 		}
 		header('Content-Type: text/html; charset=utf-8');
-		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/public/views/' . $file . '.php';	//maybe use pipelines for the loading
+		return include './public/views/' . $file . '.php';	//maybe use pipelines for the loading
 	}
 
 	/**

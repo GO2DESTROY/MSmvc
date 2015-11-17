@@ -50,11 +50,11 @@ class MS_pipeline
 	}
 
 	private function openPhpFile() {
-		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.php';
+		return include './config/' . $this->requestedDataSet . '.php';
 	}
 
 	private function openJsonFile() {
-		return json_decode(file_get_contents(dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.json'), TRUE);
+		return json_decode(file_get_contents('./config/' . $this->requestedDataSet . '.json'), TRUE);
 	}
 
 	private function openDataBaseFile() {

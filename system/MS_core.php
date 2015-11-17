@@ -5,9 +5,8 @@
 */
 namespace system;
 
-use system\MS_view;
 use system\pipelines\MS_pipeline;
-
+use system\MS_view;
 class MS_core
 {
 	protected $environment;
@@ -15,9 +14,8 @@ class MS_core
 
 	function __construct() {
 		$paths = ['./system', './controllers', './models'];
-		set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $paths));
-		spl_autoload_extensions(".php, .phtml"); //csv style values
-		spl_autoload_register();
+		set_include_path(implode(PATH_SEPARATOR, $paths));
+		spl_autoload_register('spl_autoload');
 		$this->loadConfig();
 	}
 

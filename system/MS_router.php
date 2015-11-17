@@ -15,7 +15,7 @@ class MS_router
 	 */
 	function __construct() {
 		$this->setRequestMethod();
-		if($this->currentRequestMethod != 'CLI') {
+		if($this->currentRequestMethod != 'CLI' && $this->currentRequestMethod != 'PHPUNIT') {
 			$this->grabUrl();
 			$this->setSegments();
 		}
@@ -27,7 +27,11 @@ class MS_router
 	 * @throws \Exception
 	 */
 	private function setRequestMethod() {
-		if(php_sapi_name() == 'cli') {
+		if(defined('PHPUNIT') && PHPUNIT == true)
+		{
+			$this->currentRequestMethod = PHPUNIT;
+		}
+		elseif(php_sapi_name() == 'cli') {
 			$this->currentRequestMethod = 'CLI';
 		}
 		else {
@@ -168,6 +172,10 @@ class MS_router
 	public function matchRequest() {
 		if($this->currentRequestMethod == 'CLI') {
 			return $this->matchCommand();
+		}
+		elseif($this->currentRequestMethod == 'PHPUNIT')
+		{
+			return 123;//run the unit test note: this still doesn't work look this up before we go live
 		}
 		else {
 			return $this->matchRoute();

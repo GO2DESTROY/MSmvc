@@ -8,7 +8,7 @@ use system\pipelines\MS_pipeline;
 
 class MS_main extends MS_core
 {
-	public $currentUrl;
+	public $phpUnit = FALSE;
 
 	/**
 	 * First we load the routes config
