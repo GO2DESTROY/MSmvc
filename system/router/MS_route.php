@@ -1,6 +1,6 @@
 <?php
-namespace system;
 
+namespace system\router;
 class MS_Route
 {
 	private static $routeSet;

@@ -1,78 +1,50 @@
 <?php
 
-namespace system;
+namespace system\router;
 class MS_router
 {
-	public $currentRequestMethod;
 	public $routes;
-	public $uri;
 	public $segments;
 	public $variables;
-
-
-	/**
-	 * setRequestMethod checks if the request method is vaild and then sets it
-	 */
-	function __construct() {
-		$this->setRequestMethod();
-		if($this->currentRequestMethod != 'CLI' && $this->currentRequestMethod != 'PHPUNIT') {
-			$this->grabUrl();
-			$this->setSegments();
-		}
-	}
-
+	public $currentRequestMethod = NULL;
+	public $uri;
 
 	/**
 	 * @return string sets the currentRequestMethod property with the http request method
 	 * @throws \Exception
 	 */
-	private function setRequestMethod() {
-		if(defined('PHPUNIT') && PHPUNIT == true)
-		{
-			$this->currentRequestMethod = PHPUNIT;
-		}
-		elseif(php_sapi_name() == 'cli') {
-			$this->currentRequestMethod = 'CLI';
-		}
-		else {
-			$method = $_SERVER['REQUEST_METHOD'];
-			switch($method) {
-				case 'PUT':
-					$this->currentRequestMethod = 'PUT';
-					break;
-				case 'POST':
-					$this->currentRequestMethod = 'POST';
-					break;
-				case 'GET':
-					$this->currentRequestMethod = 'GET';
-					break;
-				case 'HEAD':
-					$this->currentRequestMethod = 'HEAD';
-					break;
-				case 'DELETE':
-					$this->currentRequestMethod = 'DELETE';
-					break;
-				case 'OPTIONS':
-					$this->currentRequestMethod = 'OPTIONS';
-					break;
-				default:
-					throw new \Exception('The supplied request method is not supported you have used ' . $method);
-					break;
+	public function setRequestMethod() {
+		if($this->currentRequestMethod == NULL) {
+			if(php_sapi_name() == 'cli') {
+				$this->currentRequestMethod = 'CLI';
+			}
+			else {
+				$method = $_SERVER['REQUEST_METHOD'];
+				switch($method) {
+					case 'PUT':
+						$this->currentRequestMethod = 'PUT';
+						break;
+					case 'POST':
+						$this->currentRequestMethod = 'POST';
+						break;
+					case 'GET':
+						$this->currentRequestMethod = 'GET';
+						break;
+					case 'HEAD':
+						$this->currentRequestMethod = 'HEAD';
+						break;
+					case 'DELETE':
+						$this->currentRequestMethod = 'DELETE';
+						break;
+					case 'OPTIONS':
+						$this->currentRequestMethod = 'OPTIONS';
+						break;
+					default:
+						throw new \Exception('The supplied request method is not supported you have used ' . $method);
+						break;
+				}
 			}
 		}
-	}
-
-	/**
-	 * we get the current url with the get values and without the server route
-	 */
-	private function grabUrl() {
-		$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
-		$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
-		$uri          = utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
-		if(empty($uri)) {
-			$uri = '/';
-		}
-		$this->uri = $uri;
 	}
 
 	private function setSegments() {
@@ -173,11 +145,8 @@ class MS_router
 		if($this->currentRequestMethod == 'CLI') {
 			return $this->matchCommand();
 		}
-		elseif($this->currentRequestMethod == 'PHPUNIT')
-		{
-			return 123;//run the unit test note: this still doesn't work look this up before we go live
-		}
 		else {
+			$this->setSegments();
 			return $this->matchRoute();
 		}
 	}
