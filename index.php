@@ -7,4 +7,5 @@
 require './system/MS_core.php';
 require './system/MS_main.php';
 $MS_main = new system\MS_main();
-$MS_main->boot();
+$MS_main->index();
+echo $MS_main->boot();

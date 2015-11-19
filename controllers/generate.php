@@ -1,5 +1,6 @@
 <?php
 
+namespace controllers;
 use system\generators\MS_generate;
 use system\MS_controller;
 

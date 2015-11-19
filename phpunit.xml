@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./tests/bootstrap.php" colors="true" processIsolation="false" stopOnFailure="true" syntaxCheck="false">
+<phpunit bootstrap="./vendor/autoload.php" color="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnFailure="false" syntaxCheck="false">
     <testsuites>
         <testsuite name="MSmvc test suite">
-            <directory>/tests/</directory>
-            <file>/tests/testCase.php</file>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
     <logging>

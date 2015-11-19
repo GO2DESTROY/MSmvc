@@ -12,60 +12,99 @@ use system\router\MS_router;
 class MS_main extends MS_core
 {
 	public $currentRequestMethod = NULL;
-	public $uri;
-//setter
-	public function setUpRouter() {
-		if($this->currentRequestMethod !== 'CLI') {
-			$this->uri = $this->grabUri();
-		}
-	}
+	public $uri                  = NULL;
 
+	function __construct()
+	{
+		$this->root = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR; // we tell the core to use the full path to the msmvc root for spl
+		parent::__construct();
+	}
 	/**
-	 * First we load the routes config
-	 * Then we get the routes them self
-	 * check the method of communication CLI vs HTTP
-	 * Finally we call The Controller
-	 *
-	 * @return mixed: The controller
-	 * @throws \Exception
+	 * @return mixed: the controller
 	 */
 	public function boot() {
 		MS_pipeline::returnConfig('routes');
-		$router         = new MS_router;
-		$router->routes = MS_route::returnRouteCollection();
-		//check for CI
-		$router->setRequestMethod();
-		if($router->currentRequestMethod !== 'CLI') {
-			$router->uri =$this->grabUri();
+		$request                       = new MS_router();
+		$request->routes               = MS_route::returnRouteCollection();
+		$request->currentRequestMethod = $this->currentRequestMethod;
+
+		if($this->currentRequestMethod !== 'CLI') {
+			$request->uri = $this->uri;
 		}
-		$route = $router->matchRequest();
+		$route = $request->matchRequest();
 
 		$controllerRequest = explode('@', $route['action']['uses']);
-		$controller        = new $controllerRequest[0];
-
-		if($router->variables != NULL) {
-			return call_user_func_array([$controller, $controllerRequest[1]], $router->variables);
+		$controllerString = DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controllerRequest[0];
+		$controller        = new $controllerString;
+		if($request->variables != NULL) {
+			return call_user_func_array([$controller, $controllerRequest[1]], $request->variables);
 		}
 		else {
 			return $controller->$controllerRequest[1]();
 		}
 	}
 
+
 	/**
-	 * @return string we return the current http URI
+	 * we set this->uri to the current http uri
 	 */
-	private function grabUri() {
-		$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
-		$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
-		$uri          = utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
-		if(empty($uri)) {
-			$uri = '/';
+	private function setRequestUri() {
+		if($this->uri === NULL) {
+			$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
+			$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
+			$uri          = utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
+			if(empty($uri)) {
+				$uri = '/';
+			}
+			$this->uri = $uri;
 		}
-		return $uri;
 	}
 
+	/**
+	 * @throws \Exception: in case something goes wrong or a route / method isn't defined we throw an exception
+	 */
 	public function index() {
-		//we set the default cli and http configurations
+		$this->setRequestMethod();
+		if($this->currentRequestMethod !== 'CLI') {
+			$this->setRequestUri();
+		}
+	}
 
+	/**
+	 * @return string sets the currentRequestMethod property with the http request method
+	 * @throws \Exception
+	 */
+	public function setRequestMethod() {
+		if($this->currentRequestMethod === NULL) {
+			if(php_sapi_name() == 'cli') {
+				$this->currentRequestMethod = 'CLI';
+			}
+			else {
+				$method = $_SERVER['REQUEST_METHOD'];
+				switch($method) {
+					case 'PUT':
+						$this->currentRequestMethod = 'PUT';
+						break;
+					case 'POST':
+						$this->currentRequestMethod = 'POST';
+						break;
+					case 'GET':
+						$this->currentRequestMethod = 'GET';
+						break;
+					case 'HEAD':
+						$this->currentRequestMethod = 'HEAD';
+						break;
+					case 'DELETE':
+						$this->currentRequestMethod = 'DELETE';
+						break;
+					case 'OPTIONS':
+						$this->currentRequestMethod = 'OPTIONS';
+						break;
+					default:
+						throw new \Exception('The supplied request method is not supported you have used ' . $method);
+						break;
+				}
+			}
+		}
 	}
 }

@@ -13,39 +13,6 @@ class MS_router
 	 * @return string sets the currentRequestMethod property with the http request method
 	 * @throws \Exception
 	 */
-	public function setRequestMethod() {
-		if($this->currentRequestMethod == NULL) {
-			if(php_sapi_name() == 'cli') {
-				$this->currentRequestMethod = 'CLI';
-			}
-			else {
-				$method = $_SERVER['REQUEST_METHOD'];
-				switch($method) {
-					case 'PUT':
-						$this->currentRequestMethod = 'PUT';
-						break;
-					case 'POST':
-						$this->currentRequestMethod = 'POST';
-						break;
-					case 'GET':
-						$this->currentRequestMethod = 'GET';
-						break;
-					case 'HEAD':
-						$this->currentRequestMethod = 'HEAD';
-						break;
-					case 'DELETE':
-						$this->currentRequestMethod = 'DELETE';
-						break;
-					case 'OPTIONS':
-						$this->currentRequestMethod = 'OPTIONS';
-						break;
-					default:
-						throw new \Exception('The supplied request method is not supported you have used ' . $method);
-						break;
-				}
-			}
-		}
-	}
 
 	private function setSegments() {
 		$this->segments = explode('/', $this->uri);

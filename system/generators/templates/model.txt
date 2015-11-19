@@ -1,5 +1,7 @@
 <?php
 
+namespace models;
+
 class $name$ implements blueprints\api\MS_modelApiInterface
 {
 	/**
