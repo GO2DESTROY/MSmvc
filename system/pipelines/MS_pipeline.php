@@ -4,11 +4,12 @@ namespace system\pipelines;
 
 class MS_pipeline
 {
-	public static  $dataSets;
-	public static  $dataSetsLocation;
-	public         $requestedDataSet;
-	private        $requestTypeHandler;
+	public static $dataSets;
+	public static $dataSetsLocation;
+	public        $requestedDataSet;
+	private       $requestTypeHandler;
 	public static $configCollections;
+	public static $root;
 
 	function __construct() {
 		if(empty(self::$dataSetsLocation)) {
@@ -49,12 +50,19 @@ class MS_pipeline
 		}
 	}
 
+	public static function returnViewFile($file, $data = NULL) {
+		if(is_array($data)) {
+			extract($data, EXTR_SKIP);
+		}
+		return include self::$root . 'public/views/' . $file . '.php';
+	}
+
 	private function openPhpFile() {
-		return include dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.php';
+		return include self::$root . '/config/' . $this->requestedDataSet . '.php';
 	}
 
 	private function openJsonFile() {
-		return json_decode(file_get_contents(dirname($_SERVER["SCRIPT_FILENAME"]) . '/config/' . $this->requestedDataSet . '.json'), TRUE);
+		return json_decode(file_get_contents(self::$root . '/config/' . $this->requestedDataSet . '.json'), TRUE);
 	}
 
 	private function openDataBaseFile() {

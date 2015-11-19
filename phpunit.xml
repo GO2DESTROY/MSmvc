@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php" color="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnFailure="false" syntaxCheck="false">
+    <testsuites>
+        <testsuite name="MSmvc test suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="testdox-text" target="./logs/phpunit.txt"/>
+    </logging>
+</phpunit>

@@ -5,26 +5,28 @@
 */
 namespace system;
 
-use system\MS_view;
 use system\pipelines\MS_pipeline;
-
+use system\MS_view;
 class MS_core
 {
 	protected $environment;
 	private   $errorSettings;
+	protected $root;
 
 	function __construct() {
-		$paths = ['./system', './controllers', './models'];
-		set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $paths));
-		spl_autoload_extensions(".php, .phtml"); //csv style values
-		spl_autoload_register();
-		$this->loadConfig();
+		set_include_path(get_include_path().PATH_SEPARATOR .$this->root);
+		spl_autoload_register('spl_autoload');
+		$this->loadConfig($this->root);
+
 	}
 
 	/**
 	 * we load the config files so we know how to handle error's and exceptions
+	 *
+	 * @param $root: the root of our system
 	 */
-	private function loadConfig() {
+	private function loadConfig($root) {
+		MS_pipeline::$root = $root;
 		$configFile        = MS_pipeline::returnConfig('config');
 		$this->environment = $configFile['environment'];
 		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
@@ -113,7 +115,7 @@ class MS_core
 	 * @param $line : the line to add to the log
 	 */
 	private function addToLog($file, $line) {
-		$fp = fopen(dirname($_SERVER["SCRIPT_FILENAME"]) . $file, 'a');
+		$fp = fopen($this->root. $file, 'a');
 		if(is_array($line)) {
 			foreach($line as $singleWord) {
 				fwrite($fp, $singleWord . ' ');

@@ -1,5 +1,9 @@
 <!DOCTYPE HTML>
 <html>
-<head><title>MSmvc</title></head>
-<body>Welcome</body>
+<head>
+	<title>MSmvc</title>
+	<meta charset="UTF-8">
+	<meta name="author" content="Maurice Schurink">
+</head>
+<body>Welcome <?php echo $test; ?></body>
 </html>

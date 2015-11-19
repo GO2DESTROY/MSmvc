@@ -1,5 +1,7 @@
 <?php
 
+namespace controllers;
+
 use system\MS_controller;
 
 class $name$ extends MS_controller implements blueprints\api\MS_controllerApiInterface
