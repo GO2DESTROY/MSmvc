@@ -10,6 +10,7 @@ vendor
 controllers/*
 models/*
 logs/*
+README.md
 
 !/controllers/example.php
 !/controllers/generate.php
