@@ -21,7 +21,11 @@ class MS_view
 	 * @return mixed: the view files is returned and filled with provided data
 	 */
 	public function loadView($file) {
-		MS_pipeline::returnViewFile($file,$this->__get('data'));
+		$view = MS_pipeline::returnViewFilePath($file);
+		if(is_array($this->__get('data'))) {
+			extract($this->__get('data'), EXTR_SKIP);
+		}
+		include $view;
 		//return include './public/views/' . $file . '.php';	//maybe use pipelines for the loadingsdf
 	}
 

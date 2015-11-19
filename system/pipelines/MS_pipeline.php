@@ -50,11 +50,8 @@ class MS_pipeline
 		}
 	}
 
-	public static function returnViewFile($file, $data = NULL) {
-		if(is_array($data)) {
-			extract($data, EXTR_SKIP);
-		}
-		return include self::$root . 'public/views/' . $file . '.php';
+	public static function returnViewFilePath($file) {
+		return self::$root . 'public/views/' . $file . '.php';
 	}
 
 	private function openPhpFile() {

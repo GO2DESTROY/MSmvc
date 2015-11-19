@@ -5,5 +5,5 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Maurice Schurink">
 </head>
-<body>Welcome <?php echo $test; ?></body>
+<body>Welcome</body>
 </html>

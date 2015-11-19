@@ -5,7 +5,7 @@ use system\MS_main;
 require_once '../system/MS_core.php';
 require_once '../system/MS_main.php';
 
-class testCase extends PHPUnit_Framework_TestCase
+class TestCase extends PHPUnit_Framework_TestCase
 {
 
 	/**
