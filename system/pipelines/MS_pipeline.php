@@ -66,4 +66,5 @@ class MS_pipeline
 		return 42; //no need to cache the dataConnecter since MS_database already does this
 	}
 // todo: make a pipeline sublayer to interacte with data providers
+// todo: database config files support
 }

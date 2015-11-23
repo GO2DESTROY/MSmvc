@@ -18,7 +18,7 @@ class MS_generateController extends MS_generate
 
 	private function openTemplate()
 	{
-		//:todo : file get contents alternative
+		//:todo : file get contents alternative by database
 		$this->template = file_get_contents('templates/controller.txt',true);
 	}
 

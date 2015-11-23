@@ -17,4 +17,6 @@ return [
 		'port' => 3306, // set the database port
 		'database' => 'test', // the database you wish to use
 		'username' => 'root', // username to use for this database connection
-		'password' => '']]; // the password for the user
+		'password' => ''],// the password for the user
+
+	'msmvc' => ['host' => '127.0.0.1', 'driver' => 'mysql', 'port' => 3306, 'database' => 'msmvc', 'username' => 'root', 'password' => '']];
