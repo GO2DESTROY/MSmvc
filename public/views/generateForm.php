@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="title col-md-12"><h2>Generate</h2></div>
 		<div class="content col-md-12">
-			<form method="post" id="form1" action="#">
+			<form method="post" id="form1" action="/generate">
 				<p>Please make a choice what you wish to generate</p>
 
 				<div class="form-group">
@@ -45,7 +45,7 @@
 						</div>
 						<div class="col-md-6">
 							<label for="tableDatabaseSelector">Database table(s)</label>
-							<select id="tableDatabaseSelector" multiple class="form-control" disabled name="databaseTableCollection" form="form1">
+							<select id="tableDatabaseSelector" multiple class="form-control" disabled name="databaseTableCollection[]" form="form1">
 								<option disabled value="null">Please select a connection set</option>
 							</select>
 						</div>

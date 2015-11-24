@@ -1,12 +1,14 @@
 <?php
 namespace system\generators;
 
-class MS_generateModel extends MS_generate
+class MS_generateModel
 {
 	public $file;
 	public $template;
+	public $name;
 
-	function __construct($name) {
+	public function generate($name)
+	{
 		$this->createFile($name);
 		$this->openTemplate();
 		$this->writeFile($name);

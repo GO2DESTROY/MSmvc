@@ -3,7 +3,6 @@
 namespace models;
 
 use system\blueprints;
-use system\blueprints\MS_modelApiInterface;
 
 class $name$ implements MS_modelApiInterface
 {
@@ -11,14 +10,14 @@ class $name$ implements MS_modelApiInterface
      * @return mixed: display a listing of the resource.
      */
     public static function retrieveAllResources() {
-        // TODO: Implement retrieveAllResources() method.
+        return MS_db::connection('$databsaeConnectionSet$')->query("SELECT * FROM $table$")
     }
 
     /**
      * @return mixed: status of the insert call
      */
-    public static function createSingleResource() {
-        // TODO: Implement createSingleResource() method.
+    public static function createSingleResource($values$) {
+       return MS_db::connection('$databsaeConnectionSet$')->query("INSERT INTO $table$ ($columns$) VALUES ($valuesString$)",$values$);
     }
 
     /**
@@ -26,7 +25,8 @@ class $name$ implements MS_modelApiInterface
      *
      * @return bool: show view for an existing resource
      */
-    public static function retrieveSingleResource($id) {
+    public static function retrieveSingleResource($keyValue$) {
+        MS_db::connection('$databsaeConnectionSet$')->query("SELECT * FROM $table$ WHERE $keys$",$keyValue$)
         // TODO: Implement retrieveSingleResource() method.
     }
 

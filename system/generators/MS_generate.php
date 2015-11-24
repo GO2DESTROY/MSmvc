@@ -1,23 +1,27 @@
 <?php
 namespace system\generators;
 
-use system\MS_core;
-
 class MS_generate
 {
-	function __construct() {
-		parent::__construct();
-	}
-
 	public static function generateController($name) {
-		new MS_generateController($name);
+		$generateController       = new MS_generateController();
+		$generateController->name = $name;
+		$generateController->basicGenerate();
 	}
 
 	public static function generateModel($name) {
-		new MS_generateModel($name);
-
+		$generateModel = new MS_generateModel();
+		$generateModel->generate($name);
 	}
 
-	private function generateApi($name) {
+	public static function generateControllerWithDataSet($name, $columns, $keys) {
+		$generateController          = new MS_generateController();
+		$generateController->name    = $name;
+		$generateController->columns = $columns;
+		$generateController->keys    = $keys;
+		$generateController->generateFromDataSet();
+	}
+
+	public function generateModelFromDatabase() {
 	}
 }

@@ -28,5 +28,7 @@ MS_route::get('/generate', ['uses' => 'generate@getGenerateFormPage', 'as' => 'g
 MS_route::post('/generate', ['uses' => 'generate@submitGenerateFormPage', 'as' => 'submitGenerateFormPage']);
 MS_route::get('/generate/{id}', ['uses' => 'generate@getGenerateTables', 'as' => 'generateFormPage']);
 
+MS_Route::any('/test',['uses' => 'tableControllerName@index']);
+
 MS_Route::cli('model', ['uses' => 'generate@model', 'as' => 'modelGen', 'parameters' => 'n:']);
 MS_Route::cli('controller', ['uses' => 'generate@controller', 'as' => 'controllerGen', 'parameters' => 'n:']);

@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\generateModel;
 use system\generators\MS_generate;
 use system\helpers\MS_db;
 use system\MS_controller;
@@ -29,10 +30,40 @@ class generate extends MS_controller
 		return $this->json(['tables' => $tables]);
 	}
 
+	/**
+	 * Query in this method are not safe to use but since this should only be used for development this shouldn't be a
+	 * problem
+	 */
 	public function submitGenerateFormPage() {
 		if(isset($_REQUEST['database'])) {
+			//make an index based on the table name for the data saving
 			//todo: we generate if from a database
-			var_dump($_REQUEST['databaseTableCollection']);
+			foreach($_REQUEST['databaseTableCollection'] as $databaseTable) {
+				$tableColumns = generateModel::getTableColumns($databaseTable);
+				$tableKeys    = generateModel::getPrimaryKeys($databaseTable);
+				if(!empty($tableKeys) && !empty($tableColumns)) {
+					foreach($tableKeys as $tableKey) {
+						$keys[] = $tableKey['Column_name'];
+					}
+					foreach($tableColumns as $tableColumn) {
+						$fields[] = $tableColumn['Field'];
+					}
+					$updateColumns = array_diff($fields, $keys);
+
+					if(isset($_REQUEST['controller'])) {
+						MS_generate::generateControllerWithDataSet($databaseTable, $updateColumns, $keys);
+					}
+					if(isset($_REQUEST['model'])) {
+
+					}
+					unset($fields);
+					unset($keys);
+				}
+				else
+				{
+					//return error there are no columns or primary keys within this table
+				}
+			}
 		}
 		else {
 			if(isset($_REQUEST['controller']) && isset($_REQUEST['model'])) {

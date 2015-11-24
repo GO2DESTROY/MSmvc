@@ -1,5 +1,5 @@
 <?php
-namespace blueprints\api;
+namespace system\blueprints;
 
 interface MS_controllerApiInterface
 {
