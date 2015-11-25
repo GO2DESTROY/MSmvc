@@ -5,7 +5,7 @@ namespace models;
 use system\blueprints;
 use system\blueprints\MS_modelApiInterface;
 
-class $name$ implements MS_modelApiInterface
+class $name$Model implements MS_modelApiInterface
 {
 	/**
      * @return mixed: display a listing of the resource.

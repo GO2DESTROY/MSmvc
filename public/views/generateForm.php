@@ -50,10 +50,24 @@
 							</select>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="routes" value="true">Create routes for the controllers
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="views" value="true">Create views for the controllers
+								</label>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" name="overwrite" value="true">I wish to overwrite any existing files with the same name
+						<input type="checkbox" checked name="overwrite" value="true">I wish to overwrite any existing files with the same name
 					</label>
 				</div>
 				<button type="submit" class="btn btn-default">Generate</button>

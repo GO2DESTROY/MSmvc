@@ -11,7 +11,8 @@ class MS_generate
 
 	public static function generateModel($name) {
 		$generateModel = new MS_generateModel();
-		$generateModel->generate($name);
+		$generateModel->name = $name;
+		$generateModel->basicGenerate();
 	}
 
 	public static function generateControllerWithDataSet($name, $columns, $keys) {
@@ -22,6 +23,12 @@ class MS_generate
 		$generateController->generateFromDataSet();
 	}
 
-	public function generateModelFromDatabase() {
+	public static function generateModelFromDatabase($name, $databaseConnectionReference, $columns, $keys) {
+		$generateModel          = new MS_generateModel();
+		$generateModel->name    = $name;
+		$generateModel->columns = $columns;
+		$generateModel->keys    = $keys;
+		$generateModel->databaseConnectionReference = $databaseConnectionReference;
+		$generateModel->generateFromDataSet();
 	}
 }

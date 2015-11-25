@@ -7,9 +7,10 @@ class MS_pipeline
 	public static $dataSets;
 	public static $dataSetsLocation;
 	public        $requestedDataSet;
-	private       $requestTypeHandler;
+	protected     $requestTypeHandler;
 	public static $configCollections;
 	public static $root;
+
 
 	function __construct() {
 		if(empty(self::$dataSetsLocation)) {

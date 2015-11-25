@@ -39,12 +39,15 @@ class MS_generateController
 
 		if($database == TRUE) {
 			$keyString = '';
+			$requestDataSet='';
 			foreach($this->keys as $key) {
 				$keyString .= '$'.$key . ',';
 			}
-			$keyString = rtrim($keyString, ',');
-
-			$content = str_replace('$keys$', $keyString, $content);
+			foreach($this->columns as $column) {
+				$requestDataSet .= '$_REQUEST["'.$column.'"],';
+			}
+			$content = str_replace('$requestDataSet$', rtrim($requestDataSet,','), $content);
+			$content = str_replace('$keys$', rtrim($keyString, ','), $content);
 		}
 
 		fwrite($this->file, $content);

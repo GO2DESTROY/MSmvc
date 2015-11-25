@@ -6,29 +6,18 @@ use system\MS_controller;
 use models\$name$Model;
 
 class $name$ extends MS_controller{
-	/**
-	 * @return mixed: display a listing of the resource.
-	 */
-	public function index() {
 
+	public function overview() {
 		$resources = $name$Model::retrieveAllResources();
 		return $this->view('$name$Overview',['resources' => $resources]);
 	}
 
-	/**
-	 * @return mixed: show view form for creating a new resource
-	 */
-
-    //this should be the using post
 	public function create() {
 	  return $this->view('$name$Create');
 	}
 
-	/**
-	 * @return mixed: store a newly created resource in storage.
-	 */
 	public function store() {
-		$name$Model::createSingleResource();
+		$name$Model::createSingleResource($requestDataSet$);
 	}
 
 	public function show($keys$) {
@@ -36,30 +25,15 @@ class $name$ extends MS_controller{
 		return $this->view('$name$Show',['resource' => $resource]);
 	}
 
-	/**
-	 * @param $id : the primary key for this resource
-	 *
-	 * @return mixed: show view for editing an existing resource
-	 */
 	public function edit($keys$) {
-	    $resource = $name$Model::retrieveSingleResource($keys$);
+	    $resource = $name$Model::retrieveSingleResource($requestDataSet$,$keys$);
     	return $this->view('$name$Edit',['resource' => $resource]);
 	}
 
-	/**
-	 * @param $id : the primary key for this resource
-	 *
-	 * @return mixed: execute index() with an execute status
-	 */
 	public function update($keys$) {
-        $name$Model::updateSingleResource($keys$);
+        $name$Model::updateSingleResource($requestDataSet$,$keys$);
 	}
 
-	/**
-	 * @param $id : the primary key for this resource
-	 *
-	 * @return mixed: execute index() with an execute status
-	 */
 	public function delete($keys$) {
 	    $name$Model::deleteSingleResource($keys$);
 	}

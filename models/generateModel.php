@@ -6,11 +6,11 @@ use system\helpers\MS_db;
 
 class generateModel
 {
-	public static function getPrimaryKeys($table) {
-		return MS_db::connection($_REQUEST['databaseConnectionReference'])->query('SHOW KEYS FROM ' . $table . ' WHERE Key_name = "PRIMARY"');
+	public static function getPrimaryKeys($databaseConnectionReference,$table) {
+		return MS_db::connection($databaseConnectionReference)->query('SHOW KEYS FROM ' . $table . ' WHERE Key_name = "PRIMARY"');
 	}
 
-	public static function getTableColumns($table) {
-		return MS_db::connection($_REQUEST['databaseConnectionReference'])->query('SHOW COLUMNS FROM '.$table);
+	public static function getTableColumns($databaseConnectionReference,$table) {
+		return MS_db::connection($databaseConnectionReference)->query('SHOW COLUMNS FROM '.$table);
 	}
 }

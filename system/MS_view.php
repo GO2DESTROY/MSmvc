@@ -26,7 +26,6 @@ class MS_view
 			extract($this->__get('data'), EXTR_SKIP);
 		}
 		include $view;
-		//return include './public/views/' . $file . '.php';	//maybe use pipelines for the loadingsdf
 	}
 
 	/**
