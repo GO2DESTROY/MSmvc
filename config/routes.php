@@ -32,19 +32,3 @@ MS_Route::any('/test',['uses' => 'tableControllerName@index']);
 
 MS_Route::cli('model', ['uses' => 'generate@model', 'as' => 'modelGen', 'parameters' => 'n:']);
 MS_Route::cli('controller', ['uses' => 'generate@controller', 'as' => 'controllerGen', 'parameters' => 'n:']);
-
-MS_route::get('/products', ['uses' => 'products@index', 'as' => 'productsIndex']);
-MS_route::get('/products/create', ['uses' => 'products@create', 'as' => 'productsCreate']);
-MS_route::post('/products', ['uses' => 'products@store', 'as' => 'productsStore']);
-MS_route::get('/products/{Id}', ['uses' => 'products@show', 'as' => 'productsShow']);
-MS_route::get('/products/{Id}', ['uses' => 'products@edit', 'as' => 'productsEdit']);
-MS_route::put('/products/{Id}', ['uses' => 'products@update', 'as' => 'productsUpdate']);
-MS_route::delete('/products/{Id}', ['uses' => 'products@delete', 'as' => 'productsDelete']);
-
-MS_route::get('/users', ['uses' => 'users@index', 'as' => 'usersIndex']);
-MS_route::get('/users/create', ['uses' => 'users@create', 'as' => 'usersCreate']);
-MS_route::post('/users', ['uses' => 'users@store', 'as' => 'usersStore']);
-MS_route::get('/users/{Id}', ['uses' => 'users@show', 'as' => 'usersShow']);
-MS_route::get('/users/{Id}', ['uses' => 'users@edit', 'as' => 'usersEdit']);
-MS_route::put('/users/{Id}', ['uses' => 'users@update', 'as' => 'usersUpdate']);
-MS_route::delete('/users/{Id}', ['uses' => 'users@delete', 'as' => 'usersDelete']);

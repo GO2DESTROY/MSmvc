@@ -2,7 +2,6 @@
 
 namespace controllers;
 
-use system\helpers\MS_url;
 use system\MS_controller;
 
 class example extends MS_controller

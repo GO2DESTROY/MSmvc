@@ -72,7 +72,7 @@ class generate extends MS_controller
 					$push->addToConfig('routes',"MS_route::get('/$databaseTable/create', ['uses' => '".$databaseTable."@create', 'as' => '".$databaseTable."Create']);".PHP_EOL);
 					$push->addToConfig('routes',"MS_route::post('/$databaseTable', ['uses' => '".$databaseTable."@store', 'as' => '".$databaseTable."Store']);".PHP_EOL);
 					$push->addToConfig('routes',"MS_route::get('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@show', 'as' => '".$databaseTable."Show']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::get('/$databaseTable/".rtrim($segments,'/edit')."', ['uses' => '$databaseTable@edit', 'as' => '".$databaseTable."Edit']);".PHP_EOL);
+					$push->addToConfig('routes',"MS_route::get('/$databaseTable/".rtrim($segments,'/')."edit', ['uses' => '$databaseTable@edit', 'as' => '".$databaseTable."Edit']);".PHP_EOL);
 					$push->addToConfig('routes',"MS_route::put('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@update', 'as' => '".$databaseTable."Update']);".PHP_EOL);
 					$push->addToConfig('routes',"MS_route::delete('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@delete', 'as' => '".$databaseTable."Delete']);".PHP_EOL);
 

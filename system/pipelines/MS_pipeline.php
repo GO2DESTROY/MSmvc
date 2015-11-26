@@ -60,7 +60,7 @@ class MS_pipeline
 	}
 
 	private function openJsonFile() {
-		return json_decode(file_get_contents(self::$root . '/config/' . $this->requestedDataSet . '.json'), TRUE);
+		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
 	}
 
 	private function openDataBaseFile() {

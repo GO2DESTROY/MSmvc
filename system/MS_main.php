@@ -14,11 +14,11 @@ class MS_main extends MS_core
 	public $currentRequestMethod = NULL;
 	public $uri                  = NULL;
 
-	function __construct()
-	{
-		$this->root = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR; // we tell the core to use the full path to the msmvc root for spl
+	function __construct() {
+		$this->root = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR; // we tell the core to use the full path to the msmvc root for spl
 		parent::__construct();
 	}
+
 	/**
 	 * @return mixed: the controller
 	 */
@@ -34,7 +34,7 @@ class MS_main extends MS_core
 		$route = $request->matchRequest();
 
 		$controllerRequest = explode('@', $route['action']['uses']);
-		$controllerString = DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controllerRequest[0];
+		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
 		$controller        = new $controllerString;
 		if($request->variables != NULL) {
 			return call_user_func_array([$controller, $controllerRequest[1]], $request->variables);
@@ -52,8 +52,8 @@ class MS_main extends MS_core
 		if($this->uri === NULL) {
 			$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
 			$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
-			$uri          = '/'.utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
-			$this->uri = $uri;
+			$uri          = '/' . utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
+			$this->uri    = $uri;
 		}
 	}
 
