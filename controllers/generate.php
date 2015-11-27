@@ -37,15 +37,13 @@ class generate extends MS_controller
 	 */
 	public function submitGenerateFormPage() {
 		if(isset($_REQUEST['database'])) {
-			//make an index based on the table name for the data saving
-			//todo: we generate if from a database
 			foreach($_REQUEST['databaseTableCollection'] as $databaseTable) {
 				$tableColumns = generateModel::getTableColumns($_REQUEST['databaseConnectionReference'], $databaseTable);
 				$tableKeys    = generateModel::getPrimaryKeys($_REQUEST['databaseConnectionReference'], $databaseTable);
-				$segments ='';
+				$segments     = '';
 				if(!empty($tableKeys) && !empty($tableColumns)) {
 					foreach($tableKeys as $tableKey) {
-						$segments.='{'.$tableKey['Column_name'].'}/';
+						$segments .= '{' . $tableKey['Column_name'] . '}/';
 						$keys[] = $tableKey['Column_name'];
 					}
 					foreach($tableColumns as $tableColumn) {
@@ -65,16 +63,16 @@ class generate extends MS_controller
 				else {
 					//return error there are no columns or primary keys within this table
 				}
-				if($_REQUEST['routes'] == true){
+				if(isset($_REQUEST['routes'])) {
 					$push = new MS_pipeline_push;
-					$push->addToConfig('routes',PHP_EOL);
-					$push->addToConfig('routes',"MS_route::get('/$databaseTable', ['uses' => '$databaseTable@index', 'as' => '".$databaseTable."Index']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::get('/$databaseTable/create', ['uses' => '".$databaseTable."@create', 'as' => '".$databaseTable."Create']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::post('/$databaseTable', ['uses' => '".$databaseTable."@store', 'as' => '".$databaseTable."Store']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::get('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@show', 'as' => '".$databaseTable."Show']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::get('/$databaseTable/".rtrim($segments,'/')."edit', ['uses' => '$databaseTable@edit', 'as' => '".$databaseTable."Edit']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::put('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@update', 'as' => '".$databaseTable."Update']);".PHP_EOL);
-					$push->addToConfig('routes',"MS_route::delete('/$databaseTable/".rtrim($segments,'/')."', ['uses' => '$databaseTable@delete', 'as' => '".$databaseTable."Delete']);".PHP_EOL);
+					$push->addToConfig('routes', PHP_EOL);
+					$push->addToConfig('routes', "MS_route::get('/$databaseTable', ['uses' => '$databaseTable@index', 'as' => '" . $databaseTable . "Index']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::get('/$databaseTable/create', ['uses' => '" . $databaseTable . "@create', 'as' => '" . $databaseTable . "Create']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::post('/$databaseTable', ['uses' => '" . $databaseTable . "@store', 'as' => '" . $databaseTable . "Store']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::get('/$databaseTable/" . rtrim($segments, '/') . "', ['uses' => '$databaseTable@show', 'as' => '" . $databaseTable . "Show']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::get('/$databaseTable/" . rtrim($segments, '/') . "edit', ['uses' => '$databaseTable@edit', 'as' => '" . $databaseTable . "Edit']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::put('/$databaseTable/" . rtrim($segments, '/') . "', ['uses' => '$databaseTable@update', 'as' => '" . $databaseTable . "Update']);" . PHP_EOL);
+					$push->addToConfig('routes', "MS_route::delete('/$databaseTable/" . rtrim($segments, '/') . "', ['uses' => '$databaseTable@delete', 'as' => '" . $databaseTable . "Delete']);" . PHP_EOL);
 
 					$push->closePushStream();
 				}

@@ -3,9 +3,7 @@
 namespace system;
 class MS_controller
 {
-	private $requestController;
-	private $controllerName;
-
+	public $controller;
 	/**
 	 * @param      $file : the view file to load
 	 * @param null $data : the view data to use
@@ -26,5 +24,10 @@ class MS_controller
 	protected function json($data) {
 		header('Content-Type: application/json');
 		return json_encode($data);
+	}
+	public function callController($requestController, $requestMethod)
+	{
+		$this->controller = new $requestController;
+		$this->controller->$requestMethod();
 	}
 }
