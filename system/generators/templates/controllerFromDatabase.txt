@@ -1,0 +1,40 @@
+<?php
+
+namespace controllers;
+
+use system\MS_controller;
+use models\$name$Model;
+
+class $name$ extends MS_controller{
+
+	public function overview() {
+		$resources = $name$Model::retrieveAllResources();
+		return $this->view('$name$Overview',['resources' => $resources]);
+	}
+
+	public function create() {
+	  return $this->view('$name$Create');
+	}
+
+	public function store() {
+		$name$Model::createSingleResource($requestDataSet$);
+	}
+
+	public function show($keys$) {
+	    $resource = $name$Model::retrieveSingleResource($keys$);
+		return $this->view('$name$Show',['resource' => $resource]);
+	}
+
+	public function edit($keys$) {
+	    $resource = $name$Model::retrieveSingleResource($requestDataSet$,$keys$);
+    	return $this->view('$name$Edit',['resource' => $resource]);
+	}
+
+	public function update($keys$) {
+        $name$Model::updateSingleResource($requestDataSet$,$keys$);
+	}
+
+	public function delete($keys$) {
+	    $name$Model::deleteSingleResource($keys$);
+	}
+}

@@ -1,31 +1,56 @@
 <?php
 namespace system\generators;
 
-class MS_generateController extends MS_generate
+class MS_generateController
 {
 	public $file;
 	public $template;
+	public $name;
+	public $columns;
+	public $keys;
 
-	function __construct($name) {
-		$this->createFile($name);
+	public function basicGenerate() {
+		$this->createFile();
 		$this->openTemplate();
-		$this->writeFile($name);
+		$this->writeFile();
 	}
 
-	private function createFile($name) {
-	$this->file= fopen('controllers/'.$name.'.php','w');
+	public function generateFromDataSet() {
+		$this->createFile();
+		$this->openTemplate(TRUE);
+		$this->writeFile(TRUE);
 	}
 
-	private function openTemplate()
-	{
-		//:todo : file get contents alternative
-		$this->template = file_get_contents('templates/controller.txt',true);
+	private function createFile() {
+		$this->file = fopen('controllers/' . $this->name . '.php', 'w');
 	}
 
-	private function writeFile($name)
-	{
-		$content = str_replace('$name$',$name,$this->template);
-		fwrite($this->file,$content);
+	private function openTemplate($database = FALSE) {
+		if($database === TRUE) {
+			$this->template = file_get_contents('templates/controllerFromDatabase.txt', TRUE);
+		}
+		else {
+			$this->template = file_get_contents('templates/controller.txt', TRUE);
+		}
+	}
+
+	private function writeFile($database = FALSE) {
+		$content = str_replace('$name$', $this->name, $this->template);
+
+		if($database == TRUE) {
+			$keyString = '';
+			$requestDataSet='';
+			foreach($this->keys as $key) {
+				$keyString .= '$'.$key . ',';
+			}
+			foreach($this->columns as $column) {
+				$requestDataSet .= '$_REQUEST["'.$column.'"],';
+			}
+			$content = str_replace('$requestDataSet$', rtrim($requestDataSet,','), $content);
+			$content = str_replace('$keys$', rtrim($keyString, ','), $content);
+		}
+
+		fwrite($this->file, $content);
 		fclose($this->file);
 	}
 }

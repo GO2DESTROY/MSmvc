@@ -3,14 +3,15 @@
 namespace controllers;
 
 use system\MS_controller;
+use system\blueprints\MS_controllerApiInterface;
 
-class $name$ extends MS_controller implements blueprints\api\MS_controllerApiInterface
+class $name$ extends MS_controller  implements MS_controllerApiInterface
 {
 	/**
 	 * @return mixed: display a listing of the resource.
 	 */
-	public function index() {
-		// TODO: Implement index() method.
+	public function overview() {
+		// TODO: Implement overview() method.
 	}
 
 	/**

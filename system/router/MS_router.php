@@ -25,10 +25,11 @@ class MS_router
 	 */
 	private function matchSegments($route) {
 		$routeParts = explode('/', $route);
+
 		if(count($this->segments) != count($routeParts)) {
 			return FALSE;
 		}
-		for($i = 0; $i < count($this->segments); $i++) {
+		for($i = 1; $i < count($this->segments); $i++) {
 			if(empty($routeParts[$i])) {
 				return FALSE;
 			}
@@ -83,7 +84,7 @@ class MS_router
 				break 1;
 			}
 		}
-		throw new \Exception('The current URI is not defined within the routes');
+		throw new \Exception('The current URI is not defined within the routes your uri: '.$this->uri);
 	}
 
 

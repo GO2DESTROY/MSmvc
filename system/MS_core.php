@@ -123,8 +123,7 @@ class MS_core
 			fwrite($fp, PHP_EOL);
 		}
 		else {
-			fwrite($fp, $line);
-			fwrite($fp, PHP_EOL);
+			fwrite($fp, $line.PHP_EOL);
 		}
 		fclose($fp);
 	}

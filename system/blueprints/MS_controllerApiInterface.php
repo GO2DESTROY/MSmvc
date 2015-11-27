@@ -1,12 +1,12 @@
 <?php
-namespace blueprints\api;
+namespace system\blueprints;
 
 interface MS_controllerApiInterface
 {
 	/**
 	 * @return mixed: display a listing of the resource.
 	 */
-	public function index();
+	public function overview();
 
 
 	/**

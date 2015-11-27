@@ -10,9 +10,11 @@ vendor
 controllers/*
 models/*
 logs/*
+README.md
 
 !/controllers/example.php
 !/controllers/generate.php
+!/models/generateModel.php
 !*.gitkeep
 
 # if you remove the above rule, at least ignore the following:

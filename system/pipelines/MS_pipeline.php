@@ -7,9 +7,10 @@ class MS_pipeline
 	public static $dataSets;
 	public static $dataSetsLocation;
 	public        $requestedDataSet;
-	private       $requestTypeHandler;
+	protected     $requestTypeHandler;
 	public static $configCollections;
 	public static $root;
+
 
 	function __construct() {
 		if(empty(self::$dataSetsLocation)) {
@@ -50,11 +51,8 @@ class MS_pipeline
 		}
 	}
 
-	public static function returnViewFile($file, $data = NULL) {
-		if(is_array($data)) {
-			extract($data, EXTR_SKIP);
-		}
-		return include self::$root . 'public/views/' . $file . '.php';
+	public static function returnViewFilePath($file) {
+		return self::$root . 'public/views/' . $file . '.php';
 	}
 
 	private function openPhpFile() {
@@ -62,11 +60,12 @@ class MS_pipeline
 	}
 
 	private function openJsonFile() {
-		return json_decode(file_get_contents(self::$root . '/config/' . $this->requestedDataSet . '.json'), TRUE);
+		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
 	}
 
 	private function openDataBaseFile() {
 		return 42; //no need to cache the dataConnecter since MS_database already does this
 	}
 // todo: make a pipeline sublayer to interacte with data providers
+// todo: database config files support
 }

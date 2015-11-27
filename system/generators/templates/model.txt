@@ -2,46 +2,49 @@
 
 namespace models;
 
-class $name$ implements blueprints\api\MS_modelApiInterface
+use system\blueprints;
+use system\blueprints\MS_modelApiInterface;
+
+class $name$Model implements MS_modelApiInterface
 {
 	/**
-	 * @return mixed: display a listing of the resource.
-	 */
-	public function retrieveAllResources() {
-		// TODO: Implement retrieveAllResources() method.
-	}
+     * @return mixed: display a listing of the resource.
+     */
+    public static function retrieveAllResources() {
+        // TODO: Implement retrieveAllResources() method.
+    }
 
-	/**
-	 * @return mixed: status of the insert call
-	 */
-	public function createSingleResource() {
-		// TODO: Implement createSingleResource() method.
-	}
+    /**
+     * @return mixed: status of the insert call
+     */
+    public static function createSingleResource() {
+        // TODO: Implement createSingleResource() method.
+    }
 
-	/**
-	 * @param  int $id : the primary key for this resource
-	 *
-	 * @return bool: show view for an existing resource
-	 */
-	public function retrieveSingleResource($id) {
-		// TODO: Implement retrieveSingleResource() method.
-	}
+    /**
+     * @param  int $id : the primary key for this resource
+     *
+     * @return bool: show view for an existing resource
+     */
+    public static function retrieveSingleResource($id) {
+        // TODO: Implement retrieveSingleResource() method.
+    }
 
-	/**
-	 * @param $id : the primary key for this resource
-	 *
-	 * @return bool: status of the update call
-	 */
-	public function updateSingleResource($id) {
-		// TODO: Implement updateSingleResource() method.
-	}
+    /**
+     * @param $id : the primary key for this resource
+     *
+     * @return bool: status of the update call
+     */
+    public static function updateSingleResource($id) {
+        // TODO: Implement updateSingleResource() method.
+    }
 
-	/**
-	 * @param $id : the primary key for this resource
-	 *
-	 * @return bool: status of the delete call
-	 */
-	public function deleteSingleResource($id) {
-		// TODO: Implement deleteSingleResource() method.
-	}
+    /**
+     * @param $id : the primary key for this resource
+     *
+     * @return bool: status of the delete call
+     */
+    public static function deleteSingleResource($id) {
+        // TODO: Implement deleteSingleResource() method.
+    }
 }

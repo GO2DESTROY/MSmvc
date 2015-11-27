@@ -2,7 +2,7 @@
 
 namespace system\helpers;
 
-use system\MS_Route;
+use system\router\MS_Route;
 
 class MS_url
 {
@@ -20,7 +20,8 @@ class MS_url
 	public function callControllerByName($name, $properties = NULL) {
 		if(!empty(MS_route::returnReferenceCollection()[$name])) {
 			$controllerRequest = explode('@', MS_route::returnReferenceCollection()[$name]['action']['uses']);
-			$controller        = new $controllerRequest[0];
+			$controllerString = DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controllerRequest[0];
+			$controller        = new $controllerString;
 			if($properties != NULL) {
 				return call_user_func_array([$controller, $controllerRequest[1]], $properties);
 			}

@@ -4,7 +4,7 @@ namespace system\helpers;
 use blueprints\MS_mainInterface;
 use system\pipelines\MS_pipeline;
 
-class MS_db implements MS_mainInterface
+class MS_db
 {
 	private        $collectionSetReference;
 	private        $collectionSet;
@@ -13,7 +13,6 @@ class MS_db implements MS_mainInterface
 
 	//public  $connectionSet;
 	function __construct() {
-		parent::__construct();
 		$this->loadConfig();
 		$this->defaultSetter();
 	}
@@ -31,28 +30,29 @@ class MS_db implements MS_mainInterface
 	 *    we set the default settings to use
 	 */
 	private function defaultSetter() {
-		$this->__set('collectionSetReference', self::$configSet['defaultConnectionSet']);
+		$this->collectionSetReference = self::$configSet['defaultConnectionSet'];
 	}
 
 	/**
 	 *    we set the collection depending on the reference
 	 */
 	private function collectionSetter() {
-		$this->__set('collectionSet', self::$configSet[$this->__get('collectionSetReference')]);    //this line might give an error in some IDEs however it is not
+		$this->collectionSet = self::$configSet['connectionSets'][$this->collectionSetReference];    //this line might give an error in some IDEs however it is not
 	}
 
 	/**
 	 * we make a PDO connection we the given settings
 	 */
 	private function setUpConnection() {
-		self::$pdoCollection[$this->__get('collectionSetReference')] = new PDO($this->__get('collectionSet')['driver'] . ":host=" . $this->__get('collectionSet')['host'] . ";port=" . $this->__get('collectionSet')['port'] . ";dbname=" . $this->__get('collectionSet')['database'] . ";user=" . $this->__get('collectionSet')['username'] . ";password=" . $this->__get('collectionSet')['password']);
+		$connection                                         = $this->collectionSet['driver'] . ":dbname=" . $this->collectionSet['database'] . ";host=" . $this->collectionSet['host'] . ";port=" . $this->collectionSet['port'];
+		self::$pdoCollection[$this->collectionSetReference] = new \PDO($connection, $this->collectionSet['username'], $this->collectionSet['password']);
 	}
 
 	/**
 	 *    we check if we have already a connection if not we create it
 	 */
 	public function createConnection() {
-		if(!isset(self::$pdoCollection[$this->__get('collectionSetReference')])) {
+		if(!isset(self::$pdoCollection[$this->collectionSetReference])) {
 			//we have already ran once so the connection already exists
 			//this collection set doesn't exists
 			$this->collectionSetter();
@@ -70,7 +70,7 @@ class MS_db implements MS_mainInterface
 	public static function connection($connectionSetReference = NULL) {
 		$connection = new MS_db();
 		if(!is_null($connectionSetReference)) {
-			$connection->__set('collectionSetReference', $connectionSetReference);
+			$connection->collectionSetReference = $connectionSetReference;
 		}
 		$connection->createConnection();
 		return $connection;
@@ -84,20 +84,12 @@ class MS_db implements MS_mainInterface
 	 */
 	public function query($query, $data = NULL) {
 		if(is_null($data)) {
-			return self::$pdoCollection[$this->__get('collectionSetReference')]->query($query)->fetchAll();
+			return self::$pdoCollection[$this->collectionSetReference]->query($query)->fetchAll();
 		}
 		else {
-			$call = self::$pdoCollection[$this->__get('collectionSetReference')]->prepare($query);
+			$call = self::$pdoCollection[$this->collectionSetReference]->prepare($query);
 			$call->execute($data);
-			return $call->fetchAll(PDO::FETCH_OBJ);
+			return $call->fetchAll(\PDO::FETCH_OBJ);
 		}
-	}
-
-	public function __set($name, $value) {
-		$this->$name = $value;
-	}
-
-	public function __get($name) {
-		return $this->$name;
 	}
 }

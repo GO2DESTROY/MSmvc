@@ -10,7 +10,7 @@ class example extends MS_controller
 	 * @return mixed: the html page to return
 	 */
 	public function index() {
-		return $this->view('example',['test'=>'works']);
+		return $this->view('example');
 	}
 
 	/**

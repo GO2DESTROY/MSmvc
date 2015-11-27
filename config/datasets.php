@@ -9,7 +9,7 @@
  return [
 	 'routes' => 'php',
 	 'config' => 'php',
-	 'database' => 'php', // only php / json is supported
+	 'database' => 'json', // only php / json is supported
 	 'errors' => 'php',
 	 'routes' => 'php'	//currently only php is supported
  ];
