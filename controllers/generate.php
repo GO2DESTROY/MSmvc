@@ -21,7 +21,7 @@ class generate extends MS_controller
 
 	public function getGenerateFormPage() {
 		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
-		return $this->view('generateForm', ['connectionSets' => $dataBaseConnectionSets]);
+		return $this->view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets]);
 	}
 
 	public function getGenerateTables($dataBaseConnectionName) {
