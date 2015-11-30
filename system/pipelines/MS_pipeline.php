@@ -52,7 +52,7 @@ class MS_pipeline
 	}
 
 	public static function returnViewFilePath($file) {
-		return self::$root . 'public/views/' . $file . '.php';
+		return self::$root . 'resources/views/' . $file . '.php';
 	}
 
 	private function openPhpFile() {

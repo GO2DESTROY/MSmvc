@@ -36,6 +36,7 @@ class MS_core
 			set_error_handler([$this, 'errorHandler']);
 			register_shutdown_function([$this, 'fatal_handler']);
 		}
+
 	}
 
 	/**
@@ -92,7 +93,7 @@ class MS_core
 	public function fatal_handler() {
 		$error = error_get_last();
 		if(($error['type'] === E_ERROR) || ($error['type'] === E_USER_ERROR)) {
-			ob_clean(); // we cancel all the normal output
+			ob_clean(); // we cancel all the normal output and only serve the fatal error
 			if($error !== NULL) {
 				$errno   = $error["type"];
 				$errstr  = $error["message"];

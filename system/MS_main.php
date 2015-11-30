@@ -31,19 +31,29 @@ class MS_main extends MS_core
 		if($this->currentRequestMethod !== 'CLI') {
 			$request->uri = $this->uri;
 		}
-		$route = $request->matchRequest();
 
+		//boot the session driver and set the current route
+		return $this->controller($request->matchRequest(),$request->variables);
+	}
+
+	/**
+	 * @param      $route: the route for the controller to use
+	 * @param null $variables: the variables for the controller to use
+	 *
+	 * @return mixed
+	 */
+	private function controller($route,$variables = null)
+	{
 		$controllerRequest = explode('@', $route['action']['uses']);
 		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
 		$controller        = new $controllerString;
-		if($request->variables != NULL) {
-			return call_user_func_array([$controller, $controllerRequest[1]], $request->variables);
+		if($variables != NULL) {
+			return call_user_func_array([$controller, $controllerRequest[1]], $variables);
 		}
 		else {
 			return $controller->$controllerRequest[1]();
 		}
 	}
-
 
 	/**
 	 * we set this->uri to the current http uri
