@@ -3,18 +3,28 @@
 namespace system;
 class MS_response
 {
-	private static $header;
-	public $controller;
+	private $responseCollection = [];
+	private $responseMaster     = [];
+	private $responseType       = 'view';//view|download|json
 
-	public static function view($file, $data) {
-		self::$header = 'Content-Type: text/html; charset=utf-8';
-		$view         = new MS_view();
-		$view->__set('data', $data);
-		return $view->loadView($file);
+	private $header;
+
+	//todo: make a style and script bundle for master view
+	private function returnResponse() {
 	}
 
-	public static function json($data) {
-		self::$header = 'Content-Type: application/json';
-		return json_encode($data);
+	private function setMasterView() {
+	}
+
+	public function view() {
+		$this->responseType = 'view';
+	}
+
+	public function download() {
+		$this->responseType = 'download';
+	}
+
+	public function json() {
+		$this->responseType = 'json';
 	}
 }

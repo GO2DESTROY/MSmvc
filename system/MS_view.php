@@ -30,7 +30,7 @@ class MS_view
 
 	/**
 	 * @param $array : the array or object to display
-	 *
+	 *todo: make this a function in the function helper class that way we don't have to use it from this class
 	 * @return string: the array or object now in string
 	 */
 	public function dumpArray($array) {

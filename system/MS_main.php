@@ -23,6 +23,12 @@ class MS_main extends MS_core
 	 * @return mixed: the controller
 	 */
 	public function boot() {
+		//todo: make a request handler this class should set the properties so we can overwrite it but the handler should handle the request and check on incoming data and black/white lists besides that we should handle the incomming session and give access to the session class
+		//todo: make the response handler the request calls the response this will be used to setup the response think master view and partial view setting the header. besides that it will write the session so we only have 2 calls to the session.
+
+		$request = new MS_request();
+		$request->requestInterface = $this->currentRequestMethod;
+
 		MS_pipeline::returnConfig('routes');
 		$request                       = new MS_router();
 		$request->routes               = MS_route::returnRouteCollection();

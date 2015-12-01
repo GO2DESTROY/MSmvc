@@ -17,4 +17,5 @@ class MS_session
 	public static function add($key, $value) {
 
 	}
+	//todo: we make a dataset of the current dataset and then we manipulate it and let the pipeline set the header just before calling the view page
 }

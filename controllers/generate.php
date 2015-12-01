@@ -11,11 +11,11 @@ use system\pipelines\MS_pipeline_push;
 
 class generate extends MS_controller
 {
-	public function controller($name) {
+	public function generateController($name) {
 		MS_generate::generateController($name);
 	}
 
-	public function model($name) {
+	public function generateModel($name) {
 		MS_generate::generateModel($name);
 	}
 

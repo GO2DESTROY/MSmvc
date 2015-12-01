@@ -30,5 +30,5 @@ MS_route::get('/generate/{id}', ['uses' => 'generate@getGenerateTables', 'as' =>
 
 MS_Route::any('/test',['uses' => 'tableControllerName@index']);
 
-MS_Route::cli('model', ['uses' => 'generate@model', 'as' => 'modelGen', 'parameters' => 'n:']);
-MS_Route::cli('controller', ['uses' => 'generate@controller', 'as' => 'controllerGen', 'parameters' => 'n:']);
+MS_Route::cli('model', ['uses' => 'generate@generateModel', 'as' => 'modelGen', 'parameters' => 'n:']);
+MS_Route::cli('controller', ['uses' => 'generate@generateController', 'as' => 'controllerGen', 'parameters' => 'n:']);
