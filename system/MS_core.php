@@ -43,7 +43,7 @@ class MS_core
 	 * this will handle the exceptions
 	 * @param $exception: exception to handle
 	 */
-	public function exceptionHandler($exception) {
+	public function exceptionHandler(\Exception $exception) {
 		if($this->errorSettings['logs']['log_exceptions']['log'] === TRUE) {
 			$this->addToLog($this->errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
 		}
@@ -72,6 +72,21 @@ class MS_core
 				break;
 			case E_USER_NOTICE:
 				$type = 'Notice';
+				break;
+			case E_COMPILE_ERROR:
+				$type = 'Compile error';
+				break;
+			case E_COMPILE_WARNING:
+				$type = 'Compile warning';
+				break;
+			case E_PARSE:
+				$type = 'Parse error';
+				break;
+			case E_CORE_ERROR:
+				$type = 'Core error';
+				break;
+			case E_CORE_WARNING:
+				$type = 'Core warning';
 				break;
 			default:
 				$type = 'Unkown';

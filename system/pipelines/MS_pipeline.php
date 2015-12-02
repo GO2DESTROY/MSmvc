@@ -9,6 +9,7 @@ class MS_pipeline
 	public        $requestedDataSet;
 	protected     $requestTypeHandler;
 	public static $configCollections;
+	public static $fileCollections;
 	public static $root;
 
 
@@ -28,9 +29,17 @@ class MS_pipeline
 		return self::$configCollections[$file];
 	}
 
+	public static function includeFile($file, $force = FALSE) {
+		if($force === TRUE || !isset(self::$fileCollections[$file])) {
+			self::$fileCollections[$file] = include self::$root.$file.'.php';
+		}
+		return self::$fileCollections[$file];
+	}
+
 	public function getRequestedData() {
 		if(isset(self::$dataSetsLocation[$this->requestedDataSet])) {
 			return self::$dataSetsLocation[$this->requestedDataSet];
+
 		}
 		else {
 			$this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];

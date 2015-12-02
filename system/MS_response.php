@@ -3,9 +3,9 @@
 namespace system;
 class MS_response
 {
-	private $responseCollection = [];
-	private $responseMaster     = [];
-	private $responseType       = 'view';//view|download|json
+	private static $responseCollection = [];
+	private static $responseMaster     = [];
+	private        $responseType       = 'view';//view|download|json
 
 	private $header;
 
@@ -14,6 +14,7 @@ class MS_response
 	}
 
 	private function setMasterView() {
+
 	}
 
 	public function view() {
@@ -26,5 +27,16 @@ class MS_response
 
 	public function json() {
 		$this->responseType = 'json';
+	}
+
+	public static function overwriteMasterView($view) {
+		self::$responseMaster = $view;
+	}
+
+	public static function addViewToCollection($name, $view, $data = NULL) {
+		if($name === NULL) {
+			$name = 'default';
+		}
+		self::$responseCollection[$name] = ['view' => $view, 'data' => $data];
 	}
 }
