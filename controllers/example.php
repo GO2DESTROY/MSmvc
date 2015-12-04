@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use system\helpers\MS_utilization;
 use system\MS_controller;
 
 class example extends MS_controller
@@ -10,7 +11,7 @@ class example extends MS_controller
 	 * @return mixed: the html page to return
 	 */
 	public function index() {
-		return $this->view('example');
+		MS_utilization::returnMemoryOfPHP();
 	}
 
 	/**

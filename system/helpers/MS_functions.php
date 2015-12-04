@@ -24,7 +24,7 @@ if(!function_exists('dumpArray')) {
 }
 if(!function_exists('masterView')) {
 	/**
-	 * @param $view : the view to set as the master
+	 * @param $view : the view to set as the master-view
 	 */
 	function masterView($view) {
 		MS_response::overwriteMasterView($view);

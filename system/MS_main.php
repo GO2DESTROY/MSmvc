@@ -20,45 +20,24 @@ class MS_main extends MS_core
 	}
 
 	/**
-	 * @return mixed: the controller
+	 * we let the router run to find the right route to use then we pass it to the request so the controller can be called followed by the response
 	 */
 	public function boot() {
-		//todo: make a request handler this class should set the properties so we can overwrite it but the handler should handle the request and check on incoming data and black/white lists besides that we should handle the incomming session and give access to the session class
-		//todo: make the response handler the request calls the response this will be used to setup the response think master view and partial view setting the header. besides that it will write the session so we only have 2 calls to the session.
-
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
 
 		MS_pipeline::returnConfig('routes');
-		$request                       = new MS_router();
-		$request->routes               = MS_route::returnRouteCollection();
-		$request->currentRequestMethod = $this->currentRequestMethod;
+
+		$router                       = new MS_router();
+		$router->routes               = MS_route::returnRouteCollection();
+		$router->currentRequestMethod = $this->currentRequestMethod;
 
 		if($this->currentRequestMethod !== 'CLI') {
-			$request->uri = $this->uri;
+			$router->uri = $this->uri;
 		}
-
-		//boot the session driver and set the current route
-		return $this->controller($request->matchRequest(),$request->variables);
-	}
-
-	/**
-	 * @param      $route: the route for the controller to use
-	 * @param null $variables: the variables for the controller to use
-	 *
-	 * @return mixed
-	 */
-	private function controller($route,$variables = null)
-	{
-		$controllerRequest = explode('@', $route['action']['uses']);
-		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
-		$controller        = new $controllerString;
-		if($variables != NULL) {
-			return call_user_func_array([$controller, $controllerRequest[1]], $variables);
-		}
-		else {
-			return $controller->$controllerRequest[1]();
-		}
+		$request->requestRoute = $router->matchRequest();
+		$request->requestVariables = $router->variables;
+		$request->request();
 	}
 
 	/**
@@ -93,8 +72,7 @@ class MS_main extends MS_core
 				$this->currentRequestMethod = 'CLI';
 			}
 			else {
-				$method = $_SERVER['REQUEST_METHOD'];
-				switch($method) {
+				switch($_SERVER['REQUEST_METHOD']) {
 					case 'PUT':
 						$this->currentRequestMethod = 'PUT';
 						break;
@@ -114,7 +92,7 @@ class MS_main extends MS_core
 						$this->currentRequestMethod = 'OPTIONS';
 						break;
 					default:
-						throw new \Exception('The supplied request method is not supported you have used ' . $method);
+						throw new \Exception('The supplied request method is not supported you have used ' . $_SERVER['REQUEST_METHOD']);
 						break;
 				}
 			}

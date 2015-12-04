@@ -5,7 +5,10 @@ use system\pipelines\MS_pipeline;
 
 class MS_view
 {
+	public $viewCollection;
+	public $viewDataCollection;
 	private $data;
+	private $bundleCollection;
 
 	public function __get($name) {
 		return $this->$name;
@@ -22,8 +25,8 @@ class MS_view
 	 */
 	public function loadView($file) {
 		$view = MS_pipeline::returnViewFilePath($file);
-		if(is_array($this->__get('data'))) {
-			extract($this->__get('data'), EXTR_SKIP);
+		if(is_array($this->data)) {
+			extract($this->data, EXTR_SKIP);
 		}
 		include $view;
 	}
