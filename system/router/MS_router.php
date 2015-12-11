@@ -87,7 +87,6 @@ class MS_router
 		throw new \Exception('The current URI is not defined within the routes your uri: '.$this->uri);
 	}
 
-
 	/**
 	 * @return mixed: the controller
 	 * @throws \Exception: The current command is not defined within the routes

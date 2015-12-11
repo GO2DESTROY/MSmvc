@@ -66,5 +66,7 @@ class MS_response
 	}
 
 	private function downloadResponse() {
+		//set download header header('Content-Type: application/octet-stream');
+		//header('Content-Disposition: attachment; filename="picture.png');
 	}
 }

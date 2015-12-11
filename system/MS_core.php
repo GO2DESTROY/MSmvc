@@ -36,7 +36,6 @@ class MS_core
 			set_error_handler([$this, 'errorHandler']);
 			register_shutdown_function([$this, 'fatal_handler']);
 		}
-
 	}
 
 	/**

@@ -25,6 +25,11 @@ class MS_controller
 		header('Content-Type: application/json');
 		return json_encode($data);
 	}
+
+	/**
+	 * @param $requestController: the controller class to use
+	 * @param $requestMethod: the controller method to call from this class
+	 */
 	protected function controller($requestController, $requestMethod)
 	{
 		$this->controller = new $requestController;
