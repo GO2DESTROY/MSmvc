@@ -7,6 +7,7 @@ class MS_response
 	private static $responseMaster;
 	private static $data;
 	private static $responseType;//view|download|json
+	private static $headers            = [];
 
 	/**
 	 * we will send a view so we set the response type to view
@@ -67,16 +68,28 @@ class MS_response
 		}
 	}
 
-	private function viewResponse() {
-		header('Content-Type: text/html; charset=utf-8');
-	}
-
-	private function jsonResponse() {
-		header('Content-Type: application/json');
+	private function setHeader($defaultHeaders = []) {
+		if(self::$headers == NULL) {
+			foreach($defaultHeaders as $header) {
+				header($header);
+			}
+		}
+		else {
+			foreach(self::$headers as $header) {
+				header($header);
+			}
+		}
 	}
 
 	private function downloadResponse() {
-		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename="'.self::$data.'"');
+		$this->setHeader(['Content-Type: application/octet-stream', 'Content-Disposition: attachment; filename="' . self::$data . '"']);
+	}
+
+	private function viewResponse() {
+		$this->setHeader(['Content-Type: text/html; charset=utf-8']);
+	}
+
+	private function jsonResponse() {
+		$this->setHeader(['Content-Type: application/json']);
 	}
 }
