@@ -72,12 +72,12 @@
 		<span class="highlight">Date:</span> <span><?php echo $date; ?></span><br/>
 		<?php if(!empty($variables)) { ?>
 			<span class="highlight">Local variables:</span><span>
-			<?php echo $this->dumpArray($variables); ?>
+			<?php echo dumpArray($variables); ?>
 		</span>
 		<?php } ?>
 
 			<span class="highlight">Backtrace:</span><span>
-		<?php echo $this->dumpArray($backtrace); ?></span>
+		<?php echo dumpArray($backtrace); ?></span>
 
 	</div>
 </div>

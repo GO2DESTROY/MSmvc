@@ -4,28 +4,32 @@ namespace system;
 class MS_response
 {
 	private static $responseCollection = [];
-	private static $responseMaster     = [];
-	private        $responseType       = 'view';//view|download|json
+	private static $responseMaster;
+	private static $data;
+	private static $responseType;//view|download|json
 
 	/**
 	 * we will send a view so we set the response type to view
 	 */
-	public function view() {
-		$this->responseType = 'view';
+	public static function view() {
+		self::$responseType = 'view';
 	}
 
 	/**
 	 * we will send a file for the client to download so we set the response type to view
+	 *
+	 * @param $file : the file to download
 	 */
-	public function download() {
-		$this->responseType = 'download';
+	public static function download($file) {
+		self::$responseType = 'download';
+		self::$data         = $file;
 	}
 
 	/**
 	 * we will send a json encoded
 	 */
-	public function json() {
-		$this->responseType = 'json';
+	public static function json() {
+		self::$responseType = 'json';
 	}
 
 	/**
@@ -44,8 +48,11 @@ class MS_response
 		self::$responseCollection[$name] = ['view' => $view, 'data' => $data];
 	}
 
+	/**
+	 * we return the specified response or we won't return anything
+	 */
 	public function returnResponse() {
-		switch($this->responseType) {
+		switch(self::$responseType) {
 			case 'view':
 				$this->viewResponse();
 				break;
@@ -55,10 +62,13 @@ class MS_response
 			case 'download':
 				$this->downloadResponse();
 				break;
+			default:
+				break;
 		}
 	}
 
 	private function viewResponse() {
+		header('Content-Type: text/html; charset=utf-8');
 	}
 
 	private function jsonResponse() {
@@ -66,7 +76,7 @@ class MS_response
 	}
 
 	private function downloadResponse() {
-		//set download header header('Content-Type: application/octet-stream');
-		//header('Content-Disposition: attachment; filename="picture.png');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="'.self::$data.'"');
 	}
 }

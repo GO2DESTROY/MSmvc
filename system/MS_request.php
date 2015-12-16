@@ -14,7 +14,6 @@ class MS_request
 	public $requestVariables;
 
 	private $response;
-	private $request;
 
 	function __construct() {
 		MS_pipeline::includeFile('system' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'MS_functions');

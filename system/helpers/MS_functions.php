@@ -46,11 +46,18 @@ if(!function_exists('view')) {
 }
 if(!function_exists('dd')) {
 	/**
-	 * @param $data: the data to dump
+	 * @param $data : the data to dump
 	 */
-	function dd($data)
-	{
-		array_map(function($x) { var_dump($x); }, func_get_args());
+	function dd($data) {
+		array_map(function ($x) {
+			var_dump($x);
+		}, func_get_args());
 		exit(1);
+	}
+}
+if(!function_exists('download')) {
+	function download(){
+		MS_response::download('download');
+
 	}
 }

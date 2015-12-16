@@ -44,18 +44,18 @@ class MS_image implements MS_mainInterface
 	 */
 	public function setImage($file) {
 		$this->mainImageSize = getimagesize($file);
-		switch($this->mainImageSize['mime']) {
-			case 'image/png':
+		switch($this->mainImageSize[2]) {
+			case IMG_PNG:
 				$this->mainImage = imagecreatefrompng($file);
 				break;
-			case 'image/jpeg':
+			case IMG_JPEG:
 				$this->mainImage = imagecreatefromjpeg($file);
 				break;
-			case 'image/gif':
+			case IMG_GIF:
 				$this->mainImage = imagecreatefromgif($file);
 				break;
 			default:
-				throw new \Exception('this image type is not supported');
+				throw new \Exception('this image type is not supported: ' . $this->mainImage);
 				break;
 		}
 	}
@@ -100,7 +100,6 @@ class MS_image implements MS_mainInterface
 			case 'png':
 				return imagepng($this->mainImage, $name, $quality);
 				break;
-
 			case 'jpeg':
 				return imagejpeg($this->mainImage, $name, $quality);
 				break;
@@ -126,8 +125,29 @@ class MS_image implements MS_mainInterface
 	 */
 	public function resize($width, $height) {
 		$image_new = imagecreatetruecolor($width, $height);
+
 		imagecopyresampled($image_new, $this->mainImage, 0, 0, 0, 0, $width, $height, $this->mainImageSize[0], $this->mainImageSize[1]);
 		$this->mainImage = $image_new;
+
+		$this->mainImageSize[0] = $width;
+		$this->mainImageSize[1] = $height;
+		$this->mainImageSize[3] = 'width="'.$width.'" height="'.$height.'"';
+	}
+
+	/**
+	 * we will resize the image and keep the original proportions
+	 *
+	 * @param int    $size : size in pixels
+	 * @param string $type : width or height
+	 */
+	public function scale($size, $type = 'width') {
+		$proportion = $this->mainImageSize[0] / $this->mainImageSize[1];
+		if($type == 'width') {
+			$this->resize($size, round($size / $proportion));
+		}
+		elseif($type == 'height') {
+			$this->resize(round($size * $proportion), $size);
+		}
 	}
 
 	/**

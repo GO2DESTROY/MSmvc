@@ -71,8 +71,9 @@
 		<span class="highlight">Line:</span> <span><?php echo $line; ?></span><br/>
 		<span class="highlight">File:</span> <span><?php echo $location; ?></span><br/>
 		<span class="highlight">Date:</span> <span><?php echo $date; ?></span><br/>
-		<span class="highlight">Backtrace:</span><span>
-		<?php echo $this->dumpArray($backtrace); ?>
+		<span class="highlight">Backtrace:</span>
+		<span>
+		<?php echo dumpArray($backtrace); ?>
 			</span>
 	</div>
 </div>

@@ -11,7 +11,6 @@ class example extends MS_controller
 	 * @return mixed: the html page to return
 	 */
 	public function index() {
-		MS_utilization::returnMemoryOfPHP();
 	}
 
 	/**
