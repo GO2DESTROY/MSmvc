@@ -7,7 +7,7 @@ if(!function_exists('dumpArray')) {
 		if(is_array($array) || is_object($array)) {
 			foreach($array as $key => $value) {
 				if(is_array($value) || is_object($value) || is_resource($value)) {
-					$value = $this->dumpArray($value);
+					$value = dumpArray($value);
 					$string .= '<li><span class="highlight">' . $key . '</span> <small>' . gettype($value) . ' [' . count($value) . ']</small> ' . $value . ' </li>';
 				}
 				else {
