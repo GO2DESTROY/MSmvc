@@ -25,9 +25,10 @@ if(!function_exists('dumpArray')) {
 if(!function_exists('masterView')) {
 	/**
 	 * @param $view : the view to set as the master-view
+	 * @param $data : the data to use for the view
 	 */
-	function masterView($view) {
-		MS_response::overwriteMasterView($view);
+	function masterView($view, $data) {
+		MS_response::overwriteMasterView($view, $data);
 	}
 }
 if(!function_exists('view')) {
@@ -36,11 +37,12 @@ if(!function_exists('view')) {
 	 * @param null $data       : the data to use for the view
 	 * @param null $name       : name to use for this view to overwrite the section
 	 * @param null $masterView : master to overwrite
+	 * @param null $masterData : master data to overwrite
 	 */
-	function view($view, $data = NULL, $name = NULL, $masterView = NULL) {
+	function view($view, $data = NULL, $name = NULL, $masterView = NULL, $masterData = NULL) {
 		MS_response::addViewToCollection($name, $view, $data);
 		if($masterView !== NULL) {
-			MS_response::overwriteMasterView($masterView);
+			MS_response::overwriteMasterView($masterView, $masterData);
 		}
 	}
 }
@@ -56,7 +58,7 @@ if(!function_exists('dd')) {
 	}
 }
 if(!function_exists('download')) {
-	function download(){
+	function download() {
 		MS_response::download('download');
 
 	}

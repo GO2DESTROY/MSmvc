@@ -5,8 +5,7 @@ namespace controllers;
 use system\helpers\MS_utilization;
 use system\MS_controller;
 
-class example extends MS_controller
-{
+class example {
 	/**
 	 * @return mixed: the html page to return
 	 */

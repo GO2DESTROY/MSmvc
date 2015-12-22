@@ -7,6 +7,7 @@ namespace system;
 
 use system\pipelines\MS_pipeline;
 use system\MS_view;
+
 class MS_core
 {
 	protected $environment;
@@ -14,7 +15,7 @@ class MS_core
 	protected $root;
 
 	function __construct() {
-		set_include_path(get_include_path().PATH_SEPARATOR .$this->root);
+		set_include_path(get_include_path() . PATH_SEPARATOR . $this->root);
 		spl_autoload_register('spl_autoload');
 		$this->loadConfig($this->root);
 
@@ -23,7 +24,7 @@ class MS_core
 	/**
 	 * we load the config files so we know how to handle error's and exceptions
 	 *
-	 * @param $root: the root of our system
+	 * @param $root : the root of our system
 	 */
 	private function loadConfig($root) {
 		MS_pipeline::$root = $root;
@@ -40,16 +41,17 @@ class MS_core
 
 	/**
 	 * this will handle the exceptions
-	 * @param $exception: exception to handle
+	 *
+	 * @param $exception : exception to handle
 	 */
 	public function exceptionHandler(\Exception $exception) {
 		if($this->errorSettings['logs']['log_exceptions']['log'] === TRUE) {
 			$this->addToLog($this->errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
 		}
-		$view = new MS_view;
-		$data = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
-		$view->__set('data', $data);
-		$view->loadView('system/exceptionDump');
+		$view             = new MS_view;
+		$data             = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
+		$view->masterFile = ['view' => 'system/exceptionDump', 'data' => $data];
+		$view->loadMasterView();
 	}
 
 	/**
@@ -95,10 +97,10 @@ class MS_core
 			$this->addToLog($this->errorSettings['logs']['log_errors']['location'], [date("Y-m-d H:i:s"), $errfile, $errline, $type, $errstr]);
 		}
 
-		$data = ['type' => $type, 'message' => $errstr, 'date' => date("Y-m-d H:i:s"), 'location' => $errfile, 'line' => $errline, 'variables' => $errcontext, 'backtrace' => debug_backtrace()];
-		$view = new MS_view;
-		$view->__set('data', $data);
-		$view->loadView('system/errorDump');
+		$data             = ['type' => $type, 'message' => $errstr, 'date' => date("Y-m-d H:i:s"), 'location' => $errfile, 'line' => $errline, 'variables' => $errcontext, 'backtrace' => debug_backtrace()];
+		$view             = new MS_view;
+		$view->masterFile = ['view' => 'system/errorDump', 'data' => $data];
+		$view->loadMasterView();
 	}
 
 	/**
@@ -130,7 +132,7 @@ class MS_core
 	 * @param $line : the line to add to the log
 	 */
 	private function addToLog($file, $line) {
-		$fp = fopen($this->root. $file, 'a');
+		$fp = fopen($this->root . $file, 'a');
 		if(is_array($line)) {
 			foreach($line as $singleWord) {
 				fwrite($fp, $singleWord . ' ');
@@ -138,7 +140,7 @@ class MS_core
 			fwrite($fp, PHP_EOL);
 		}
 		else {
-			fwrite($fp, $line.PHP_EOL);
+			fwrite($fp, $line . PHP_EOL);
 		}
 		fclose($fp);
 	}

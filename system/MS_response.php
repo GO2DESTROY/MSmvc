@@ -27,7 +27,7 @@ class MS_response
 	}
 
 	/**
-	 * we will send a json encoded
+	 * we will send a json encoded response
 	 */
 	public static function json() {
 		self::$responseType = 'json';
@@ -36,10 +36,11 @@ class MS_response
 	/**
 	 * we will overwrite the master view for our response
 	 *
-	 * @param $view : the view to use for overwriting
+	 * @param      $view : the view to use for overwriting
+	 * @param null $data : optional data for the master to use
 	 */
-	public static function overwriteMasterView($view) {
-		self::$responseMaster = $view;
+	public static function overwriteMasterView($view, $data = NULL) {
+		self::$responseMaster = ['view' => $view, 'data' => $data];
 	}
 
 	public static function addViewToCollection($name, $view, $data = NULL) {
@@ -56,6 +57,7 @@ class MS_response
 		switch(self::$responseType) {
 			case 'view':
 				$this->viewResponse();
+				$this->returnViewResponseBody();
 				break;
 			case 'json':
 				$this->jsonResponse();
@@ -91,5 +93,18 @@ class MS_response
 
 	private function jsonResponse() {
 		$this->setHeader(['Content-Type: application/json']);
+	}
+
+	private function returnViewResponseBody() {
+		$reponse = new MS_view();
+		if(self::$responseMaster !== NULL) {
+			// call the master
+			$reponse->masterFile     = self::$responseMaster;
+			$reponse->viewCollection = self::$responseCollection;
+		}
+		else {
+			dd('singleCall');
+			//call single reponse
+		}
 	}
 }
