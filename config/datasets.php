@@ -11,5 +11,6 @@
 	 'database' => 'json', // only php / json is supported
 	 'errors' => 'php',
 	 'session' => 'php',
+	 'bundle' =>'php',
 	 'routes' => 'php'	//currently only php is supported
  ];

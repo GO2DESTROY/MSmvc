@@ -10,6 +10,7 @@ class example {
 	 * @return mixed: the html page to return
 	 */
 	public function index() {
+		view('example','dsaf','a');
 	}
 
 	/**

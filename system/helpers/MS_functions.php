@@ -41,6 +41,7 @@ if(!function_exists('view')) {
 	 */
 	function view($view, $data = NULL, $name = NULL, $masterView = NULL, $masterData = NULL) {
 		MS_response::addViewToCollection($name, $view, $data);
+		MS_response::view();
 		if($masterView !== NULL) {
 			MS_response::overwriteMasterView($masterView, $masterData);
 		}
@@ -61,5 +62,10 @@ if(!function_exists('download')) {
 	function download() {
 		MS_response::download('download');
 
+	}
+}
+if(!function_exists('json')) {
+	function json($data) {
+		MS_response::json($data);
 	}
 }

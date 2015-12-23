@@ -9,7 +9,7 @@ use system\MS_controller;
 use system\pipelines\MS_pipeline;
 use system\pipelines\MS_pipeline_push;
 
-class generate extends MS_controller
+class generate
 {
 	public function generateController($name) {
 		MS_generate::generateController($name);
@@ -21,14 +21,14 @@ class generate extends MS_controller
 
 	public function getGenerateFormPage() {
 		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
-		return $this->view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets]);
+		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets]);
 	}
 
 	public function getGenerateTables($dataBaseConnectionName) {
 		$database = MS_pipeline::returnConfig('database')['connectionSets'][$dataBaseConnectionName]['database'];
 		$tables   = MS_db::connection($dataBaseConnectionName)->query("select table_name as 'tables' from information_schema.tables t where t.table_schema = ?", [$database]);
 
-		return $this->json(['tables' => $tables]);
+		json(['tables' => $tables]);
 	}
 
 	/**

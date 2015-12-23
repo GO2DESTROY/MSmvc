@@ -5,15 +5,15 @@ namespace controllers;
 use system\MS_controller;
 use models\$name$Model;
 
-class $name$ extends MS_controller{
+class $name${
 
 	public function overview() {
 		$resources = $name$Model::retrieveAllResources();
-		return $this->view('$name$Overview',['resources' => $resources]);
+		view('$name$Overview',['resources' => $resources]);
 	}
 
 	public function create() {
-	  return $this->view('$name$Create');
+	    view('$name$Create');
 	}
 
 	public function store() {
@@ -22,12 +22,12 @@ class $name$ extends MS_controller{
 
 	public function show($keys$) {
 	    $resource = $name$Model::retrieveSingleResource($keys$);
-		return $this->view('$name$Show',['resource' => $resource]);
+		view('$name$Show',['resource' => $resource]);
 	}
 
 	public function edit($keys$) {
 	    $resource = $name$Model::retrieveSingleResource($requestDataSet$,$keys$);
-    	return $this->view('$name$Edit',['resource' => $resource]);
+	    view('$name$Edit',['resource' => $resource]);
 	}
 
 	public function update($keys$) {

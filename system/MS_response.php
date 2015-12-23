@@ -4,7 +4,7 @@ namespace system;
 class MS_response
 {
 	private static $responseCollection = [];
-	private static $responseMaster;
+	private static $responseMaster     = NULL;
 	private static $data;
 	private static $responseType;//view|download|json
 	private static $headers            = [];
@@ -28,9 +28,12 @@ class MS_response
 
 	/**
 	 * we will send a json encoded response
+	 *
+	 * @param $data : the array to json_encode
 	 */
-	public static function json() {
+	public static function json($data) {
 		self::$responseType = 'json';
+		self::$data         = $data;
 	}
 
 	/**
@@ -43,6 +46,11 @@ class MS_response
 		self::$responseMaster = ['view' => $view, 'data' => $data];
 	}
 
+	/**
+	 * @param      $name : the name for the refrence
+	 * @param      $view : the view to use
+	 * @param null $data : the data that the view has access to
+	 */
 	public static function addViewToCollection($name, $view, $data = NULL) {
 		if($name === NULL) {
 			$name = 'default';
@@ -56,11 +64,12 @@ class MS_response
 	public function returnResponse() {
 		switch(self::$responseType) {
 			case 'view':
-				$this->viewResponse();
+				$this->viewHeaderResponse();
 				$this->returnViewResponseBody();
 				break;
 			case 'json':
-				$this->jsonResponse();
+				$this->jsonHeaderResponse();
+				echo json_encode(self::$data);
 				break;
 			case 'download':
 				$this->downloadResponse();
@@ -70,6 +79,11 @@ class MS_response
 		}
 	}
 
+	/**
+	 * we will set the headers to the
+	 *
+	 * @param array $defaultHeaders : the default fallback headers to use
+	 */
 	private function setHeader($defaultHeaders = []) {
 		if(self::$headers == NULL) {
 			foreach($defaultHeaders as $header) {
@@ -83,28 +97,35 @@ class MS_response
 		}
 	}
 
+	/**
+	 * we will have a download response we set the header and send the download
+	 */
 	private function downloadResponse() {
 		$this->setHeader(['Content-Type: application/octet-stream', 'Content-Disposition: attachment; filename="' . self::$data . '"']);
 	}
 
-	private function viewResponse() {
+	/**
+	 * we have a view response we set the header for html
+	 */
+	private function viewHeaderResponse() {
 		$this->setHeader(['Content-Type: text/html; charset=utf-8']);
 	}
 
-	private function jsonResponse() {
+	/**
+	 * we have a json response we set the json header
+	 */
+	private function jsonHeaderResponse() {
 		$this->setHeader(['Content-Type: application/json']);
 	}
 
+	/**
+	 * we return the MS_view response body
+	 */
 	private function returnViewResponseBody() {
 		$reponse = new MS_view();
-		if(self::$responseMaster !== NULL) {
-			// call the master
-			$reponse->masterFile     = self::$responseMaster;
-			$reponse->viewCollection = self::$responseCollection;
-		}
-		else {
-			dd('singleCall');
-			//call single reponse
-		}
+
+		MS_view::$viewCollection = self::$responseCollection;
+		MS_view::$masterFile     = self::$responseMaster;
+		$reponse->loadMasterView();
 	}
 }

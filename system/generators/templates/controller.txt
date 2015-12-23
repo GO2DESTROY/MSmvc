@@ -5,7 +5,7 @@ namespace controllers;
 use system\MS_controller;
 use system\blueprints\MS_controllerApiInterface;
 
-class $name$ extends MS_controller  implements MS_controllerApiInterface
+class $name$ implements MS_controllerApiInterface
 {
 	/**
 	 * @return mixed: display a listing of the resource.
