@@ -2,6 +2,13 @@
 use system\MS_response;
 
 if(!function_exists('dumpArray')) {
+	/**
+	 * we transform an array to an ul with li elements
+	 *
+	 * @param $array : the array to dump
+	 *
+	 * @return string: the html string
+	 */
 	function dumpArray($array) {
 		$string = '<ul>';
 		if(is_array($array) || is_object($array)) {
@@ -59,12 +66,22 @@ if(!function_exists('dd')) {
 	}
 }
 if(!function_exists('download')) {
-	function download() {
-		MS_response::download('download');
+	/**
+	 * we will start the download of the file with the right headers
+	 *
+	 * @param $file: the file to download
+	 */
+	function download($file) {
+		MS_response::download($file);
 
 	}
 }
 if(!function_exists('json')) {
+	/**
+	 *  we will setup the json response the right header and then we encode the message
+	 *
+	 * @param $data : the json data to return
+	 */
 	function json($data) {
 		MS_response::json($data);
 	}
