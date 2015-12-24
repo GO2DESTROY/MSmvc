@@ -11,7 +11,7 @@ class MS_request
 	public $requestMethod        = 'GET';
 
 	public $requestRoute;
-	public $requestVariables;
+	public $requestVariables = [];
 
 	private $response;
 
@@ -29,12 +29,8 @@ class MS_request
 		$controllerRequest = explode('@', $this->requestRoute['action']['uses']);
 		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
 		$controller        = new $controllerString;
-		if($this->requestVariables != NULL) {
-			call_user_func_array([$controller, $controllerRequest[1]], $this->requestVariables);
-		}
-		else {
-			$controller->$controllerRequest[1]();
-		}
+
+		call_user_func_array([$controller, $controllerRequest[1]], $this->requestVariables);
 	}
 
 	public function request() {

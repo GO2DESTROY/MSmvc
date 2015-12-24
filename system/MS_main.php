@@ -20,10 +20,11 @@ class MS_main extends MS_core
 	}
 
 	/**
-	 * we let the router run to find the right route to use then we pass it to the request so the controller can be called followed by the response
+	 * we let the router run to find the right route to use then we pass it to the request so the controller can be
+	 * called followed by the response
 	 */
 	public function boot() {
-		$request = new MS_request();
+		$request                   = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
 
 		MS_pipeline::returnConfig('routes');
@@ -36,7 +37,9 @@ class MS_main extends MS_core
 			$router->uri = $this->uri;
 		}
 		$request->requestRoute = $router->matchRequest();
-		$request->requestVariables = $router->variables;
+		if($router->variables !== NULL) {
+			$request->requestVariables = $router->variables;
+		}
 		$request->request();
 	}
 
