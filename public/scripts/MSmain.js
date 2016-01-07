@@ -4,7 +4,7 @@ $(function () {
             url: 'generate/'+$('#databaseConnectionSelector option:selected').html(),
             success: function (data) {
                 var tableSelector =  $('#tableDatabaseSelector');
-                if(data.tables.length > 0)
+                if(typeof data.tables !== 'undefined' && data.tables.length > 0)
                 {
                     tableSelector.prop('disabled', false);
                     tableSelector.html('');

@@ -9,11 +9,11 @@
       "username": "root",
       "password": ""
     },
-    "live": {
+    "ponywebshop": {
       "host": "127.0.0.1",
       "driver": "mysql",
       "port": 3306,
-      "database": "csv_db",
+      "database": "kleding_import",
       "username": "root",
       "password": ""
     },

@@ -8,7 +8,7 @@
   ],
   "homepage": "https://github.com/go2destroy/MSmvc",
   "time": "2015-10-15",
-  "license": "MIT",
+  "license": "Closed source",
   "minimum-stability": "dev",
   "prefer-stable" : true,
   "require": {

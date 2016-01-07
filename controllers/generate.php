@@ -36,7 +36,7 @@ class generate
 	 * problem
 	 */
 	public function submitGenerateFormPage() {
-		if(isset($_REQUEST['database'])) {
+		if(isset($_REQUEST['database']) && !empty( $_REQUEST['databaseTableCollection'])) {
 			foreach($_REQUEST['databaseTableCollection'] as $databaseTable) {
 				$tableColumns = generateModel::getTableColumns($_REQUEST['databaseConnectionReference'], $databaseTable);
 				$tableKeys    = generateModel::getPrimaryKeys($_REQUEST['databaseConnectionReference'], $databaseTable);
@@ -61,6 +61,7 @@ class generate
 					unset($keys);
 				}
 				else {
+					dd('no primary keys found within the table');
 					//return error there are no columns or primary keys within this table
 				}
 				if(isset($_REQUEST['routes'])) {
@@ -78,13 +79,18 @@ class generate
 				}
 			}
 		}
-		else {
+		elseif(isset($_REQUEST['controller']) || isset($_REQUEST['model'])) {
 			if(isset($_REQUEST['controller'])) {
 				MS_generate::generateController($_REQUEST['name']);
 			}
 			if(isset($_REQUEST['model'])) {
 				MS_generate::generateModel($_REQUEST['name']);
 			}
+		}
+		else{
+			dd(500);
+			//todo: send back the generate page with an error
+			//send back to the generate page and error message
 		}
 	}
 

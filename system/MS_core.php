@@ -50,8 +50,7 @@ class MS_core
 		}
 		$view             = new MS_view;
 		$data             = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
-		$view->masterFile = ['view' => 'system/exceptionDump', 'data' => $data];
-		$view->loadMasterView();
+		view('system/exceptionDump', $data);
 	}
 
 	/**
@@ -98,9 +97,7 @@ class MS_core
 		}
 
 		$data             = ['type' => $type, 'message' => $errstr, 'date' => date("Y-m-d H:i:s"), 'location' => $errfile, 'line' => $errline, 'variables' => $errcontext, 'backtrace' => debug_backtrace()];
-		$view             = new MS_view;
-		$view->masterFile = ['view' => 'system/errorDump', 'data' => $data];
-		$view->loadMasterView();
+		view('system/errorDump', $data);
 	}
 
 	/**
