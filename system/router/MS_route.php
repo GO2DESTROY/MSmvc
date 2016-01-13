@@ -33,7 +33,7 @@ class MS_Route
 	}
 
 	/**
-	 * we will respond on  all requests except for the CLI
+	 * we will respond on  all requests except for the CLI this is done because not all things are possible withing the CLI
 	 *
 	 * @param $uri: the uri we use to match on
 	 * @param $action: the action set we take upon a match

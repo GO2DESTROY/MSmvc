@@ -48,7 +48,6 @@ class MS_url
 		$this->uri = implode('/', $this->uriParts);
 	}
 
-
 	/**
 	 * @param      $name       : the name of the url to use
 	 * @param null $properties : the properties to replace the url variables with

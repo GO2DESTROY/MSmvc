@@ -6,7 +6,6 @@
 namespace system;
 
 use system\pipelines\MS_pipeline;
-use system\MS_view;
 
 class MS_core
 {
@@ -48,7 +47,6 @@ class MS_core
 		if($this->errorSettings['logs']['log_exceptions']['log'] === TRUE) {
 			$this->addToLog($this->errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
 		}
-		$view             = new MS_view;
 		$data             = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
 		view('system/exceptionDump', $data);
 	}

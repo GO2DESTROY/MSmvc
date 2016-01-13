@@ -6,7 +6,7 @@ use system\pipelines\MS_pipeline;
 
 class MS_db
 {
-	private        $collectionSetReference;
+	private        $collectionSetReference;//the data connection set that we reference to by unique names
 	private        $collectionSet;
 	private static $configSet;
 	private static $pdoCollection;
