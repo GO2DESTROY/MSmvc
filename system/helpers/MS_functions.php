@@ -73,7 +73,6 @@ if(!function_exists('download')) {
 	 */
 	function download($file) {
 		MS_response::download($file);
-
 	}
 }
 if(!function_exists('json')) {
