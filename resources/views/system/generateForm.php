@@ -16,16 +16,43 @@
 			<form method="post" id="form1" action="/generate">
 				<p>Please make a choice what you wish to generate</p>
 
-				<div class="form-group">
-					<label class="checkbox-inline">
-						<input type="checkbox" name="controller" class="generateCheckbox" value="true" checked> Controller
-					</label>
-					<label class="checkbox-inline">
-						<input type="checkbox" name="model" class="generateCheckbox" value="true" checked> Model
-					</label>
-					<label class="checkbox-inline">
-						<input type="checkbox" name="database" class="generateCheckbox" value="true"> Generate based on a database table
-					</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="radio">
+								<label>
+									<input type="radio" name="generateMethod" id="generateDataFirstRadio" value="data" checked>
+									Generate data first
+								</label>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="controller" class="generateCheckbox" value="true" checked>
+								Controller
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="model" class="generateCheckbox" value="true" checked> Model
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="database" class="generateCheckbox" value="true"> Generate
+								based
+								on a database table
+							</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="radio">
+								<label>
+									<input type="radio" name="generateMethod" id="generateCodeFirstRadio" value="code">
+									Generate code first
+								</label>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="controller" class="generateCheckbox" value="true" disabled>
+								Table
+							</label>
+						</div>
+					</div>
 				</div>
 				<div class="form-group" id="normalSelectionHolder">
 					<label for="fileNameInputField">Name</label>

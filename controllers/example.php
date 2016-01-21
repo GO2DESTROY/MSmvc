@@ -4,13 +4,14 @@ namespace controllers;
 
 use system\helpers\MS_utilization;
 use system\MS_controller;
+use system\pipelines\MS_pipeline;
 
 class example {
 	/**
 	 * @return mixed: the html page to return
 	 */
 	public function index() {
-		view('example','dsaf','a');
+		dd(MS_pipeline::getClassesWithinDirectory('models'));
 	}
 
 	/**
