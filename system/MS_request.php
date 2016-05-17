@@ -21,7 +21,7 @@ class MS_request
 	 * we will prepare the response when the request is started that way we can change it at any point
 	 */
 	function __construct() {
-		MS_pipeline::includeFile('sysetm' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'MS_functions');
+		MS_pipeline::includeFile('system' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'MS_functions');
 		$this->response = new MS_response();
 	}
 
