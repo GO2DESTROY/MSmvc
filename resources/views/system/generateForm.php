@@ -14,6 +14,7 @@
 							first
 						</label>
 
+<<<<<<< HEAD
 						<label class="radio-inline" for="databaseRadio">
 							<input id="databaseRadio" data-target="#databasetab" type="radio" name="generatorType"
 								   class="generatorRadio" value="database">Database
@@ -44,6 +45,61 @@
 							<label for="fileNameInputField">Name</label>
 							<input type="text" class="form-control" name="name" id="fileNameInputField"
 								   placeholder="Name">
+=======
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="radio">
+								<label>
+									<input type="radio" name="generateMethod" id="generateDataFirstRadio" value="data" checked>
+									Generate data first
+								</label>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="controller" class="generateCheckbox" value="true" checked>
+								Controller
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="model" class="generateCheckbox" value="true" checked> Model
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="database" class="generateCheckbox" value="true"> Generate
+								based
+								on a database table
+							</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="radio">
+								<label>
+									<input type="radio" name="generateMethod" id="generateCodeFirstRadio" value="code">
+									Generate code first
+								</label>
+							</div>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="controller" class="generateCheckbox" value="true" disabled>
+								Table
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" id="normalSelectionHolder">
+					<label for="fileNameInputField">Name</label>
+					<input type="text" class="form-control" name="name" id="fileNameInputField" placeholder="Name">
+				</div>
+				<div class="form-group" id="databaseSelectionHolder" style="display: none;">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="databaseConnectionSelector">Database connection set</label>
+							<select id="databaseConnectionSelector" class="form-control" name="databaseConnectionReference" form="form1">
+								<option selected value="null" disabled>Please select a connection set</option>
+								<?php foreach($connectionSets as $name => $connectionSet) {
+									echo '<option value="' . $name . '">' . $name . '</option>';
+								}
+								?>
+							</select>
+>>>>>>> origin/development
 						</div>
 						<div role="tabpanel" class="tab-pane fade" id="databasetab">
 							<div class="form-group" id="databaseSelectionHolder">

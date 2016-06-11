@@ -18,12 +18,25 @@ class generate
 		MS_generate::generateModel($name);
 	}
 
+	/**
+	 * we will return the generateFormPage
+	 */
 	public function getGenerateFormPage() {
+		$modelCollectionSet     = MS_pipeline::getClassesWithinDirectory('models');
 		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
+<<<<<<< HEAD
 		$models = MS_pipeline::returnFilesAndDirectories('models');
 		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'models'=>$models]);
+=======
+		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'modelSet' => $modelCollectionSet]);
+>>>>>>> origin/development
 	}
 
+	/**
+	 * we will return all the tables within a database
+	 *
+	 * @param $dataBaseConnectionName : the database connectionSet
+	 */
 	public function getGenerateTables($dataBaseConnectionName) {
 		$database = MS_pipeline::returnConfig('database')['connectionSets'][$dataBaseConnectionName]['database'];
 		$tables   = MS_db::connection($dataBaseConnectionName)->query("select table_name as 'tables' from information_schema.tables t where t.table_schema = ?", [$database]);
@@ -36,7 +49,7 @@ class generate
 	 * problem
 	 */
 	public function submitGenerateFormPage() {
-		if(isset($_REQUEST['database']) && !empty( $_REQUEST['databaseTableCollection'])) {
+		if(isset($_REQUEST['database']) && !empty($_REQUEST['databaseTableCollection'])) {
 			foreach($_REQUEST['databaseTableCollection'] as $databaseTable) {
 				$tableColumns = generateModel::getTableColumns($_REQUEST['databaseConnectionReference'], $databaseTable);
 				$tableKeys    = generateModel::getPrimaryKeys($_REQUEST['databaseConnectionReference'], $databaseTable);
@@ -87,7 +100,7 @@ class generate
 				MS_generate::generateModel($_REQUEST['name']);
 			}
 		}
-		else{
+		else {
 			dd(500);
 			//todo: send back the generate page with an error
 			//send back to the generate page and error message
