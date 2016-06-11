@@ -1,7 +1,6 @@
 <?php
-namespace system\helpers;
+namespace system\databases;
 
-use blueprints\MS_mainInterface;
 use system\pipelines\MS_pipeline;
 
 class MS_db
@@ -11,42 +10,20 @@ class MS_db
 	private static $configSet;
 	private static $pdoCollection;
 
-	//public  $connectionSet;
-	function __construct() {
+	/**
+	 * MS_db constructor.
+	 *
+	 * we will load the config settings and set the default settings
+	 */
+	function __construct(string $connectionName = NULL) {
+
+			$connection = new MS_databaseConnection($connectionName);
+
 		$this->loadConfig();
 		$this->defaultSetter();
 	}
 
-	/**
-	 * we load the database config file
-	 */
-	private function loadConfig() {
-		if(empty(self::$configSet)) {
-			self::$configSet = MS_pipeline::returnConfig('database');    //we load this once
-		}
-	}
-
-	/**
-	 *    we set the default settings to use
-	 */
-	private function defaultSetter() {
-		$this->collectionSetReference = self::$configSet['defaultConnectionSet'];
-	}
-
-	/**
-	 *    we set the collection depending on the reference
-	 */
-	private function collectionSetter() {
-		$this->collectionSet = self::$configSet['connectionSets'][$this->collectionSetReference];    //this line might give an error in some IDEs however it is not
-	}
-
-	/**
-	 * we make a PDO connection we the given settings
-	 */
-	private function setUpConnection() {
-		$connection                                         = $this->collectionSet['driver'] . ":dbname=" . $this->collectionSet['database'] . ";host=" . $this->collectionSet['host'] . ";port=" . $this->collectionSet['port'];
-		self::$pdoCollection[$this->collectionSetReference] = new \PDO($connection, $this->collectionSet['username'], $this->collectionSet['password']);
-	}
+	
 
 	/**
 	 *    we check if we have already a connection if not we create it
@@ -68,7 +45,7 @@ class MS_db
 	 * @return MS_db: we return the MS_db class
 	 */
 	public static function connection($connectionSetReference = NULL) {
-		$connection = new MS_db();
+		$connection = new MS_databaseConnection();
 		if(!is_null($connectionSetReference)) {
 			$connection->collectionSetReference = $connectionSetReference;
 		}

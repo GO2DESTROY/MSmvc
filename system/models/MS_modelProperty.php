@@ -1,23 +1,23 @@
 <?php
 
 namespace system\models;
-class MS_modelProperty{
+
+class MS_modelProperty {
 	public $name;
-	private $property;
+	public $property;
+
 	/**
-	 * @param $property: this will set the property if the property is valid
+	 * @param $property : this will set the property if the property is valid
 	 */
 	public function __construct($property){
 		$this->property = $property;
 		$this->validateProperty();
 	}
 
-	/**
-	 *
-	 */
 	public function validateProperty(){
-		/**todo: We will match all properties against a list of known properties and a list of custom properties custom meaning a relation to another table
-		verder lijst maken van alle pr
-		 */
+		if (!is_subclass_of($this->property, 'system\models\properties\MS_property')) {
+
+			throw new \Exception("The property doesn't extend the MS_property class");
+		}
 	}
 }

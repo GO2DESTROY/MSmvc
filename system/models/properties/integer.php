@@ -1,7 +1,7 @@
 <?php
 namespace system\models\properties;
 
-class varchar extends MS_property{
+class integer extends MS_property {
 
 	/**
 	 * @return bool
@@ -9,10 +9,10 @@ class varchar extends MS_property{
 	 */
 
 	function validateProperty(){
-		if(is_string(strval($this->value))){
+		if (is_int(intval($this->value))) {
 			return true;
 		}
-		else{
+		else {
 			throw new \Exception('the property is invalid');
 		}
 		// TODO: Implement validateProperty() method.

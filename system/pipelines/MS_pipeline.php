@@ -46,6 +46,14 @@ class MS_pipeline
 			return $this->connectToDataHandler();
 		}
 	}
+	public static function executeAndReturnFileContent($file, array $data = null){
+		if(is_array($data)) {
+			extract($data, EXTR_SKIP);
+		}
+		ob_start();
+		include $file;
+		return ob_get_clean();
+	}
 
 	private function connectToDataHandler() {
 		switch($this->requestTypeHandler) {
@@ -75,6 +83,14 @@ class MS_pipeline
 	private function openDataBaseFile() {
 		return 42; //no need to cache the dataConnecter since MS_database already does this
 	}
+	public static function returnPhpFileContent($location){
+		return file_get_contents(self::$root.$location.'.php');
+	}
+	public static function returnFilesAndDirectories($location){
+		return array_diff(scandir(self::$root.$location), array('..', '.'));
+	}
 // todo: make a pipeline sublayer to interacte with data providers
 // todo: database config files support
+	//todo: improve the include location
+	//todo: add folder inclusion
 }

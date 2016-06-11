@@ -8,7 +8,7 @@
  */
  return [
 	 'config' => 'php',
-	 'database' => 'json', // only php / json is supported
+	 'database' => 'php', // only php / json is supported
 	 'errors' => 'php',
 	 'session' => 'php',
 	 'bundle' =>'php',

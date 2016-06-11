@@ -1,7 +1,7 @@
 $(function () {
     $('#databaseConnectionSelector').on('change', function () {
         jQuery.ajax({
-            url: 'generate/'+$('#databaseConnectionSelector option:selected').html(),
+            url: 'generate/table/'+$('#databaseConnectionSelector option:selected').html(),
             success: function (data) {
                 var tableSelector =  $('#tableDatabaseSelector');
                 if(typeof data.tables !== 'undefined' && data.tables.length > 0)
@@ -22,21 +22,29 @@ $(function () {
         });
     });
 
-    $('.generateCheckbox').on('click',function(){
-       if($(this).attr('name') =='database')
-       {
-           var databaseSelectionHolder = $('#databaseSelectionHolder');
-           var normalSelectionHolder = $('#normalSelectionHolder');
-           if($(this).is(':checked'))
-           {
-               databaseSelectionHolder.show();
-               normalSelectionHolder.hide();
-           }
-           else
-           {
-               databaseSelectionHolder.hide();
-               normalSelectionHolder.show();
-           }
-       }
+    $('.generatorRadio').on('click',function(e){
+        $(this).tab('show');
     });
 });
+//todo: inplement on click model explorer 
+//http://msmvc.local.nl/generate/model/gebruikersModel
+function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+//var str = JSON.stringify(obj, undefined, 4);

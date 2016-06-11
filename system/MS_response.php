@@ -3,7 +3,7 @@
 namespace system;
 class MS_response
 {
-	private static $responseCollection = [];
+	private static $responseCollection ;
 	private static $responseMaster     = NULL;
 	private static $data;
 	private static $responseType;//view|download|json
@@ -40,22 +40,17 @@ class MS_response
 	 * we will overwrite the master view for our response
 	 *
 	 * @param      $view : the view to use for overwriting
-	 * @param null $data : optional data for the master to use
 	 */
-	public static function overwriteMasterView($view, $data = NULL) {
-		self::$responseMaster = ['view' => $view, 'data' => $data];
+	public static function overwriteMasterView($view) {
+		self::$responseMaster = ['view' => $view];
 	}
 
 	/**
-	 * @param      $name : the name for the refrence
-	 * @param      $view : the view to use
-	 * @param null $data : the data that the view has access to
+	 * @param string     $view : the view to use
+	 * @param array|null $data : the data that the view has access to
 	 */
-	public static function addViewToCollection($name, $view, $data = NULL) {
-		if($name === NULL) {
-			$name = 'default';
-		}
-		self::$responseCollection[$name] = ['view' => $view, 'data' => $data];
+	public static function addViewToCollection( string $view, array $data = NULL) {
+		self::$responseCollection = ['view' => $view, 'data' => $data];
 	}
 
 	/**
@@ -122,10 +117,10 @@ class MS_response
 	 * we return the MS_view response body
 	 */
 	private function returnViewResponseBody() {
-		$reponse = new MS_view();
+		$response = new MS_view();
 
-		MS_view::$viewCollection = self::$responseCollection;
-		MS_view::$masterFile     = self::$responseMaster;
-		$reponse->loadMasterView();
+		MS_view::$view = self::$responseCollection;
+		MS_view::$layout     = self::$responseMaster;
+		$response->loadView();
 	}
 }

@@ -5,7 +5,6 @@ namespace controllers;
 use models\generateModel;
 use system\generators\MS_generate;
 use system\helpers\MS_db;
-use system\MS_controller;
 use system\pipelines\MS_pipeline;
 use system\pipelines\MS_pipeline_push;
 
@@ -21,7 +20,8 @@ class generate
 
 	public function getGenerateFormPage() {
 		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
-		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets]);
+		$models = MS_pipeline::returnFilesAndDirectories('models');
+		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'models'=>$models]);
 	}
 
 	public function getGenerateTables($dataBaseConnectionName) {
@@ -92,6 +92,13 @@ class generate
 			//todo: send back the generate page with an error
 			//send back to the generate page and error message
 		}
+	}
+	public function requestModelContent($modelName){
+		$modelString  = DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . $modelName;
+		$requestModel        = new $modelString;
+
+		$modelData = $requestModel->getModelStructure();
+		return json($modelData);
 	}
 
 }

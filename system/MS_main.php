@@ -30,7 +30,7 @@ class MS_main extends MS_core
 		MS_pipeline::returnConfig('routes');
 
 		$router                       = new MS_router();
-		$router->routes               = MS_route::returnRouteCollection();
+		$router->routes               = MS_Route::returnRouteCollection();
 		$router->currentRequestMethod = $this->currentRequestMethod;
 
 		if($this->currentRequestMethod !== 'CLI') {

@@ -29,28 +29,17 @@ if(!function_exists('dumpArray')) {
 		return $string;
 	}
 }
-if(!function_exists('masterView')) {
-	/**
-	 * @param $view : the view to set as the master-view
-	 * @param $data : the data to use for the view
-	 */
-	function masterView($view, $data) {
-		MS_response::overwriteMasterView($view, $data);
-	}
-}
 if(!function_exists('view')) {
 	/**
 	 * @param      $view       : the view to send
 	 * @param null $data       : the data to use for the view
-	 * @param null $name       : name to use for this view to overwrite the section
 	 * @param null $masterView : master to overwrite
-	 * @param null $masterData : master data to overwrite
 	 */
-	function view($view, $data = NULL, $name = NULL, $masterView = NULL, $masterData = NULL) {
-		MS_response::addViewToCollection($name, $view, $data);
+	function view($view, $data = NULL,  $masterView = NULL) {
+		MS_response::addViewToCollection($view, $data);
 		MS_response::view();
 		if($masterView !== NULL) {
-			MS_response::overwriteMasterView($masterView, $masterData);
+			MS_response::overwriteMasterView($masterView);
 		}
 	}
 }
@@ -83,5 +72,27 @@ if(!function_exists('json')) {
 	 */
 	function json($data) {
 		MS_response::json($data);
+	}
+}
+if(!function_exists('renderBody')) {
+	/**
+	 * This method will be used to render the body inside the layout
+	 */
+	function renderBody(){
+		echo \system\MS_view::$viewHtml;
+	}
+}
+if(!function_exists('layout')) {
+	/**
+	 * This method is used to identify the correct layout
+	 * @param string $layoutName: layout to use
+	 */
+	function layout(string $layoutName){
+		\system\MS_view::$layout = $layoutName;
+	}
+}
+if(!function_exists('partial')){
+	function partial(string $viewName){
+		\system\MS_view::loadPartial('partials'.DIRECTORY_SEPARATOR.$viewName);
 	}
 }

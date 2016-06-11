@@ -19,14 +19,15 @@
  * as: holds the name of the controller so you can use the name to call a controller.
  * parameters: the parameters to be used for the request only used by the cli method
  */
-use system\router\MS_route;
+use system\router\MS_Route;
 
-MS_route::any('/', ['uses' => 'example@index', 'as' => 'home']);
-MS_route::any('/phpunit', ['uses' => 'example@phpUnit', 'as' => 'home']);
+MS_Route::any('/', ['uses' => 'example@index', 'as' => 'home']);
+MS_Route::any('/phpunit', ['uses' => 'example@phpUnit', 'as' => 'home']);
 
-MS_route::get('/generate', ['uses' => 'generate@getGenerateFormPage', 'as' => 'generateFormPage']);
-MS_route::post('/generate', ['uses' => 'generate@submitGenerateFormPage', 'as' => 'submitGenerateFormPage']);
-MS_route::get('/generate/{id}', ['uses' => 'generate@getGenerateTables', 'as' => 'generateFormPage']);
+MS_Route::get('/generate', ['uses' => 'generate@getGenerateFormPage', 'as' => 'generateFormPage']);
+MS_Route::post('/generate', ['uses' => 'generate@submitGenerateFormPage', 'as' => 'submitGenerateFormPage']);
+MS_Route::get('/generate/table/{id}', ['uses' => 'generate@getGenerateTables', 'as' => 'generateFormPage']);
+MS_Route::get('/generate/model/{id}',['uses' => 'generate@requestModelContent']);
 
 MS_Route::any('/test',['uses' => 'tableControllerName@index']);
 

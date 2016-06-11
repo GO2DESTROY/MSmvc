@@ -32,9 +32,9 @@ class MS_core
 		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
 			$errorFile           = MS_pipeline::returnConfig('errors');
 			$this->errorSettings = $errorFile[$this->environment];
-			set_exception_handler([$this, 'exceptionHandler']);
-			set_error_handler([$this, 'errorHandler']);
-			register_shutdown_function([$this, 'fatal_handler']);
+	//		set_exception_handler([$this, 'exceptionHandler']);
+//			set_error_handler([$this, 'errorHandler']);
+	//		register_shutdown_function([$this, 'fatal_handler']);
 		}
 	}
 
