@@ -20,7 +20,7 @@ class MS_databaseResource {
 	}
 
 	/**
-	 * @param string $defaultConnection: this will set the defaultConnection to use
+	 * @param string $defaultConnection : this will set the defaultConnection to use
 	 */
 	public static function setDefaultConnection(string $defaultConnection){
 		self::$defaultConnection = $defaultConnection;
@@ -35,10 +35,10 @@ class MS_databaseResource {
 
 	//this will be used for the database resource same like the route
 	public static function create(array $settings){
-		if (!empty($settings['name'])&& !empty($settings['settings'])) {
+		if (!empty($settings['name']) && !empty($settings['settings'])) {
 			$dataBaseResourceSet[$settings['name']] = $settings['settings'];
 		}
-		else{
+		else {
 			throw new \Exception('there is no name for this connection');
 		}
 	}
