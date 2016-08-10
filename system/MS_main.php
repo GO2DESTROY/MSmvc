@@ -36,11 +36,12 @@ class MS_main extends MS_core
 		$controllerRequest = explode('@', $route['action']['uses']);
 		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
 		$controller        = new $controllerString;
+
 		if($request->variables != NULL) {
 			return call_user_func_array([$controller, $controllerRequest[1]], $request->variables);
 		}
 		else {
-			return $controller->$controllerRequest[1]();
+			return call_user_func([$controller, $controllerRequest[1]]);
 		}
 	}
 
