@@ -22,6 +22,7 @@ class MS_databaseConnection {
 				MS_pipeline::returnConfig('database');
 				self::$databaseConnectionsDetails = MS_databaseResource::getDataBaseResourceSet();
 			}
+			//pick the right resource 
 			self::$databaseConnectionsCollection[$resource] = $this->setUpConnection();
 		}
 

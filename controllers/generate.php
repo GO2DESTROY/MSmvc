@@ -24,12 +24,11 @@ class generate
 	public function getGenerateFormPage() {
 		$modelCollectionSet     = MS_pipeline::getClassesWithinDirectory('models');
 		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
-<<<<<<< HEAD
+
 		$models = MS_pipeline::returnFilesAndDirectories('models');
 		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'models'=>$models]);
-=======
 		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'modelSet' => $modelCollectionSet]);
->>>>>>> origin/development
+
 	}
 
 	/**
