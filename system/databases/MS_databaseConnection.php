@@ -15,7 +15,7 @@ class MS_databaseConnection {
 	 */
 	public function __construct(string $resource, bool $forceNewConnection = false){
 		if (!empty(self::$databaseConnectionsCollection[$resource]) && $forceNewConnection === false) {
-			return self::$databaseConnectionsCollection[$resource];
+			self::$databaseConnectionsCollection[$resource];
 		}
 		else {
 			if(empty(self::$databaseConnectionsDetails)) {
