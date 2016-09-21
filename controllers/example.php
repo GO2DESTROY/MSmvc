@@ -10,8 +10,6 @@ class example {
 	 * @return mixed: the html page to return
 	 */
 	public function index(){
-		MS_databaseResource::create(['name' => 'test', 'settings' => ['host' => '127.0.0.1', 'driver' => 'mysql', 'port' => 3306, 'database' => 'test', 'username' => 'root', 'password' => '']]);
-		//var_dump(MS_databaseResource::getDataBaseResourceSet());
-		echo('it works');
+	dd(array_sum([7,7,8,11,15]));
 	}
 }
