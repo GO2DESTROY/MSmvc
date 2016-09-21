@@ -10,6 +10,6 @@ class example {
 	 * @return mixed: the html page to return
 	 */
 	public function index(){
-	dd(array_sum([7,7,8,11,15]));
+
 	}
 }
