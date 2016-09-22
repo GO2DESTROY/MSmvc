@@ -7,6 +7,7 @@ class integer extends MS_property {
 	 * @return bool
 	 * @throws \Exception
 	 */
+	public $autoIncrement;
 
 	function validateProperty(){
 		if (is_int(intval($this->value))) {
