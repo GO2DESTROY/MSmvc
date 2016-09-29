@@ -1,14 +1,15 @@
 <?php
 namespace system\models\properties;
 
+/**
+ * Class integer
+ * @package system\models\properties
+ */
 class integer extends MS_property {
-
 	/**
 	 * @return bool
 	 * @throws \Exception
 	 */
-	public $autoIncrement;
-
 	function validateProperty(){
 		if (is_int(intval($this->value))) {
 			return true;
@@ -16,6 +17,5 @@ class integer extends MS_property {
 		else {
 			throw new \Exception('the property is invalid');
 		}
-		// TODO: Implement validateProperty() method.
 	}
 }

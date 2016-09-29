@@ -12,10 +12,10 @@
   "minimum-stability": "dev",
   "prefer-stable" : true,
   "require": {
-    "php": ">=5.4.0"
+    "php": ">=7.0.0"
   },
   "require-div":{
-    "phpunit/phpunit": "~5.0"
+    "phpunit/phpunit": "~5.5"
   },
   "authors": [
     {

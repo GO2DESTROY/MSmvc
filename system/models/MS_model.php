@@ -4,6 +4,10 @@ namespace system\models;
 
 use system\models\properties\MS_property;
 
+/**
+ * Class MS_model: this is the model class to be extended of the model
+ * @package system\models
+ */
 class MS_model {
 	protected $dataBaseConnection = NULL;
 	private $fieldCollection;

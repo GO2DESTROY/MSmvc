@@ -2,6 +2,10 @@
 
 namespace system\models;
 
+/**
+ * Class MS_modelProperty: this class defines the requirements for properties of the database
+ * @package system\models
+ */
 class MS_modelProperty {
 	public $name;
 	public $property;

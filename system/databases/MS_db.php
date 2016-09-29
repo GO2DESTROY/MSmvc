@@ -1,10 +1,19 @@
 <?php
 namespace system\databases;
 
+/**
+ * Class MS_db
+ * @package system\databases
+ */
 class MS_db {
 
 	private $connection;
-//todo: run all the connections to be added or created
+
+	/**
+	 * MS_db constructor.
+	 * @param string|NULL $connectionName: connection to be used otherwise default will be used
+	 * @throws \Exception: The default connection is not specified.
+	 */
 	function __construct(string $connectionName = NULL) {
 		if(!empty($connectionName)) {
 			$this->connection = MS_databaseConnection::getDatabaseConnectionsCollections($connectionName);

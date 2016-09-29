@@ -9,6 +9,11 @@ use system\pipelines\MS_pipeline;
 use system\router\MS_Route;
 use system\router\MS_router;
 
+/**
+ * Class MS_main
+ * @package system: MSmvc main
+ * @author Maurice Schurink
+ */
 class MS_main extends MS_core
 {
 	public $currentRequestMethod = NULL;
