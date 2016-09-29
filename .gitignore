@@ -11,8 +11,10 @@ controllers/*
 models/*
 logs/*
 README.md
+composer.lock
 
 !/controllers/example.php
 !/controllers/generate.php
 !/models/generateModel.php
 !*.gitkeep
+output/
