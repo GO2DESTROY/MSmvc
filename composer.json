@@ -8,13 +8,18 @@
   ],
   "homepage": "https://github.com/go2destroy/MSmvc",
   "time": "2015-10-15",
-  "license": "Closed source",
+  "license": "Apache-2.0",
   "minimum-stability": "dev",
-  "prefer-stable" : true,
+  "prefer-stable": true,
   "require": {
     "php": ">=7.0.0"
   },
-  "require-div":{
+  "autoload": {
+    "psr-4": {
+      "MSmvc\\": "app/"
+    }
+  },
+  "require-div": {
     "phpunit/phpunit": "~5.5"
   },
   "authors": [

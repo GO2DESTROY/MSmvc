@@ -1,0 +1,18 @@
+2016-08-10 14:31:10 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:31:10 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:03 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:03 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:03 C:\xampp\htdocs\MSmvc\system\MS_main.php 44 Unkown Array to string conversion 
+2016-08-10 14:32:03 C:\xampp\htdocs\MSmvc\system\MS_main.php 44 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:04 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:04 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:04 C:\xampp\htdocs\MSmvc\system\MS_main.php 44 Unkown Array to string conversion 
+2016-08-10 14:32:04 C:\xampp\htdocs\MSmvc\system\MS_main.php 44 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:10 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:10 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:11 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:11 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:12 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:12 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 
+2016-08-10 14:32:13 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Array to string conversion 
+2016-08-10 14:32:13 C:\xampp\htdocs\MSmvc\system\MS_main.php 43 Unkown Undefined property: controllers\generate::$Array 

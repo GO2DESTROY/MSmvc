@@ -3,7 +3,7 @@
  * this is the core of the system currently it contains the spl autoloader to make sure it works everywhere
  * same goes for the error and exception handler
 */
-namespace system;
+namespace MSmvc\system;
 
 use system\pipelines\MS_pipeline;
 
@@ -14,10 +14,7 @@ class MS_core
 	protected $root;
 
 	function __construct() {
-		set_include_path(get_include_path() . PATH_SEPARATOR . $this->root);
-		spl_autoload_register('spl_autoload');
 		$this->loadConfig($this->root);
-
 	}
 
 	/**

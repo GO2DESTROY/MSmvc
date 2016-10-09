@@ -1,6 +1,6 @@
 <?php
 
-namespace system;
+namespace MSmvc\system;
 class MS_response
 {
 	private static $responseCollection ;
