@@ -19,7 +19,7 @@ class MS_databaseResource {
 	 */
 	public static function getDefaultConnectionName() {
 		if(empty(self::$dataBaseResourceSet)){
-			MS_pipeline::returnConfig('database');
+			MS_pipeline::getConfigFileContent('database');
 		}
 		return self::$defaultConnectionName;
 	}

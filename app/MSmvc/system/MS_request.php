@@ -4,6 +4,10 @@ namespace MSmvc\system;
 
 use system\pipelines\MS_pipeline;
 
+/**
+ * Class MS_request
+ * @package MSmvc\system
+ */
 class MS_request
 {
 	public $requestInterface            = 'HTTP';

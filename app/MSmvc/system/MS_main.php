@@ -32,7 +32,7 @@ class MS_main extends MS_core
 		$request                   = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
 
-		MS_pipeline::returnConfig('routes');
+		MS_pipeline::getConfigFileContent('routes');
 
 		$router                       = new MS_router();
 		$router->routes               = MS_Route::returnRouteCollection();

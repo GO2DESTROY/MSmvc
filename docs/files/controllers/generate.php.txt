@@ -23,7 +23,7 @@ class generate
 	 */
 	public function getGenerateFormPage() {
 		$modelCollectionSet     = MS_pipeline::getClassesWithinDirectory('models');
-		$dataBaseConnectionSets = MS_pipeline::returnConfig('database')['connectionSets'];
+		$dataBaseConnectionSets = MS_pipeline::getConfigFileContent('database')['connectionSets'];
 
 		$models = MS_pipeline::returnFilesAndDirectories('models');
 		view('system/generateForm', ['connectionSets' => $dataBaseConnectionSets, 'models'=>$models]);
@@ -37,7 +37,7 @@ class generate
 	 * @param $dataBaseConnectionName : the database connectionSet
 	 */
 	public function getGenerateTables($dataBaseConnectionName) {
-		$database = MS_pipeline::returnConfig('database')['connectionSets'][$dataBaseConnectionName]['database'];
+		$database = MS_pipeline::getConfigFileContent('database')['connectionSets'][$dataBaseConnectionName]['database'];
 		$tables   = MS_db::connection($dataBaseConnectionName)->query("select table_name as 'tables' from information_schema.tables t where t.table_schema = ?", [$database]);
 
 		json(['tables' => $tables]);

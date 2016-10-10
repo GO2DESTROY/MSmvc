@@ -19,7 +19,7 @@ class MS_pipeline {
 		}
 	}
 
-	public static function returnConfig($file, $force = false){
+	public static function getConfigFileContent($file, $force = false){
 		if ($force === true || !isset(self::$configCollections[$file])) {
 			$configData = new MS_pipeline();
 			$configData->requestedDataSet = $file;

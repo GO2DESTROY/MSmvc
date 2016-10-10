@@ -2,6 +2,10 @@
 
 namespace system\pipelines;
 
+/**
+ * Class MS_pipeline
+ * @package system\pipelines
+ */
 class MS_pipeline {
 	public static $dataSets;
 	public static $dataSetsLocation;
@@ -12,6 +16,9 @@ class MS_pipeline {
 	public static $root;
 
 
+	/**
+	 * MS_pipeline constructor.
+	 */
 	function __construct(){
 		if (empty(self::$dataSetsLocation)) {
 			$this->requestedDataSet = 'datasets';
@@ -19,7 +26,12 @@ class MS_pipeline {
 		}
 	}
 
-	public static function returnConfig($file, $force = false){
+	/**
+	 * @param      $file: the file u wish to get the content of
+	 * @param bool $force: if you wish to force to reopen the file defaults to false
+	 * @return mixed: the file content will be returned
+	 */
+	public static function getConfigFileContent($file, $force = false){
 		if ($force === true || !isset(self::$configCollections[$file])) {
 			$configData = new MS_pipeline();
 			$configData->requestedDataSet = $file;
@@ -28,6 +40,11 @@ class MS_pipeline {
 		return self::$configCollections[$file];
 	}
 
+	/**
+	 * @param      $file
+	 * @param bool $force
+	 * @return mixed
+	 */
 	public static function includeFile($file, $force = false){
 		if ($force === true || !isset(self::$fileCollections[$file])) {
 			self::$fileCollections[$file] = include self::$root . $file . '.php';
@@ -35,6 +52,9 @@ class MS_pipeline {
 		return self::$fileCollections[$file];
 	}
 
+	/**
+	 * @return int|mixed
+	 */
 	public function getRequestedData(){
 		if (isset(self::$dataSetsLocation[$this->requestedDataSet])) {
 			return self::$dataSetsLocation[$this->requestedDataSet];
@@ -46,6 +66,11 @@ class MS_pipeline {
 		}
 	}
 
+	/**
+	 * @param            $file
+	 * @param array|NULL $data
+	 * @return string
+	 */
 	public static function executeAndReturnFileContent($file, array $data = NULL){
 		if (is_array($data)) {
 			extract($data, EXTR_SKIP);
@@ -55,6 +80,10 @@ class MS_pipeline {
 		return ob_get_clean();
 	}
 
+	/**
+	 * @param $directory
+	 * @return array
+	 */
 	public static function getClassesWithinDirectory($directory){
 		$dir = new \DirectoryIterator($directory);
 		$filesWithinDirectory = [];
@@ -70,6 +99,10 @@ class MS_pipeline {
 		return $classesWithinDirectory;
 	}
 
+	/**
+	 * @param $file
+	 * @return array
+	 */
 	public static function getClassesWithinFile($file){
 		$php_code = file_get_contents($file);
 		$classes = [];
@@ -85,6 +118,10 @@ class MS_pipeline {
 		return $classes;
 	}
 
+	/**
+	 * @return int|mixed
+	 * @throws \Exception
+	 */
 	private function connectToDataHandler(){
 		switch ($this->requestTypeHandler) {
 			case 'php':
@@ -94,32 +131,22 @@ class MS_pipeline {
 				return $this->openJsonFile();
 				break;
 			default:
-				return $this->openDataBaseFile();
+				throw new \Exception("The datahandler isn't specified");
 		}
 	}
 
-	public static function returnViewFilePath($file){
-		return self::$root . 'resources/views/' . $file . '.php';
-	}
-
+	/**
+	 * @return mixed
+	 */
 	private function openPhpFile(){
 		return include self::$root . '/config/' . $this->requestedDataSet . '.php';
 	}
 
+	/**
+	 * @return mixed
+	 */
 	private function openJsonFile(){
 		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), true);
-	}
-
-	private function openDataBaseFile(){
-		return 42; //no need to cache the dataConnecter since MS_database already does this
-	}
-
-	public static function returnPhpFileContent($location){
-		return file_get_contents(self::$root . $location . '.php');
-	}
-
-	public static function returnFilesAndDirectories($location){
-		return array_diff(scandir(self::$root . $location), ['..', '.']);
 	}
 }
 // todo: make a pipeline sublayer to interacte with data providers

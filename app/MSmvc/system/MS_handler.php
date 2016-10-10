@@ -1,39 +1,18 @@
 <?php
-/*
- * this is the core of the system currently it contains the spl autoloader to make sure it works everywhere
- * same goes for the error and exception handler
-*/
+
 namespace MSmvc\system;
 
-use system\pipelines\MS_pipeline;
+//use system\pipelines\MS_pipeline;
 
-class MS_core
+/**
+ * Class MS_handler
+ * @package MSmvc\system
+ */
+class MS_handler
 {
 	protected $environment;
 	private   $errorSettings;
 	protected $root;
-
-	function __construct() {
-		$this->loadConfig($this->root);
-	}
-
-	/**
-	 * we load the config files so we know how to handle error's and exceptions
-	 *
-	 * @param $root : the root of our system
-	 */
-	private function loadConfig($root) {
-		MS_pipeline::$root = $root;
-		$configFile        = MS_pipeline::returnConfig('config');
-		$this->environment = $configFile['environment'];
-		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
-			$errorFile           = MS_pipeline::returnConfig('errors');
-			$this->errorSettings = $errorFile[$this->environment];
-	//		set_exception_handler([$this, 'exceptionHandler']);
-//			set_error_handler([$this, 'errorHandler']);
-	//		register_shutdown_function([$this, 'fatal_handler']);
-		}
-	}
 
 	/**
 	 * this will handle the exceptions

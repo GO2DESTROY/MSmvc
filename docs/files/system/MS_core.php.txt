@@ -27,10 +27,10 @@ class MS_core
 	 */
 	private function loadConfig($root) {
 		MS_pipeline::$root = $root;
-		$configFile        = MS_pipeline::returnConfig('config');
+		$configFile        = MS_pipeline::getConfigFileContent('config');
 		$this->environment = $configFile['environment'];
 		if($configFile[$this->environment]['error-logging'] == 'MS_handler') {
-			$errorFile           = MS_pipeline::returnConfig('errors');
+			$errorFile           = MS_pipeline::getConfigFileContent('errors');
 			$this->errorSettings = $errorFile[$this->environment];
 	//		set_exception_handler([$this, 'exceptionHandler']);
 //			set_error_handler([$this, 'errorHandler']);

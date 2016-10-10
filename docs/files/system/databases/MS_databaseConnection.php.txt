@@ -21,7 +21,7 @@ class MS_databaseConnection {
 		}
 		else {
 			if(empty(self::$databaseConnectionsDetails)) {
-				MS_pipeline::returnConfig('database');
+				MS_pipeline::getConfigFileContent('database');
 			}
 			self::$databaseConnectionsDetails = MS_databaseResource::getDataBaseResourceSet();
 			self::$databaseConnectionsCollections[$resource] = $this->setUpConnection($resource);

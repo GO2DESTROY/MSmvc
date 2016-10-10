@@ -4,6 +4,10 @@ namespace system;
 
 use system\pipelines\MS_pipeline;
 
+/**
+ * Class MS_view
+ * @package system
+ */
 class MS_view
 {
 	public static  $view;

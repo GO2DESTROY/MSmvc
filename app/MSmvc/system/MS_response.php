@@ -1,6 +1,8 @@
 <?php
 
 namespace MSmvc\system;
+use system\MS_view;
+
 class MS_response
 {
 	private static $responseCollection ;
