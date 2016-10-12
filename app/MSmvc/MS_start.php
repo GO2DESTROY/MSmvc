@@ -7,7 +7,7 @@ namespace MSmvc;
 use MSmvc\system\MS_handler;
 use MSmvc\system\MS_request;
 use MSmvc\system\pipelines\MS_pipeline;
-use MSmvc\system\router\MS_Route;
+use MSmvc\system\router\MS_route;
 use MSmvc\system\router\MS_router;
 
 /**
@@ -23,10 +23,10 @@ class MS_start {
 	 * MS_start constructor.
 	 */
 	public function __construct() {
-		MS_pipeline::$root= dirname(__FILE__) . DIRECTORY_SEPARATOR;
-	//	set_exception_handler([new MS_handler, 'exceptionHandler']);
-	//	set_error_handler([new MS_handler, 'errorHandler']);
-//		register_shutdown_function([new MS_handler, 'fatal_handler']);
+		MS_pipeline::$root = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+		//	set_exception_handler([new MS_handler, 'exceptionHandler']);
+		//	set_error_handler([new MS_handler, 'errorHandler']);
+		//		register_shutdown_function([new MS_handler, 'fatal_handler']);
 	}
 
 	/**
@@ -41,16 +41,12 @@ class MS_start {
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
 
-		foreach(glob("config/*.php") as $filename) {
-			MS_pipeline::getConfigFileContent($filename);
+		foreach(glob(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php') as $filename) {
+			MS_pipeline::getConfigFileContent($filename, 'basic');
 		}
-		//exit();
-		MS_pipeline::getConfigFileContent('routes');
-
 		$router = new MS_router();
-		$router->routes = MS_Route::returnRouteCollection();
+		$router->routes = MS_route::returnRouteCollection();
 		$router->currentRequestMethod = $this->currentRequestMethod;
-
 		if($this->currentRequestMethod !== 'CLI') {
 			$router->uri = $this->uri;
 		}

@@ -1,5 +1,5 @@
 <?php
-use system\MS_response;
+use MSmvc\system\MS_response;
 
 if(!function_exists('dumpArray')) {
 	/**
@@ -49,9 +49,12 @@ if(!function_exists('dd')) {
 	 */
 	function dd($data) {
 		array_map(function ($x) {
+			//todo: check if we are in CLI or HTTP to dump the value
+			//(new Dumper)->dump($x);
 			var_dump($x);
 		}, func_get_args());
-		exit(1);
+
+		die(1);
 	}
 }
 if(!function_exists('download')) {

@@ -2,7 +2,7 @@
 
 use system\MS_main;
 
-require_once '../system/MS_core.php';
+require_once '../system/MS_handler.php';
 require_once '../system/MS_main.php';
 
 class TestCase extends PHPUnit_Framework_TestCase

@@ -5,11 +5,12 @@ namespace MSmvc\system;
 //use system\pipelines\MS_pipeline;
 
 /**
- * Class MS_handler
+ * Class MS_handler: this class will handle all the exception and error's thrown
  * @package MSmvc\system
  */
 class MS_handler
 {
+
 	protected $environment;
 	private   $errorSettings;
 	protected $root;

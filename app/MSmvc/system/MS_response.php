@@ -1,8 +1,12 @@
 <?php
 
 namespace MSmvc\system;
-use system\MS_view;
+use MSmvc\system\MS_view;
 
+/**
+ * Class MS_response
+ * @package MSmvc\system
+ */
 class MS_response
 {
 	private static $responseCollection ;

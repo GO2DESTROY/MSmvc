@@ -1,9 +1,11 @@
 <?php
 
-namespace system\databases;
+namespace MSmvc\system\databases;
 
-use system\pipelines\MS_pipeline;
-
+/**
+ * Class MS_databaseConnection
+ * @package MSmvc\system\databases
+ */
 class MS_databaseConnection {
 	private static $databaseConnectionsCollections = [];
 	private static $databaseConnectionsDetails = [];
@@ -20,9 +22,6 @@ class MS_databaseConnection {
 			self::$databaseConnectionsCollections[$resource];
 		}
 		else {
-			if(empty(self::$databaseConnectionsDetails)) {
-				MS_pipeline::getConfigFileContent('database');
-			}
 			self::$databaseConnectionsDetails = MS_databaseResource::getDataBaseResourceSet();
 			self::$databaseConnectionsCollections[$resource] = $this->setUpConnection($resource);
 		}

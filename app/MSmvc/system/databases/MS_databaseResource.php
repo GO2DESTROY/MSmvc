@@ -6,10 +6,14 @@
  * Time: 11:19
  */
 
-namespace system\databases;
+namespace MSmvc\system\databases;
 
-use system\pipelines\MS_pipeline;
+use MSmvc\system\pipelines\MS_pipeline;
 
+/**
+ * Class MS_databaseResource
+ * @package MSmvc\system\databases
+ */
 class MS_databaseResource {
 	private static $dataBaseResourceSet = [];
 	private static $defaultConnectionName;

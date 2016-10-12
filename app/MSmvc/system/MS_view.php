@@ -1,8 +1,8 @@
 <?php
 
-namespace system;
+namespace MSmvc\system;
 
-use system\pipelines\MS_pipeline;
+use MSmvc\system\pipelines\MS_pipeline;
 
 /**
  * Class MS_view
@@ -14,14 +14,7 @@ class MS_view
 	public static $viewHtml;
 	public static  $layout;
 	private static $bundleCollection;
-
-	function __construct() {
-
-	}
-
-	/**
-	 * the view will be loaded with the data if needed and returns the needed html for the layout
-	 */
+	
 	public function loadView() {
 		//todo: problem with extraction of variables
 		$viewFile = MS_pipeline::returnViewFilePath(self::$view['view']);
@@ -36,6 +29,10 @@ class MS_view
 			echo self::$viewHtml;
 		}
 	}
+
+	/**
+	 * @param string $viewName
+	 */
 	public static function loadPartial(string $viewName){
 		$view = MS_pipeline::returnViewFilePath($viewName);
 		include $view;

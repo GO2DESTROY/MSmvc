@@ -1,6 +1,6 @@
 <?php
-namespace system\databases;
-class  MS_databaseConnectionResource{
+namespace MSmvc\system\databases;
+class  MS_databaseConnectionResource {
 	private $name;
 	private $host;
 	private $database;
@@ -12,98 +12,98 @@ class  MS_databaseConnectionResource{
 	/**
 	 * @return mixed
 	 */
-	public function getName(){
+	public function getName() {
 		return $this->name;
 	}
 
 	/**
 	 * @param mixed $name
 	 */
-	public function setName(string $name){
+	public function setName(string $name) {
 		$this->name = $name;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getHost(){
+	public function getHost() {
 		return $this->host;
 	}
 
 	/**
 	 * @param mixed $host
 	 */
-	public function setHost(string $host){
+	public function setHost(string $host) {
 		$this->host = $host;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getDatabase(){
+	public function getDatabase() {
 		return $this->database;
 	}
 
 	/**
 	 * @param mixed $database
 	 */
-	public function setDatabase(string $database){
+	public function setDatabase(string $database) {
 		$this->database = $database;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getPort(){
+	public function getPort() {
 		return $this->port;
 	}
 
 	/**
 	 * @param int $port
 	 */
-	public function setPort(int $port){
+	public function setPort(int $port) {
 		$this->port = $port;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getDriver(){
+	public function getDriver() {
 		return $this->driver;
 	}
 
 	/**
 	 * @param string $driver
 	 */
-	public function setDriver(string $driver){
+	public function setDriver(string $driver) {
 		$this->driver = $driver;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getPassword(){
+	public function getPassword() {
 		return $this->password;
 	}
 
 	/**
 	 * @param mixed $password
 	 */
-	public function setPassword($password){
+	public function setPassword($password) {
 		$this->password = $password;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getUsername(){
+	public function getUsername() {
 		return $this->username;
 	}
 
 	/**
 	 * @param string $username
 	 */
-	public function setUsername(string $username){
+	public function setUsername(string $username) {
 		$this->username = $username;
 	}
 

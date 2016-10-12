@@ -7,8 +7,7 @@ namespace MSmvc\system\pipelines;
  * @package system\pipelines
  */
 class MS_pipeline {
-	public static $dataSets;
-	public static $dataSetsLocation;
+	public static $dataSets;// the dataset it self
 	public $requestedDataSet;
 	protected $requestTypeHandler;
 	public static $configCollections;
@@ -20,10 +19,7 @@ class MS_pipeline {
 	 * MS_pipeline constructor.
 	 */
 	function __construct() {
-		if(empty(self::$dataSetsLocation)) {
-			$this->requestedDataSet = 'datasets';
-			self::$dataSetsLocation['datasets'] = $this->openPhpFile();
-		}
+
 	}
 
 	public static function includeWholeDirectory($directory, $extension = "php") {
@@ -33,15 +29,18 @@ class MS_pipeline {
 	}
 
 	/**
-	 * @param      $file  : the file u wish to get the content of
-	 * @param bool $force : if you wish to force to reopen the file defaults to false
-	 * @return mixed: the file content will be returned
+	 * @param        $file  : the file u wish to get the content of
+	 * @param string $connectionType
+	 * @param bool   $force : if you wish to force to reopen the file defaults to false
+	 * @return mixed : the file content will be returned
+	 * @throws \Exception
 	 */
-	public static function getConfigFileContent($file, $force = FALSE) {
+	public static function getConfigFileContent($file, string $connectionType = 'php', bool $force = FALSE) {
 		if($force === TRUE || !isset(self::$configCollections[$file])) {
 			$configData = new MS_pipeline();
 			$configData->requestedDataSet = $file;
-			self::$configCollections[$file] = $configData->getRequestedData();
+			$configData->requestTypeHandler = $connectionType;
+			self::$configCollections[$file] = $configData->openDataHandler();
 		}
 		return self::$configCollections[$file];
 	}
@@ -56,19 +55,6 @@ class MS_pipeline {
 			self::$fileCollections[$file] = include self::$root . $file . '.php';
 		}
 		return self::$fileCollections[$file];
-	}
-
-	/**
-	 * @return int|mixed
-	 */
-	public function getRequestedData() {
-		if(isset(self::$dataSetsLocation[$this->requestedDataSet])) {
-			return self::$dataSetsLocation[$this->requestedDataSet];
-		}
-		else {
-			$this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];
-			return $this->connectToDataHandler();
-		}
 	}
 
 	/**
@@ -127,7 +113,7 @@ class MS_pipeline {
 	 * @return int|mixed
 	 * @throws \Exception
 	 */
-	private function connectToDataHandler() {
+	public function openDataHandler() {
 		switch($this->requestTypeHandler) {
 			case 'php':
 				return $this->openPhpFile();
@@ -135,9 +121,18 @@ class MS_pipeline {
 			case 'json':
 				return $this->openJsonFile();
 				break;
+			case 'basic':
+				return $this->basicIncludeFile();
 			default:
 				throw new \Exception("The datahandler isn't specified");
 		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	private function basicIncludeFile() {
+		return include $this->requestedDataSet;
 	}
 
 	/**
@@ -148,12 +143,21 @@ class MS_pipeline {
 	}
 
 	/**
+	 * @param $file
+	 * @return string
+	 */
+	public static function returnViewFilePath($file) {
+		return self::$root . 'resources/views/' . $file . '.php';
+	}
+
+	/**
 	 * @return mixed
 	 */
 	private function openJsonFile() {
 		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
 	}
 }
+
 // todo: make a pipeline sublayer to interacte with data providers
 // todo: database config files support
 /*
