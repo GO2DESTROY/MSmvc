@@ -1,6 +1,6 @@
 <?php
 
-namespace controllers;
+namespace MSmvc\controllers;
 
 use models\generateModel;
 use system\generators\MS_generate;

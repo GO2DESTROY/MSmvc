@@ -1,7 +1,11 @@
 <?php
 
-namespace system\router;
-class MS_Route
+namespace MSmvc\system\router;
+/**
+ * Class MS_route: this class will be used to create new routes
+ * @package MSmvc\system\router
+ */
+class MS_route
 {
 	private static $routeSet;
 	private static $referenceSet;

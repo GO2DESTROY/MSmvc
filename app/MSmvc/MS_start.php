@@ -6,9 +6,9 @@ namespace MSmvc;
 
 use MSmvc\system\MS_handler;
 use MSmvc\system\MS_request;
-use system\pipelines\MS_pipeline;
-use system\router\MS_Route;
-use system\router\MS_router;
+use MSmvc\system\pipelines\MS_pipeline;
+use MSmvc\system\router\MS_Route;
+use MSmvc\system\router\MS_router;
 
 /**
  * Class MS_start: this class will start the framework
@@ -23,9 +23,10 @@ class MS_start {
 	 * MS_start constructor.
 	 */
 	public function __construct() {
-		set_exception_handler([new MS_handler, 'exceptionHandler']);
-		set_error_handler([new MS_handler, 'errorHandler']);
-		register_shutdown_function([new MS_handler, 'fatal_handler']);
+		MS_pipeline::$root= dirname(__FILE__) . DIRECTORY_SEPARATOR;
+	//	set_exception_handler([new MS_handler, 'exceptionHandler']);
+	//	set_error_handler([new MS_handler, 'errorHandler']);
+//		register_shutdown_function([new MS_handler, 'fatal_handler']);
 	}
 
 	/**
@@ -33,9 +34,17 @@ class MS_start {
 	 * called followed by the response
 	 */
 	public function boot() {
+		$this->setRequestMethod();
+		if($this->currentRequestMethod !== 'CLI') {
+			$this->setRequestUri();
+		}
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
 
+		foreach(glob("config/*.php") as $filename) {
+			MS_pipeline::getConfigFileContent($filename);
+		}
+		//exit();
 		MS_pipeline::getConfigFileContent('routes');
 
 		$router = new MS_router();
@@ -61,16 +70,6 @@ class MS_start {
 			$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
 			$uri = '/' . utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
 			$this->uri = $uri;
-		}
-	}
-
-	/**
-	 * @throws \Exception: in case something goes wrong or a route / method isn't defined we throw an exception
-	 */
-	public function index() {
-		$this->setRequestMethod();
-		if($this->currentRequestMethod !== 'CLI') {
-			$this->setRequestUri();
 		}
 	}
 

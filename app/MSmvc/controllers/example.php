@@ -1,6 +1,6 @@
 <?php
 
-namespace controllers;
+namespace MSmvc\controllers;
 
 use system\databases\MS_databaseResource;
 use system\databases\MS_db;

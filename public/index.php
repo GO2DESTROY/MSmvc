@@ -10,5 +10,4 @@ use MSmvc\MS_start;
 require __DIR__ . '/../vendor/autoload.php';
 
 $MS_main = new MS_start();
-$MS_main->index();
 $MS_main->boot();

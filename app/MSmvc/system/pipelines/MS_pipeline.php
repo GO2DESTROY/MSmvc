@@ -1,6 +1,6 @@
 <?php
 
-namespace system\pipelines;
+namespace MSmvc\system\pipelines;
 
 /**
  * Class MS_pipeline
@@ -19,20 +19,26 @@ class MS_pipeline {
 	/**
 	 * MS_pipeline constructor.
 	 */
-	function __construct(){
-		if (empty(self::$dataSetsLocation)) {
+	function __construct() {
+		if(empty(self::$dataSetsLocation)) {
 			$this->requestedDataSet = 'datasets';
 			self::$dataSetsLocation['datasets'] = $this->openPhpFile();
 		}
 	}
 
+	public static function includeWholeDirectory($directory, $extension = "php") {
+		foreach(glob($directory . "/*." . $extension) as $filename) {
+			self::includeFile($filename);
+		}
+	}
+
 	/**
-	 * @param      $file: the file u wish to get the content of
-	 * @param bool $force: if you wish to force to reopen the file defaults to false
+	 * @param      $file  : the file u wish to get the content of
+	 * @param bool $force : if you wish to force to reopen the file defaults to false
 	 * @return mixed: the file content will be returned
 	 */
-	public static function getConfigFileContent($file, $force = false){
-		if ($force === true || !isset(self::$configCollections[$file])) {
+	public static function getConfigFileContent($file, $force = FALSE) {
+		if($force === TRUE || !isset(self::$configCollections[$file])) {
 			$configData = new MS_pipeline();
 			$configData->requestedDataSet = $file;
 			self::$configCollections[$file] = $configData->getRequestedData();
@@ -45,8 +51,8 @@ class MS_pipeline {
 	 * @param bool $force
 	 * @return mixed
 	 */
-	public static function includeFile($file, $force = false){
-		if ($force === true || !isset(self::$fileCollections[$file])) {
+	public static function includeFile($file, $force = FALSE) {
+		if($force === TRUE || !isset(self::$fileCollections[$file])) {
 			self::$fileCollections[$file] = include self::$root . $file . '.php';
 		}
 		return self::$fileCollections[$file];
@@ -55,10 +61,9 @@ class MS_pipeline {
 	/**
 	 * @return int|mixed
 	 */
-	public function getRequestedData(){
-		if (isset(self::$dataSetsLocation[$this->requestedDataSet])) {
+	public function getRequestedData() {
+		if(isset(self::$dataSetsLocation[$this->requestedDataSet])) {
 			return self::$dataSetsLocation[$this->requestedDataSet];
-
 		}
 		else {
 			$this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];
@@ -71,8 +76,8 @@ class MS_pipeline {
 	 * @param array|NULL $data
 	 * @return string
 	 */
-	public static function executeAndReturnFileContent($file, array $data = NULL){
-		if (is_array($data)) {
+	public static function executeAndReturnFileContent($file, array $data = NULL) {
+		if(is_array($data)) {
 			extract($data, EXTR_SKIP);
 		}
 		ob_start();
@@ -84,16 +89,16 @@ class MS_pipeline {
 	 * @param $directory
 	 * @return array
 	 */
-	public static function getClassesWithinDirectory($directory){
+	public static function getClassesWithinDirectory($directory) {
 		$dir = new \DirectoryIterator($directory);
 		$filesWithinDirectory = [];
 		$classesWithinDirectory = [];
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot() && $fileinfo->getFilename() !== '.gitkeep') {
+		foreach($dir as $fileinfo) {
+			if(!$fileinfo->isDot() && $fileinfo->getFilename() !== '.gitkeep') {
 				$filesWithinDirectory[] = $directory . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
 			}
 		}
-		foreach ($filesWithinDirectory as $file) {
+		foreach($filesWithinDirectory as $file) {
 			$classesWithinDirectory[$file] = self::getClassesWithinFile($file);
 		}
 		return $classesWithinDirectory;
@@ -103,13 +108,13 @@ class MS_pipeline {
 	 * @param $file
 	 * @return array
 	 */
-	public static function getClassesWithinFile($file){
+	public static function getClassesWithinFile($file) {
 		$php_code = file_get_contents($file);
 		$classes = [];
 		$tokens = token_get_all($php_code);
 		$count = count($tokens);
-		for ($i = 2; $i < $count; $i++) {
-			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING) {
+		for($i = 2; $i < $count; $i++) {
+			if($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING) {
 
 				$class_name = $tokens[$i][1];
 				$classes[] = $class_name;
@@ -122,8 +127,8 @@ class MS_pipeline {
 	 * @return int|mixed
 	 * @throws \Exception
 	 */
-	private function connectToDataHandler(){
-		switch ($this->requestTypeHandler) {
+	private function connectToDataHandler() {
+		switch($this->requestTypeHandler) {
 			case 'php':
 				return $this->openPhpFile();
 				break;
@@ -138,15 +143,15 @@ class MS_pipeline {
 	/**
 	 * @return mixed
 	 */
-	private function openPhpFile(){
+	private function openPhpFile() {
 		return include self::$root . '/config/' . $this->requestedDataSet . '.php';
 	}
 
 	/**
 	 * @return mixed
 	 */
-	private function openJsonFile(){
-		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), true);
+	private function openJsonFile() {
+		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
 	}
 }
 // todo: make a pipeline sublayer to interacte with data providers

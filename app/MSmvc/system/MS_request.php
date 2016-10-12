@@ -2,7 +2,7 @@
 
 namespace MSmvc\system;
 
-use system\pipelines\MS_pipeline;
+use MSmvc\system\pipelines\MS_pipeline;
 
 /**
  * Class MS_request
@@ -42,12 +42,12 @@ class MS_request
 
 	/**
 	 * This method will start the controller and execute it it's a void method so we don't expect any return values
-	 *
+	 * todo: fix the controller loading current version doesn't support psr-4 fix the namespaces
 	 * The controller should use functions provided by MS_functions to send data to the response object
 	 */
 	private function callController() {
 		$controllerRequest = explode('@', $this->requestRoute['action']['uses']);
-		$controllerString  = DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
+		$controllerString  = 'MSmvc'.DIRECTORY_SEPARATOR.'controllers' . DIRECTORY_SEPARATOR . $controllerRequest[0];
 		$controller        = new $controllerString;
 
 		call_user_func_array([$controller, $controllerRequest[1]], $this->requestVariables);
