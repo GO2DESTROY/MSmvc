@@ -8,12 +8,22 @@ use system\helpers\MS_db;
 use system\pipelines\MS_pipeline;
 use system\pipelines\MS_pipeline_push;
 
+/**
+ * Class generate: this is the base generate controller it will handle the generate requests
+ * @package MSmvc\controllers
+ */
 class generate
 {
+	/**
+	 * @param $name: the name of the controller to generate
+	 */
 	public function generateController($name) {
 		MS_generate::generateController($name);
 	}
 
+	/**
+	 * @param $name: the name of the model to generate
+	 */
 	public function generateModel($name) {
 		MS_generate::generateModel($name);
 	}

@@ -3,11 +3,9 @@
 /*
  * todo: allow for multiple layers and get photoshop functionality
  */
-namespace system\helpers;
+namespace MSmvc\system\helpers;
 
-use blueprints\MS_mainInterface;
-
-class MS_image implements MS_mainInterface
+class MS_image
 {
 	private $mainImage;    //GD image
 	private $mainImageSize;    //image sizes
@@ -15,7 +13,6 @@ class MS_image implements MS_mainInterface
 	private $mainColor;
 
 	function __construct() {
-		parent::__construct();
 		$this->setFont('default');
 	}
 
