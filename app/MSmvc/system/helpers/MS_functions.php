@@ -82,7 +82,7 @@ if(!function_exists('renderBody')) {
 	 * This method will be used to render the body inside the layout
 	 */
 	function renderBody(){
-		echo \system\MS_view::$viewHtml;
+		echo MSmvc\system\MS_view::$viewHtml;
 	}
 }
 if(!function_exists('layout')) {
@@ -91,11 +91,11 @@ if(!function_exists('layout')) {
 	 * @param string $layoutName: layout to use
 	 */
 	function layout(string $layoutName){
-		\system\MS_view::$layout = $layoutName;
+		MSmvc\system\MS_view::$layout = $layoutName;
 	}
 }
 if(!function_exists('partial')){
 	function partial(string $viewName){
-		\system\MS_view::loadPartial('partials'.DIRECTORY_SEPARATOR.$viewName);
+		MSmvc\system\MS_view::loadPartial('partials'.DIRECTORY_SEPARATOR.$viewName);
 	}
 }
