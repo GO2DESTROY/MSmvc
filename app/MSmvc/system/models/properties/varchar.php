@@ -1,5 +1,5 @@
 <?php
-namespace system\models\properties;
+namespace MSmvc\system\models\properties;
 
 /**
  * Class varchar: default varchar property
@@ -13,7 +13,7 @@ class varchar extends MS_property{
 	 */
 
 	function validateProperty(){
-		if(is_string(strval($this->Value))){
+		if(is_string(strval($this->value))){
 			return true;
 		}
 		else{
