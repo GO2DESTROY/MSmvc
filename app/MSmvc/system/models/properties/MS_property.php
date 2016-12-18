@@ -15,7 +15,8 @@ abstract class MS_property {
     public $attributes;
     public $notNull = FALSE;
     public $externalResourceTable = NULL;
-    public $autoIncrement;
+    protected $autoIncrement;
+    public $value;
 
     /**
      * @return bool: true if the validation is correct
