@@ -1,21 +1,25 @@
 <?php
-namespace system\models\properties;
+namespace MSmvc\system\models\properties;
 
 /**
  * Class integer
  * @package system\models\properties
  */
 class integer extends MS_property {
-	/**
-	 * @return bool
-	 * @throws \Exception
-	 */
-	function validateProperty(){
-		if (is_int(intval($this->value))) {
-			return true;
-		}
-		else {
-			throw new \Exception('the property is invalid');
-		}
-	}
+
+    public $autoIncrement;
+    public $type = 'int';
+    public $length = 11;
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    function validateProperty() {
+        if (is_int(intval($this->value))) {
+            return TRUE;
+        } else {
+            throw new \Exception('the property is invalid');
+        }
+    }
 }

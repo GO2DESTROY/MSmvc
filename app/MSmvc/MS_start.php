@@ -26,7 +26,7 @@ class MS_start {
 		MS_pipeline::$root = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 		//	set_exception_handler([new MS_handler, 'exceptionHandler']);
 		//	set_error_handler([new MS_handler, 'errorHandler']);
-		//		register_shutdown_function([new MS_handler, 'fatal_handler']);
+		//	register_shutdown_function([new MS_handler, 'fatal_handler']);
 	}
 
 	/**
@@ -69,39 +69,21 @@ class MS_start {
 		}
 	}
 
-	/**
-	 * @return string sets the currentRequestMethod property with the http request method
-	 * @throws \Exception
-	 */
-	private function setRequestMethod() {
+
+    /**
+     * this function will set the request method
+     */
+    private function setRequestMethod() {
 		if($this->currentRequestMethod === NULL) {
 			if(php_sapi_name() == 'cli') {
 				$this->currentRequestMethod = 'CLI';
 			}
 			else {
-				switch($_SERVER['REQUEST_METHOD']) {
-					case 'PUT':
-						$this->currentRequestMethod = 'PUT';
-						break;
-					case 'POST':
-						$this->currentRequestMethod = 'POST';
-						break;
-					case 'GET':
-						$this->currentRequestMethod = 'GET';
-						break;
-					case 'HEAD':
-						$this->currentRequestMethod = 'HEAD';
-						break;
-					case 'DELETE':
-						$this->currentRequestMethod = 'DELETE';
-						break;
-					case 'OPTIONS':
-						$this->currentRequestMethod = 'OPTIONS';
-						break;
-					default:
-						throw new \Exception('The supplied request method is not supported you have used ' . $_SERVER['REQUEST_METHOD']);
-						break;
-				}
+                if (!empty($_REQUEST['method'])) {
+                    $this->currentRequestMethod = $_REQUEST['method'];
+                } else {
+                    $this->currentRequestMethod = $_SERVER['REQUEST_METHOD'];
+                }
 			}
 		}
 	}

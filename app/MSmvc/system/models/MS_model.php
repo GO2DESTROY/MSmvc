@@ -1,8 +1,8 @@
 <?php
 
-namespace system\models;
+namespace MSmvc\system\models;
 
-use system\models\properties\MS_property;
+use MSmvc\system\models\properties\MS_property;
 
 /**
  * Class MS_model: this is the model class to be extended of the model
@@ -12,12 +12,13 @@ class MS_model {
 	protected $dataBaseConnection = NULL;
 	private $fieldCollection;
 
-	/**
-	 * @param string      $name name of the property to add
-	 * @param MS_property $type type of the property
-	 */
-	protected function addField(string $name, MS_property $type) {
-		$this->fieldCollection[] = ['name' => $name, new MS_modelProperty($type)];
+    /**
+     * @param \MSmvc\system\models\properties\MS_property $property
+     *
+     * @internal param \system\models\properties\MS_property $type type of the property
+     */
+	protected function addField(MS_property $property) {
+		$this->fieldCollection[] = $property;
 	}
 
 	/**
