@@ -18,12 +18,16 @@ use MSmvc\system\router\MS_router;
 class MS_start {
 	public $currentRequestMethod = NULL;
 	public $uri = NULL;
+    private static $environment;
+
 
 	/**
 	 * MS_start constructor.
 	 */
 	public function __construct() {
 		MS_pipeline::$root = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+        //self::$environment = MS_pipeline::includeFile("config/config")["environment"];
+        //MS_handler::setConfig();
 		//	set_exception_handler([new MS_handler, 'exceptionHandler']);
 		//	set_error_handler([new MS_handler, 'errorHandler']);
 		//	register_shutdown_function([new MS_handler, 'fatal_handler']);
@@ -87,4 +91,11 @@ class MS_start {
 			}
 		}
 	}
+
+    /**
+     * @return mixed
+     */
+    public static function getEnvironment() {
+        return self::$environment;
+    }
 }

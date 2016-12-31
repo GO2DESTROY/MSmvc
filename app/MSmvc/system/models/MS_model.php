@@ -9,22 +9,47 @@ use MSmvc\system\models\properties\MS_property;
  * @package system\models
  */
 class MS_model {
-	protected $dataBaseConnection = NULL;
-	private $fieldCollection;
+    protected $dataBaseConnection = NULL;
+    private $fieldCollection;
 
     /**
      * @param \MSmvc\system\models\properties\MS_property $property
      *
      * @internal param \system\models\properties\MS_property $type type of the property
      */
-	protected function addField(MS_property $property) {
-		$this->fieldCollection[] = $property;
-	}
+    protected function addField(MS_property $property) {
+        $this->fieldCollection[] = $property;
+    }
 
-	/**
-	 * @return array returns the structure of the model
-	 */
-	public function getModelStructure() {
-		return ['database' => $this->dataBaseConnection, 'fields' => $this->fieldCollection];
-	}
+    /**
+     * @return array returns the structure of the model
+     */
+    public function getModelStructure() {
+        return ['database' => $this->dataBaseConnection, 'fields' => $this->fieldCollection];
+    }
+
+    /**
+     * we loop though the passed data and through the fields
+     * @param array $data : fill the model with an associate array
+     */
+    public function fillModel(array $data) {
+        foreach ($data as $name => $item) {
+            foreach ($this->fieldCollection as $field) {
+                if ($field->name == $name) {
+                    $this->fillProperty($field, $item);
+                    break;
+                }
+            }
+        }
+        //model is filled and validated
+    }
+
+    /**
+     * @param \MSmvc\system\models\properties\MS_property $name
+     * @param                                             $data
+     */
+    private function fillProperty(MS_property $name, $data) {
+        $name->setValue($data);
+        $name->validateProperty();
+    }
 }

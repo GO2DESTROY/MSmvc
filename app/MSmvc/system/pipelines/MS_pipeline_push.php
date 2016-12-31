@@ -1,62 +1,98 @@
 <?php
 
-namespace system\pipelines;
+namespace MSmvc\system\pipelines;
 
-class MS_pipeline_push extends MS_pipeline
-{
-	private $dataSet;
+/**
+ * Class MS_pipeline_push
+ * @package MSmvc\system\pipelines
+ *          todo: split php and json file support to diffrent files and create an abstract master
+ */
+class MS_pipeline_push extends MS_pipeline {
+    private $dataSet;
+    private $dataToAdd;
 
-	public function addToConfig($requestFile, $content, $replace = FALSE) {
-		$this->requestedDataSet = $requestFile;
+    /**
+     * todo: fix this method
+     * todo: desired result we push lines to config files
+     *
+     * @param      $requestFile
+     * @param      $content
+     * @param bool $replace
+     */
+    public function addToConfig($requestFile, $content, $replace = FALSE) {
+        $this->requestedDataSet = $requestFile;
 
-		$this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];
-		$this->connectToDataHandler();
+        $this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];
+        $this->connectToDataHandler();
 
-		$this->pushToDataSet($content);
-		self::$configCollections[$requestFile] = $this->getRequestedData();
-	}
-	public function closePushStream() {
-		fclose($this->dataSet);
-	}
+        $this->pushToDataSet($content);
+        self::$configCollections[$requestFile] = $this->getRequestedData();
+    }
 
-	private function connectToDataHandler() {
-		switch($this->requestTypeHandler) {
-			case 'php':
-				$this->dataSet = $this->openPhpFile();
-				break;
-			case 'json':
-				$this->dataSet = $this->openJsonFile();
-				break;
-			default:
-				$this->dataSet = $this->openDataBaseFile();
-		}
-	}
+    public function closePushStream() {
+        fclose($this->dataSet);
+    }
 
-	private function pushToDataSet($input) {
-		switch($this->requestTypeHandler) {
-			case 'php':
-				$this->pushToPhpFile($input);
-				break;
-			case 'json':
-				break;
-			default:
-				break;
-		}
-	}
+    private function connectToDataHandler() {
+        switch ($this->requestTypeHandler) {
+            case 'php':
+                $this->dataSet = $this->openPhpFile();
+                break;
+            case 'json':
+                $this->dataSet = $this->openJsonFile();
+                break;
+            case'other':
+            default:
+                throw new \Exception("file type or structure is not unknown");
+        }
+    }
 
-	private function pushToPhpFile($input) {
-		fwrite($this->dataSet,$input);
-	}
+    /**
+     * @param $input
+     */
+    private function pushToDataSet($input) {
+        switch ($this->requestTypeHandler) {
+            case 'php':
+                $this->pushToPhpFile($input);
+                break;
+            case 'json':
+                break;
+            default:
+                break;
+        }
+    }
 
-	private function openPhpFile() {
-		return fopen(self::$root . '/config/' . $this->requestedDataSet . '.php', 'a');
-	}
+    /**
+     * @param $input
+     */
+    private function pushToPhpFile($input) {
+        fwrite($this->dataSet, $input);
+    }
 
-	private function openJsonFile() {
-		return json_decode(fopen(self::$root . '/config/' . $this->requestedDataSet . '.json','r+'), TRUE);
-	}
+    /**
+     * @return mixed
+     */
+    protected function openPhpFile() {
+        return fopen(self::$root . '/config/' . $this->requestedDataSet . '.php', 'a');
+    }
 
-	private function openDataBaseFile() {
-		return 42; //no need to cache the dataConnecter since MS_database already does this
-	}
+    /**
+     * @return mixed
+     */
+    protected function openJsonFile() {
+        return json_decode(fopen(self::$root . '/config/' . $this->requestedDataSet . '.json','r+'), TRUE);
+    }
+
+    private function addToLog($file, $line) {
+        $fp = fopen(self::$root . $file, 'a');
+        if (is_array($line)) {
+            foreach ($line as $singleWord) {
+                fwrite($fp, $singleWord . ' ');
+            }
+            fwrite($fp, PHP_EOL);
+        } else {
+            fwrite($fp, $line . PHP_EOL);
+        }
+        fclose($fp);
+    }
 }

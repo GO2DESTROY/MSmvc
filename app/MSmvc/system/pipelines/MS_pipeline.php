@@ -7,7 +7,6 @@ namespace MSmvc\system\pipelines;
  * @package system\pipelines
  */
 class MS_pipeline {
-	public static $dataSets;// the dataset it self
 	public $requestedDataSet;
 	protected $requestTypeHandler;
 	public static $configCollections;
@@ -138,7 +137,7 @@ class MS_pipeline {
 	/**
 	 * @return mixed
 	 */
-	private function openPhpFile() {
+	protected function openPhpFile() {
 		return include self::$root . '/config/' . $this->requestedDataSet . '.php';
 	}
 
@@ -153,7 +152,7 @@ class MS_pipeline {
 	/**
 	 * @return mixed
 	 */
-	private function openJsonFile() {
+	protected function openJsonFile() {
 		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
 	}
 }

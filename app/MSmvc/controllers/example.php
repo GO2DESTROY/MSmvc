@@ -5,7 +5,7 @@ namespace MSmvc\controllers;
 use MSmvc\system\databases\MS_databaseResource;
 use MSmvc\system\databases\MS_db;
 use MSmvc\models\testModel;
-use MSmvc\system\databases\MS_modelQueryBuilder;
+use MSmvc\system\databases\MS_queryBuilder;
 
 class example {
 	/**
@@ -16,8 +16,12 @@ class example {
 
 		$db = new MS_db('development');
         $test = new testModel();
-        $qu = new MS_modelQueryBuilder($test);
-        $qu->modelToTable();
+        $test->fillModel(["name"=>"test","test"=>"noTEST"]);
+        $qu = new MS_queryBuilder();
+        $qu->insert($test);
+  //      $qu->delete($test)->where("id");
+    //    $qu->select()->from("test");
+        //$qu->modelToTable();
         $result = $qu->execute([3]);
         var_dump($result);
 	}
