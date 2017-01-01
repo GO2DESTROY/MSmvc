@@ -1,7 +1,7 @@
 <?php
-namespace system\databases;
-use system\pipelines\MS_pipeline;
-use system\models\MS_model;
+namespace MSmvc\system\databases;
+use MSmvc\system\pipelines\MS_pipeline;
+use MSmvc\system\models\MS_model;
 
 /**
  * Class MS_databaseMigrations

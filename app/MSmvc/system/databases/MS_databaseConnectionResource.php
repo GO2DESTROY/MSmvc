@@ -1,5 +1,5 @@
 <?php
-namespace system\databases;
+namespace MSmvc\system\databases;
 /**
  * Class MS_databaseConnectionResource
  * @package MSmvc\system\databases

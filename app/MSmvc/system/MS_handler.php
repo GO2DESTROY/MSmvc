@@ -1,12 +1,9 @@
 <?php
 
-namespace system;
+namespace MSmvc\system;
 
-//use system\pipelines\MS_pipeline;
-<<<<<<< HEAD:app/system/MS_handler.php
+
 use system\pipelines\MS_pipeline;
-=======
->>>>>>> parent of 1d95c0b... query builder:app/MSmvc/system/MS_handler.php
 
 /**
  * Class MS_handler: this class will handle all the exception and error's thrown

@@ -1,10 +1,10 @@
 <?php
 
-namespace models;
+namespace MSmvc\models;
 
-use system\models\MS_model;
-use system\models\properties\integer;
-use system\models\properties\varchar;
+use MSmvc\system\models\MS_model;
+use MSmvc\system\models\properties\integer;
+use MSmvc\system\models\properties\varchar;
 
 class testModel extends MS_model {
 	function __construct() {

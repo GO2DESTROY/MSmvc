@@ -19,7 +19,7 @@
  * as: holds the name of the controller so you can use the name to call a controller.
  * parameters: the parameters to be used for the request only used by the cli method
  */
-use system\router\MS_route;
+use MSmvc\system\router\MS_route;
 
 MS_route::any('/', ['uses' => 'example@index', 'as' => 'home']);
 MS_route::any('/phpunit', ['uses' => 'example@phpUnit', 'as' => 'home']);

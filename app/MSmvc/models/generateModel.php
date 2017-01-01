@@ -1,8 +1,8 @@
 <?php
 
-namespace models;
+namespace MSmvc\models;
 
-use system\databases\MS_db;
+use MSmvc\system\databases\MS_db;
 
 class generateModel
 {

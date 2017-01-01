@@ -1,8 +1,8 @@
 <?php
-namespace system\databases;
+namespace MSmvc\system\databases;
 
-use system\models\MS_model;
-use system\models\properties\MS_property;
+use MSmvc\system\models\MS_model;
+use MSmvc\system\models\properties\MS_property;
 
 /**
  * Class MS_queryBuilder: this class will build the queries based on the models

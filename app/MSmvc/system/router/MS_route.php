@@ -1,6 +1,6 @@
 <?php
 
-namespace system\router;
+namespace MSmvc\system\router;
 /**
  * Class MS_route: this class will be used to create new routes
  * @package MSmvc\system\router

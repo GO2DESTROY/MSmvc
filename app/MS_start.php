@@ -2,11 +2,12 @@
 // here we open a class main this is the core of the system this makes sure the MVC boots up
 
 // this file contains a lot of dirty code we have to improve this in the near future
+namespace MSmvc;
 
-use system\MS_request;
-use system\pipelines\MS_pipeline;
-use system\router\MS_route;
-use system\router\MS_router;
+use MSmvc\system\MS_request;
+use MSmvc\system\pipelines\MS_pipeline;
+use MSmvc\system\router\MS_route;
+use MSmvc\system\router\MS_router;
 
 /**
  * Class MS_start: this class will start the framework

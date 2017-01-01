@@ -1,7 +1,7 @@
 <?php
 
 // here we open a class main this is the core of the system this makes sure the MVC boots up
-namespace system;
+namespace MSmvc\system;
 
 // this file contains a lot of dirty code we have to improve this in the near future
 

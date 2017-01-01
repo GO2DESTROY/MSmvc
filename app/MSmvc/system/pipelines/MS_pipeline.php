@@ -1,6 +1,6 @@
 <?php
 
-namespace system\pipelines;
+namespace MSmvc\system\pipelines;
 
 /**
  * Class MS_pipeline

@@ -1,6 +1,6 @@
 <?php
 
-namespace system\router;
+namespace MSmvc\system\router;
 /**
  * Class MS_router: this class will be used to handle the routes that are provided and pick the right one 
  * @package MSmvc\system\router

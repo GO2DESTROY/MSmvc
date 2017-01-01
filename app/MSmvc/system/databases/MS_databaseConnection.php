@@ -1,6 +1,6 @@
 <?php
 
-namespace system\databases;
+namespace MSmvc\system\databases;
 
 /**
  * Class MS_databaseConnection

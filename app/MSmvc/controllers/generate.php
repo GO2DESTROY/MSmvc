@@ -1,12 +1,12 @@
 <?php
 
-namespace controllers;
+namespace MSmvc\controllers;
 
-use models\generateModel;
-use system\generators\MS_generate;
-use system\helpers\MS_db;
-use system\pipelines\MS_pipeline;
-use system\pipelines\MS_pipeline_push;
+use MSmvc\models\generateModel;
+use MSmvc\system\generators\MS_generate;
+use MSmvc\system\helpers\MS_db;
+use MSmvc\system\pipelines\MS_pipeline;
+use MSmvc\system\pipelines\MS_pipeline_push;
 
 /**
  * Class generate: this is the base generate controller it will handle the generate requests

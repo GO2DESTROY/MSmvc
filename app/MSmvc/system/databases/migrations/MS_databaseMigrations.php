@@ -1,6 +1,6 @@
 <?php
-namespace system\databases\migrations;
-use system\models\MS_model;
+namespace MSmvc\system\databases\migrations;
+use MSmvc\system\models\MS_model;
 
 /**
  * Class MS_databaseMigrations

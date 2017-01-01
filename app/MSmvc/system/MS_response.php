@@ -1,6 +1,6 @@
 <?php
 
-namespace system;
+namespace MSmvc\system;
 
 use system\MS_view;
 
