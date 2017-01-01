@@ -38,8 +38,6 @@ class MS_start {
 		}
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestMethod;
-		var_dump(dirname(__FILE__));
-var_dump(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php');
 		foreach(glob(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php') as $filename) {
 			MS_pipeline::getConfigFileContent($filename, 'basic');
 		}
