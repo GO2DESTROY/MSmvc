@@ -1,11 +1,11 @@
 <?php
 
-namespace controllers;
+namespace MSmvc\controllers;
 
 use MSmvc\system\databases\MS_databaseResource;
 use MSmvc\system\databases\MS_db;
 use MSmvc\models\testModel;
-use MSmvc\system\databases\MS_modelQueryBuilder;
+use MSmvc\system\databases\MS_queryBuilder;
 
 class example {
 	/**
@@ -24,9 +24,6 @@ class example {
     //    $qu->select()->from("test");
         //$qu->modelToTable();
         $result = $qu->execute();
-
-        $qu = new MS_modelQueryBuilder($test);
-        $qu->modelToTable();
 
 
         var_dump($result);

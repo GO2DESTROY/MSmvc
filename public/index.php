@@ -5,8 +5,7 @@
  * @author  Maurice Schurink
  * @version 0.2
  */
-use MSmvc\MS_start;
-
 require __DIR__ . '/../vendor/autoload.php';
+use MSmvc\MS_start;
 $MS_main = new MS_start();
 $MS_main->boot();
