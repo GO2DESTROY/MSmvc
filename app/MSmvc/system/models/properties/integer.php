@@ -1,5 +1,5 @@
 <?php
-namespace system\models\properties;
+namespace MSmvc\system\models\properties;
 
 /**
  * Class integer

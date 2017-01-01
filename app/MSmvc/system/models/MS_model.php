@@ -35,7 +35,7 @@ class MS_model {
 		$this->fieldCollection[] = $property;
 	}
 
-<<<<<<< HEAD:app/system/models/MS_model.php
+
     /**
      * we loop though the passed data and through the fields
      * @param array $data : fill the model with an associate array
@@ -60,12 +60,4 @@ class MS_model {
         $name->setValue($data);
         $name->validateProperty();
     }
-=======
-	/**
-	 * @return array returns the structure of the model
-	 */
-	public function getModelStructure() {
-		return ['database' => $this->dataBaseConnection, 'fields' => $this->fieldCollection];
-	}
->>>>>>> parent of 1d95c0b... query builder:app/MSmvc/system/models/MS_model.php
 }

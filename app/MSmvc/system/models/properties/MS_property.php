@@ -1,6 +1,6 @@
 <?php
 
-namespace system\models\properties;
+namespace MSmvc\system\models\properties;
 
 /**
  * Class MS_property: this abstract class will be used as a blueprint for the database field

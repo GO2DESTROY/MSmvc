@@ -5,9 +5,9 @@ namespace MSmvc\system;
 
 // this file contains a lot of dirty code we have to improve this in the near future
 
-use system\pipelines\MS_pipeline;
-use system\router\MS_Route;
-use system\router\MS_router;
+use MSmvc\system\pipelines\MS_pipeline;
+use MSmvc\system\router\MS_Route;
+use MSmvc\system\router\MS_router;
 
 /**
  * Class MS_main

@@ -2,7 +2,7 @@
 
 namespace MSmvc\system;
 
-use system\pipelines\MS_pipeline;
+use MSmvc\system\pipelines\MS_pipeline;
 
 /**
  * Class MS_request
