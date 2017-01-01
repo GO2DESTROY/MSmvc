@@ -5,7 +5,7 @@ namespace controllers;
 use MSmvc\system\databases\MS_databaseResource;
 use MSmvc\system\databases\MS_db;
 use MSmvc\models\testModel;
-use MSmvc\system\databases\MS_queryBuilder;
+use MSmvc\system\databases\MS_modelQueryBuilder;
 
 class example {
 	/**
@@ -16,6 +16,7 @@ class example {
 
 		$db = new MS_db('development');
         $test = new testModel();
+<<<<<<< HEAD:app/controllers/example.php
         $test->fillModel(["name"=>"test","test"=>"noTEST"]);
         $qu = new MS_queryBuilder();
         $qu->insert(["name"=>"name2","test"=>"test2"])->into($test);
@@ -23,6 +24,11 @@ class example {
     //    $qu->select()->from("test");
         //$qu->modelToTable();
         $result = $qu->execute();
+=======
+        $qu = new MS_modelQueryBuilder($test);
+        $qu->modelToTable();
+        $result = $qu->execute([3]);
+>>>>>>> parent of 1d95c0b... query builder:app/MSmvc/controllers/example.php
         var_dump($result);
 	}
 }

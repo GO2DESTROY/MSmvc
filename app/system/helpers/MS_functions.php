@@ -95,21 +95,7 @@ if(!function_exists('layout')) {
 	}
 }
 if(!function_exists('partial')){
-    /**
-     * @param string $viewName
-     */
-    function partial(string $viewName){
+	function partial(string $viewName){
 		MSmvc\system\MS_view::loadPartial('partials'.DIRECTORY_SEPARATOR.$viewName);
 	}
-}
-if(!function_exists('isAssoc')) {
-    /**
-     * @param array $arr
-     *
-     * @return bool
-     */
-    function isAssoc(array $arr) {
-        if (array() === $arr) return FALSE;
-        return array_keys($arr) !== range(0, count($arr) - 1);
-    }
 }

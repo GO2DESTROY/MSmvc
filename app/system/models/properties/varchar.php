@@ -5,15 +5,20 @@ namespace system\models\properties;
  * Class varchar: default varchar property
  * @package system\models\properties
  */
-class varchar extends MS_property {
+class varchar extends MS_property{
 
-    /**
-     * @throws \Exception
-     */
+	/**
+	 * @return bool
+	 * @throws \Exception
+	 */
 
-    public function validateProperty() {
-        if (!is_string($this->value)) {
-            throw new \Exception('The property is invalid');
-        }
-    }
+	function validateProperty(){
+		if(is_string(strval($this->value))){
+			return true;
+		}
+		else{
+			throw new \Exception('the property is invalid');
+		}
+		// TODO: Implement validateProperty() method.
+	}
 }

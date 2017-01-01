@@ -1,6 +1,5 @@
 <?php
 
-//todo: fix this file structure
 /* 	we will use the environment which is set within the config file
  	besides that this will only be loaded if the error-logging is set the MS_handler
 

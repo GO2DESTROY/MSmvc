@@ -3,7 +3,10 @@
 namespace system;
 
 //use system\pipelines\MS_pipeline;
+<<<<<<< HEAD:app/system/MS_handler.php
 use system\pipelines\MS_pipeline;
+=======
+>>>>>>> parent of 1d95c0b... query builder:app/MSmvc/system/MS_handler.php
 
 /**
  * Class MS_handler: this class will handle all the exception and error's thrown
@@ -12,24 +15,20 @@ use system\pipelines\MS_pipeline;
 class MS_handler
 {
 
-    public static $errorSettings;
+	protected $environment;
+	private   $errorSettings;
+	protected $root;
 
-    public static function setConfig() {
-        self::$errorSettings = MS_pipeline::includeFile("config/errors")[MS_start::getEnvironment()];
-    }
-
-    /**
+	/**
 	 * this will handle the exceptions
 	 *
 	 * @param $exception : exception to handle
 	 */
 	public function exceptionHandler(\Exception $exception) {
-	    //get the settings
-        var_dump(self::$errorSettings);
-		if(self::$errorSettings['logs']['log_exceptions']['log'] === TRUE) {
-			$this->addToLog(self::$errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
+		if($this->errorSettings['logs']['log_exceptions']['log'] === TRUE) {
+			$this->addToLog($this->errorSettings['logs']['log_exceptions']['location'], [date("Y-m-d H:i:s"), $exception->getFile(), $exception->getLine(), $exception->getCode(), $exception->getMessage()]);
 		}
-		$data = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
+		$data             = ['message' => $exception->getMessage(), 'date' => date("Y-m-d H:i:s"), 'code' => $exception->getCode(), 'location' => $exception->getFile(), 'line' => $exception->getLine(), 'backtrace' => debug_backtrace()];
 		view('system/exceptionDump', $data);
 	}
 
@@ -72,8 +71,8 @@ class MS_handler
 				$type = 'Unkown';
 				break;
 		}
-		if(self::$errorSettings['logs']['log_errors']['log'] === TRUE && self::$errorSettings['logs']['log_errors']['location'] !== FALSE) {
-			$this->addToLog(self::$errorSettings['logs']['log_errors']['location'], [date("Y-m-d H:i:s"), $errfile, $errline, $type, $errstr]);
+		if($this->errorSettings['logs']['log_errors']['log'] === TRUE && $this->errorSettings['logs']['log_errors']['location'] !== FALSE) {
+			$this->addToLog($this->errorSettings['logs']['log_errors']['location'], [date("Y-m-d H:i:s"), $errfile, $errline, $type, $errstr]);
 		}
 
 		$data             = ['type' => $type, 'message' => $errstr, 'date' => date("Y-m-d H:i:s"), 'location' => $errfile, 'line' => $errline, 'variables' => $errcontext, 'backtrace' => debug_backtrace()];
@@ -105,7 +104,6 @@ class MS_handler
 	}
 
 	/**
-     * todo: add this to the pipeline
 	 * @param $file : the file to write to
 	 * @param $line : the line to add to the log
 	 */
