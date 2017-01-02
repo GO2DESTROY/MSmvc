@@ -85,12 +85,12 @@ if(!function_exists('renderBody')) {
 		echo MSmvc\system\MS_view::$viewHtml;
 	}
 }
-if(!function_exists('layout')) {
+if(!function_exists('setLayout')) {
 	/**
 	 * This method is used to identify the correct layout
 	 * @param string $layoutName: layout to use
 	 */
-	function layout(string $layoutName){
+	function setLayout(string $layoutName){
 		MSmvc\system\MS_view::$layout = $layoutName;
 	}
 }

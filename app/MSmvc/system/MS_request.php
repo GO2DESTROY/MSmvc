@@ -29,17 +29,6 @@ class MS_request {
     }
 
     /**
-     * we check if the request passes our blacklist check simply said we check if his IP or his country is not
-     * blacklisted
-     *
-     * @return bool : this depends if our check passes
-     */
-    private function checkBlackList() {
-        //todo: implement a blacklist-check
-        return TRUE;
-    }
-
-    /**
      * This method will start the controller and execute it it's a void method so we don't expect any return values
      * todo: fix the controller loading current version doesn't support psr-4 fix the namespaces
      * The controller should use functions provided by MS_functions to send data to the response object

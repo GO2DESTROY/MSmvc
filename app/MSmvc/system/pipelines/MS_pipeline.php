@@ -150,6 +150,14 @@ class MS_pipeline {
 		return self::$root . 'resources/views/' . $file . '.php';
 	}
 
+    /**
+     * @param $file
+     * @return string
+     */
+    public static function returnLayoutFilePath($file) {
+        return self::$root . 'resources/views/layouts/' . $file . '.php';
+    }
+
 	/**
 	 * @return mixed
 	 */
