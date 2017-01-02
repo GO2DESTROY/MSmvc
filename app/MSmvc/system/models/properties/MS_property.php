@@ -7,16 +7,70 @@ namespace MSmvc\system\models\properties;
  * @package system\models\properties
  */
 abstract class MS_property {
+    /**
+     * name of the field
+     * @var string
+     */
 	public $name;
+
+    /**
+     * length of the field
+     * @var int
+     */
 	public $length = 25;
+
+    /**
+     * SQL property
+     * @var string
+     */
 	public $type = 'varchar';
+
+    /**
+     * default value
+     * @var null
+     */
 	public $default = NULL;
+
+    /**
+     * not used
+     * @var
+     */
 	public $collation;
+
+    /**
+     * not used
+     * @var
+     */
 	public $attributes;
+
+    /**
+     * not null value
+     * @var bool
+     */
 	private $notNull = FALSE;
+
+    /**
+     * not used yet will be used for relations
+     * @var null
+     */
 	public $externalResourceTable = NULL;
+
+    /**
+     * Autoincrement for int fields
+     * @var string | null
+     */
 	private $autoIncrement;
+
+    /**
+     * the value that will be used for insert or update
+     * @var string
+     */
 	public $value;
+
+    /**
+     * true or false if this field is marked for a primary key
+     * @var bool
+     */
 	private $primaryKey = false;
 
 	/**

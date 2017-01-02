@@ -17,15 +17,7 @@ class example {
 		$db = new MS_db('development');
         $test = new testModel();
 
-        //$test->fillModel(["name"=>"test","test"=>"noTEST"]);
-        //$qu = new MS_queryBuilder();
-       // $qu->insert(["name"=>"name2","test"=>"test2"])->into($test);
-  //      $qu->delete($test)->where("id");
-    //    $qu->select()->from("test");
-        //$qu->modelToTable();
-        //$result = $qu->execute();
-
-
-        //var_dump($result);
+        $qu = new MS_queryBuilder();
+        $qu->insertBulk([["name"=>"test", "test" =>"adsfasdf"],["name" => "asdfadsfads", "test"=>"adsfffffffdsf"]])->into($test)->execute();
 	}
 }

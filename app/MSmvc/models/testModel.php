@@ -13,16 +13,15 @@ class testModel extends MS_model {
 		$id->name = "id";
 		$id->setPrimaryKey(true);
 		$id->setAutoIncrement(true);
-
 		$this->addField($id);
+
+
 		$name = new varchar();
 		$name->name = 'name';
-
 		$this->addField($name);
 
 		$test = new varchar();
 		$test->name = 'test';
-
 		$this->addField($test);
 	}
 }

@@ -9,7 +9,18 @@ use MSmvc\system\models\properties\MS_property;
  * @package system\models
  */
 class MS_model {
+
+    /**
+     * MS_resource name to be used for the connection
+     * if no name is given the default will be used
+     * @var null
+     */
 	protected $dataBaseConnection = NULL;
+
+    /**
+     * array filled with MS_property objects
+     * @var array
+     */
 	private $fieldCollection;
 
     /**

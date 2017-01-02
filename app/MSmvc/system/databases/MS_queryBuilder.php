@@ -56,7 +56,7 @@ class  MS_queryBuilder {
      * fields that will be inserted into
      * @var array
      */
-    private $insertFields;
+    private $insertFields = [];
 
     /**
      * data that will be used for insert
@@ -257,6 +257,12 @@ class  MS_queryBuilder {
         return $this->where_filter($key, $value, 'AND ');
     }
 
+    private function addInsertField(string $field) {
+        if (!in_array($field, $this->insertFields)) {
+            $this->insertFields[] = $field;
+        }
+    }
+
     /**
      * @param $data
      *
@@ -266,33 +272,43 @@ class  MS_queryBuilder {
         $this->type = "INSERT INTO";
         if ($data instanceof MS_model) {
             $this->setTable($data);
+            $this->model = $data;
+            $dataToInsert = [];
             /**
              * @var $field MS_property
              */
-            foreach ($this->model->getFieldCollection() as $field){
-                $field->name;
-                $field->getValue();
+            foreach ($this->model->getFieldCollection() as $field) {
+                $this->addInsertField($field->name);
+                $dataToInsert[] = $field->getValue();
             }
-            //foreach property
-            //todo build insert into
+            $this->insertData[] = $dataToInsert;
         } elseif (is_array($data)) {
+            $dataToInsert = [];
             if (isAssoc($data)) {
                 foreach ($data as $field => $item) {
-                    $this->insertFields[] = $field;
-                    $this->insertData[] = $item;
+                    $this->addInsertField($field);
+                    $dataToInsert[] = $item;
                 }
             } else {
-                //index array contains only values to insert add it the prepareData
-                $this->insertData = $data;
+                $dataToInsert[] = $data;
             }
+            $this->insertData[] = $dataToInsert;
         } else {
             new \Exception("format not supported");
         }
         return $this;
-        //todo: add data
-        //todo: set table
-        //todo: add model support
+    }
 
+    /**
+     * @param $data
+     *
+     * @return $this
+     */
+    public function insertBulk($data) {
+        foreach ($data as $item) {
+            $this->insert($item);
+        }
+        return $this;
     }
 
     /**
@@ -402,8 +418,6 @@ class  MS_queryBuilder {
             $this->prepareData = $values;
         }
         $this->buildQuery();
-        var_dump($this->prepareData);
-        var_dump($this->query);
         $call = new MS_db($this->databaseConnection);
         return $call->query($this->query, $this->prepareData);
     }
@@ -438,13 +452,17 @@ class  MS_queryBuilder {
      */
     private function buildInsertStatement() {
         if (!is_null($this->insertFields)) {
-            $this->addStatementToQuery("(" . implode(",",$this->insertFields) . ") ");
+            $this->addStatementToQuery("(" . implode(",", $this->insertFields) . ") ");
         }
-        $query = "$this->sql_values (";
-        foreach ($this->insertData as $insertData) {
-            $query .= "?,";
-            $this->prepareData[] = $insertData;
+        $query = "$this->sql_values ";
+        foreach ($this->insertData as $insertDataCollection) {
+            $query.="(";
+            foreach ($insertDataCollection as $insertData) {
+                $query .= "?,";
+                $this->prepareData[] = $insertData;
+            }
+            $query = rtrim($query, ",") . "),";
         }
-       return rtrim($query, ",").")";
+        return rtrim($query, ",");
     }
 }
