@@ -16,7 +16,7 @@ use MSmvc\system\router\MS_router;
  * @author  Maurice Schurink
  */
 class MS_start {
-	public $currentRequestMethod = NULL;
+	public $currentRequestInterface = NULL;
 	public $uri = NULL;
 
 	/**
@@ -35,19 +35,19 @@ class MS_start {
 	 */
 	public function boot() {
 		$this->setRequestMethod();
-		if($this->currentRequestMethod !== 'CLI') {
+		if($this->currentRequestInterface !== 'CLI') {
 			$this->setRequestUri();
 		}
 		$request = new MS_request();
-		$request->requestInterface = $this->currentRequestMethod;
+		$request->requestInterface = $this->currentRequestInterface;
 
 		foreach(glob(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php') as $filename) {
 			MS_pipeline::getConfigFileContent($filename, 'basic');
 		}
 		$router = new MS_router();
 		$router->routes = MS_route::returnRouteCollection();
-		$router->currentRequestMethod = $this->currentRequestMethod;
-		if($this->currentRequestMethod !== 'CLI') {
+		$router->currentRequestInterface = $this->currentRequestInterface;
+		if($this->currentRequestInterface !== 'CLI') {
 			$router->uri = $this->uri;
 		}
 		$request->requestRoute = $router->matchRequest();
@@ -70,33 +70,33 @@ class MS_start {
 	}
 
 	/**
-	 * @return string sets the currentRequestMethod property with the http request method
+	 * @return string sets the currentRequestInterface property with the http request method
 	 * @throws \Exception
 	 */
 	private function setRequestMethod() {
-		if($this->currentRequestMethod === NULL) {
+		if($this->currentRequestInterface === NULL) {
 			if(php_sapi_name() == 'cli') {
-				$this->currentRequestMethod = 'CLI';
+				$this->currentRequestInterface = 'CLI';
 			}
 			else {
 				switch($_SERVER['REQUEST_METHOD']) {
 					case 'PUT':
-						$this->currentRequestMethod = 'PUT';
+						$this->currentRequestInterface = 'PUT';
 						break;
 					case 'POST':
-						$this->currentRequestMethod = 'POST';
+						$this->currentRequestInterface = 'POST';
 						break;
 					case 'GET':
-						$this->currentRequestMethod = 'GET';
+						$this->currentRequestInterface = 'GET';
 						break;
 					case 'HEAD':
-						$this->currentRequestMethod = 'HEAD';
+						$this->currentRequestInterface = 'HEAD';
 						break;
 					case 'DELETE':
-						$this->currentRequestMethod = 'DELETE';
+						$this->currentRequestInterface = 'DELETE';
 						break;
 					case 'OPTIONS':
-						$this->currentRequestMethod = 'OPTIONS';
+						$this->currentRequestInterface = 'OPTIONS';
 						break;
 					default:
 						throw new \Exception('The supplied request method is not supported you have used ' . $_SERVER['REQUEST_METHOD']);

@@ -14,8 +14,17 @@ use MSmvc\system\router\MS_router;
  * @author  Maurice Schurink
  */
 class MS_start {
-	public $currentRequestMethod = NULL;
-	public $uri = NULL;
+    /**
+     * the controller that is requested
+     * @var null
+     */
+	private $currentRequestInterface = NULL;
+
+    /**
+     * the uri as a string
+     * @var null string
+     */
+	private $uri = NULL;
 
 	/**
 	 * MS_start constructor.
@@ -32,19 +41,19 @@ class MS_start {
 	 * called followed by the response
 	 */
 	public function boot() {
-		$this->setRequestMethod();
-		if($this->currentRequestMethod !== 'CLI') {
+		$this->setRequestInterface();
+		if($this->currentRequestInterface !== 'CLI') {
 			$this->setRequestUri();
 		}
 		$request = new MS_request();
-		$request->requestInterface = $this->currentRequestMethod;
+		$request->requestInterface = $this->currentRequestInterface;
 		foreach(glob(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php') as $filename) {
 			MS_pipeline::getConfigFileContent($filename, 'basic');
 		}
 		$router = new MS_router();
 		$router->routes = MS_route::returnRouteCollection();
-		$router->currentRequestMethod = $this->currentRequestMethod;
-		if($this->currentRequestMethod !== 'CLI') {
+		$router->currentRequestMethod = $this->currentRequestInterface;
+		if($this->currentRequestInterface !== 'CLI') {
 			$router->uri = $this->uri;
 		}
 		$request->requestRoute = $router->matchRequest();
@@ -70,16 +79,16 @@ class MS_start {
     /**
      * this function will set the request method
      */
-    private function setRequestMethod() {
-		if($this->currentRequestMethod === NULL) {
+    private function setRequestInterface() {
+		if($this->currentRequestInterface === NULL) {
 			if(php_sapi_name() == 'cli') {
-				$this->currentRequestMethod = 'CLI';
+				$this->currentRequestInterface = 'CLI';
 			}
 			else {
                 if (!empty($_REQUEST['method'])) {
-                    $this->currentRequestMethod = $_REQUEST['method'];
+                    $this->currentRequestInterface = $_REQUEST['method'];
                 } else {
-                    $this->currentRequestMethod = $_SERVER['REQUEST_METHOD'];
+                    $this->currentRequestInterface = $_SERVER['REQUEST_METHOD'];
                 }
 			}
 		}

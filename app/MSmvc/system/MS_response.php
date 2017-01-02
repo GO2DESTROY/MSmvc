@@ -13,7 +13,7 @@ class MS_response
     private static $responseCollection;
     private static $responseMaster = NULL;
     private static $data;
-    private static $responseType;//view|download|json
+    private static $responseType;//view | download | json |
     private static $headers = [];
 
     /**

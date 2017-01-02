@@ -10,11 +10,11 @@ class MS_router
 	public $routes;
 	public $segments;
 	public $variables;
-	public $currentRequestMethod = NULL;
+	public $currentRequestInterface = NULL;
 	public $uri;
 
 	/**
-	 * @return string sets the currentRequestMethod property with the http request method
+	 * @return string sets the currentRequestInterface property with the http request method
 	 * @throws \Exception
 	 */
 
@@ -61,14 +61,14 @@ class MS_router
 		foreach($routeSet as $action) {
 			if(is_array($action['methods'])) {
 				foreach($action['methods'] as $method) {
-					if($method == $this->currentRequestMethod) {
+					if($method == $this->currentRequestInterface) {
 						return $action;
 						break 2;
 					}
 				}
 			}
 			else {
-				if($action['methods'] == $this->currentRequestMethod) {
+				if($action['methods'] == $this->currentRequestInterface) {
 					return $action;
 					break 1;
 				}
@@ -113,7 +113,7 @@ class MS_router
 	 * @throws \Exception: the current command or URI id not defined within the routes settings
 	 */
 	public function matchRequest() {
-		if($this->currentRequestMethod == 'CLI') {
+		if($this->currentRequestInterface == 'CLI') {
 			return $this->matchCommand();
 		}
 		else {

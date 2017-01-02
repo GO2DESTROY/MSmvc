@@ -6,8 +6,10 @@ use MSmvc\system\databases\MS_databaseResource;
 use MSmvc\system\databases\MS_db;
 use MSmvc\models\testModel;
 use MSmvc\system\databases\MS_queryBuilder;
+use MSmvc\system\MS_controller;
+use MSmvc\system\router\MS_route;
 
-class example {
+class example extends MS_controller{
 	/**
 	 * @return mixed: the html page to return
 	 */
@@ -18,6 +20,8 @@ class example {
         $test = new testModel();
 
         $qu = new MS_queryBuilder();
-        $qu->insertBulk([["name"=>"test", "test" =>"adsfasdf"],["name" => "asdfadsfads", "test"=>"adsfffffffdsf"]])->into($test)->execute();
+
+       // $qu->insertBulk([["name"=>"test", "test" =>"adsfasdf"],["name" => "asdfadsfads", "test"=>"adsfffffffdsf"]])->into($test)->execute();
+
 	}
 }

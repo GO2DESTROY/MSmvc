@@ -71,7 +71,7 @@ class MS_main extends MS_core
 	}
 
 	/**
-	 * @return string sets the currentRequestMethod property with the http request method
+	 * @return string sets the currentRequestInterface property with the http request method
 	 * @throws \Exception
 	 */
 	public function setRequestMethod() {

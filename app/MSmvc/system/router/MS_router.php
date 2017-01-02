@@ -14,10 +14,9 @@ class MS_router
 	public $uri;
 
 	/**
-	 * @return string sets the currentRequestMethod property with the http request method
+	 * sets the currentRequestInterface property with the http request method
 	 * @throws \Exception
 	 */
-
 	private function setSegments() {
 		$this->segments = explode('/', $this->uri);
 	}

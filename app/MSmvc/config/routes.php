@@ -21,8 +21,11 @@
  */
 use MSmvc\system\router\MS_route;
 
+/*MS_route::any('/', function (){
+    return 123;
+});
+*/
 MS_route::any('/', ['uses' => 'example@index', 'as' => 'home']);
-MS_route::any('/phpunit', ['uses' => 'example@phpUnit', 'as' => 'home']);
 
 MS_route::get('/generate', ['uses' => 'generate@getGenerateFormPage', 'as' => 'generateFormPage']);
 MS_route::post('/generate', ['uses' => 'generate@submitGenerateFormPage', 'as' => 'submitGenerateFormPage']);
@@ -31,5 +34,5 @@ MS_route::get('/generate/model/{id}',['uses' => 'generate@requestModelContent'])
 
 MS_route::any('/test',['uses' => 'tableControllerName@index']);
 
-MS_route::cli('model', ['uses' => 'generate@generateModel', 'as' => 'modelGen', 'parameters' => 'n:']);
-MS_route::cli('controller', ['uses' => 'generate@generateController', 'as' => 'controllerGen', 'parameters' => 'n:']);
+//MS_route::cli('model', ['uses' => 'generate@generateModel', 'as' => 'modelGen', 'parameters' => 'n:']);
+//MS_route::cli('controller', ['uses' => 'generate@generateController', 'as' => 'controllerGen', 'parameters' => 'n:']);

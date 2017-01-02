@@ -37,13 +37,4 @@ class MS_view
 		$view = MS_pipeline::returnViewFilePath($viewName);
 		include $view;
 	}
-//todo: improve the bundles and bundle getters / setters
-	private function returnMasterBundles() {
-		self::$bundleCollection['scripts']     = MS_bundle::returnScriptCollection(self::$layout['view']);
-		self::$bundleCollection['stylesheets'] = MS_bundle::returnStyleCollection(self::$layout['view']);
-	}
-
-	public static function loadViewCollectionItem($name) {
-
-	}
 }
