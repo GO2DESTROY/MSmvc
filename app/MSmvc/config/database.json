@@ -1,0 +1,29 @@
+{
+  "defaultConnectionSet": "development",
+  "connectionSets": {
+    "development": {
+      "host": "127.0.0.1",
+      "driver": "mysql",
+      "port": 3306,
+      "database": "test",
+      "username": "root",
+      "password": ""
+    },
+    "ponywebshop": {
+      "host": "127.0.0.1",
+      "driver": "mysql",
+      "port": 3306,
+      "database": "kleding_import",
+      "username": "root",
+      "password": ""
+    },
+    "msmvc": {
+      "host": "127.0.0.1",
+      "driver": "mysql",
+      "port": 3306,
+      "database": "msmvc",
+      "username": "root",
+      "password": ""
+    }
+  }
+}

@@ -1,10 +1,10 @@
 $(function () {
     $('#databaseConnectionSelector').on('change', function () {
         jQuery.ajax({
-            url: 'generate/'+$('#databaseConnectionSelector option:selected').html(),
+            url: 'generate/table/'+$('#databaseConnectionSelector option:selected').html(),
             success: function (data) {
                 var tableSelector =  $('#tableDatabaseSelector');
-                if(data.tables.length > 0)
+                if(typeof data.tables !== 'undefined' && data.tables.length > 0)
                 {
                     tableSelector.prop('disabled', false);
                     tableSelector.html('');
@@ -22,21 +22,9 @@ $(function () {
         });
     });
 
-    $('.generateCheckbox').on('click',function(){
-       if($(this).attr('name') =='database')
-       {
-           var databaseSelectionHolder = $('#databaseSelectionHolder');
-           var normalSelectionHolder = $('#normalSelectionHolder');
-           if($(this).is(':checked'))
-           {
-               databaseSelectionHolder.show();
-               normalSelectionHolder.hide();
-           }
-           else
-           {
-               databaseSelectionHolder.hide();
-               normalSelectionHolder.show();
-           }
-       }
+    $('.generatorRadio').on('click',function(e){
+        $(this).tab('show');
     });
 });
+
+//var str = JSON.stringify(obj, undefined, 4);
