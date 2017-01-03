@@ -20,7 +20,8 @@ class example extends MS_controller{
         $test = new testModel();
 
         $qu = new MS_queryBuilder();
-return view("example");
+        $qu->update($test);
+        //return view("example");
        // $qu->insertBulk([["name"=>"test", "test" =>"adsfasdf"],["name" => "asdfadsfads", "test"=>"adsfffffffdsf"]])->into($test)->execute();
 
 	}

@@ -41,7 +41,6 @@ class MS_view {
         } else {
             echo self::$viewHtml;
         }
-        var_dump(self::$layout);
     }
 
     /**

@@ -65,6 +65,13 @@ class  MS_queryBuilder {
     private $insertData;
 
     /**
+     * data used for updates
+     * key are fields and the data is the values
+     * @var array
+     */
+    private $updateData = [];
+
+    /**
      * the database connection resource name to be used
      * @var string
      */
@@ -130,7 +137,7 @@ class  MS_queryBuilder {
      * todo: add support without a model and split up to a class that has a model
      * MS_modelQueryBuilder constructor.
      *
-     * @param \MSmvc\system\models\MS_model $model
+     * @param \App\system\models\MS_model $model
      */
     function __construct(MS_model $model = NULL) {
         if (!is_null($model)) {
@@ -200,6 +207,29 @@ class  MS_queryBuilder {
     }
 
     /**
+     * MS_model or array
+     * @param $data
+     *
+     * @return $this
+     * @throws \Exception
+     */
+    public function set($data) {
+        if ($data instanceof MS_model) {
+            /**
+             * @var $field MS_property
+             */
+            foreach ($this->model->getFieldCollection() as $field) {
+                $this->updateData[$field->name] = $field->getValue();
+            }
+        } elseif (is_array($data)) {
+            $this->updateData = $data;
+        } else {
+            throw new \Exception("format not supported");
+        }
+        return $this;
+    }
+
+    /**
      * @param mixed $databaseConnection
      *
      * @return $this
@@ -251,7 +281,7 @@ class  MS_queryBuilder {
      * @param        $key
      * @param string $value
      *
-     * @return \MSmvc\system\databases\MS_queryBuilder
+     * @return \App\system\databases\MS_queryBuilder
      */
     public function where($key, $value = '?') {
         return $this->where_filter($key, $value, 'AND ');
@@ -271,7 +301,6 @@ class  MS_queryBuilder {
     public function insert($data) {
         $this->type = "INSERT INTO";
         if ($data instanceof MS_model) {
-            $this->setTable($data);
             $this->model = $data;
             $dataToInsert = [];
             /**
@@ -325,7 +354,7 @@ class  MS_queryBuilder {
      * @param        $key
      * @param string $value
      *
-     * @return \MSmvc\system\databases\MS_queryBuilder
+     * @return \App\system\databases\MS_queryBuilder
      */
     public function where_or($key, $value = '?') {
         return $this->where_filter($key, $value, 'OR ');
@@ -346,7 +375,7 @@ class  MS_queryBuilder {
     /**
      * this function will set all the properties for a single field
      *
-     * @param \MSmvc\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\MS_property $property
      *
      * @return string
      */
@@ -456,7 +485,7 @@ class  MS_queryBuilder {
         }
         $query = "$this->sql_values ";
         foreach ($this->insertData as $insertDataCollection) {
-            $query.="(";
+            $query .= "(";
             foreach ($insertDataCollection as $insertData) {
                 $query .= "?,";
                 $this->prepareData[] = $insertData;
