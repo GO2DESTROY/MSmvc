@@ -3,6 +3,7 @@ namespace App\system\databases;
 
 use App\system\models\MS_model;
 use App\system\models\properties\MS_property;
+use App\system\databases\MS_modelQueryBuilder;
 
 /**
  * Class MS_queryBuilder: this class will build the queries based on the models
@@ -26,7 +27,7 @@ class  MS_queryBuilder {
      * fields to be selected
      * @var array
      */
-    private $selectFields;
+    private $targetFields;
 
     /**
      * fields to add to the table
@@ -53,12 +54,7 @@ class  MS_queryBuilder {
     private $whereFields;
 
     /**
-     * fields that will be inserted into
-     * @var array
-     */
-    private $insertFields = [];
-
-    /**
+     * todo: merge insert and update to target data
      * data that will be used for insert
      * @var array
      */
@@ -67,9 +63,10 @@ class  MS_queryBuilder {
     /**
      * data used for updates
      * key are fields and the data is the values
+     * if a model is supplied in the constructor then the model will be used instead
      * @var array
      */
-    private $updateData = [];
+    private $updateData;
 
     /**
      * the database connection resource name to be used
@@ -127,10 +124,22 @@ class  MS_queryBuilder {
     private $sql_insert = "INSERT INTO";
 
     /**
+     * UPDATE statement
+     * @var string
+     */
+    private $sql_update = "UPDATE";
+
+    /**
      * VALUES statement
      * @var string
      */
     private $sql_values = "VALUES";
+
+    /**
+     * SET statement
+     * @var string
+     */
+    private $sql_set = "SET";
 
 
     /**
@@ -157,12 +166,10 @@ class  MS_queryBuilder {
     public function select(string $select = '*') {
         $select = explode(',', $select);
         if ($select == '*') {
-            foreach ($this->model->getFieldCollection() as $field) {
-                $this->selectFields[] = $field->name;
-            }
+            $this->targetFields[] = $select;
         } else {
             foreach ($select as $item) {
-                $this->selectFields[] = $item;
+                $this->targetFields[] = $item;
             }
         }
         $this->type = 'SELECT';
@@ -208,6 +215,7 @@ class  MS_queryBuilder {
 
     /**
      * MS_model or array
+     *
      * @param $data
      *
      * @return $this
@@ -221,10 +229,17 @@ class  MS_queryBuilder {
             foreach ($this->model->getFieldCollection() as $field) {
                 $this->updateData[$field->name] = $field->getValue();
             }
+        } elseif (isAssoc($data)) {
+            foreach ($data as $field => $value) {
+                $this->targetFields[] = $field;
+                $this->prepareData[] = $value;
+            }
+            //data and values
+            // $this->updateData = $data;
         } elseif (is_array($data)) {
-            $this->updateData = $data;
+            $this->targetFields = $data;
         } else {
-            throw new \Exception("format not supported");
+            throw new \Exception("Format not supported");
         }
         return $this;
     }
@@ -287,9 +302,12 @@ class  MS_queryBuilder {
         return $this->where_filter($key, $value, 'AND ');
     }
 
+    /**
+     * @param string $field
+     */
     private function addInsertField(string $field) {
-        if (!in_array($field, $this->insertFields)) {
-            $this->insertFields[] = $field;
+        if (!in_array($field, $this->targetFields)) {
+            $this->targetFields[] = $field;
         }
     }
 
@@ -302,6 +320,7 @@ class  MS_queryBuilder {
         $this->type = "INSERT INTO";
         if ($data instanceof MS_model) {
             $this->model = $data;
+            $this->setTable($data);
             $dataToInsert = [];
             /**
              * @var $field MS_property
@@ -390,7 +409,7 @@ class  MS_queryBuilder {
         switch ($this->type) {
             case 'SELECT':
                 $query = "$this->sql_select ";
-                foreach ($this->selectFields as $field) {
+                foreach ($this->targetFields as $field) {
                     $query .= $field . ',';
                 }
                 $this->addStatementToQuery(rtrim($query, ',') . " $this->sql_from $this->table");
@@ -409,6 +428,8 @@ class  MS_queryBuilder {
                 $this->addStatementToQuery("$this->sql_delete $this->table");
                 break;
             case 'UPDATE':
+                $this->addStatementToQuery("$this->sql_update $this->table $this->sql_set ");
+                $this->addStatementToQuery($this->buildUpdateStatement());
                 break;
             case 'INSERT INTO':
                 $this->addStatementToQuery("$this->sql_insert $this->table ");
@@ -457,8 +478,9 @@ class  MS_queryBuilder {
      * @param $table MS_model | string
      *
      */
-    private function setTable($table) {
+    protected function setTable($table) {
         if ($table instanceof MS_model) {
+            $this->model = $table;
             $modelInformation = new \ReflectionClass($table);
             $this->table = rtrim($modelInformation->getShortName(), 'Model');
         } else {
@@ -480,8 +502,8 @@ class  MS_queryBuilder {
      * @return string
      */
     private function buildInsertStatement() {
-        if (!is_null($this->insertFields)) {
-            $this->addStatementToQuery("(" . implode(",", $this->insertFields) . ") ");
+        if (!is_null($this->targetFields)) {
+            $this->addStatementToQuery("(" . implode(",", $this->targetFields) . ") ");
         }
         $query = "$this->sql_values ";
         foreach ($this->insertData as $insertDataCollection) {
@@ -493,5 +515,13 @@ class  MS_queryBuilder {
             $query = rtrim($query, ",") . "),";
         }
         return rtrim($query, ",");
+    }
+
+    private function buildUpdateStatement() {
+        if (!is_null($this->targetFields)) {
+            return implode("=?,", $this->targetFields);
+        } else {
+            throw new \Exception("No fields targeted");
+        }
     }
 }

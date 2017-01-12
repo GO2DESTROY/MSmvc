@@ -15,13 +15,13 @@ class MS_model {
      * if no name is given the default will be used
      * @var null
      */
-	protected $dataBaseConnection = NULL;
+    protected $dataBaseConnection = NULL;
 
     /**
      * array filled with MS_property objects
      * @var array
      */
-	private $fieldCollection;
+    private $fieldCollection;
 
     /**
      * @return null
@@ -38,20 +38,24 @@ class MS_model {
     }
 
     /**
-     * @param \MSmvc\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\MS_property $property
      *
      * @internal param \system\models\properties\MS_property $type type of the property
      */
-	protected function addField(MS_property $property) {
-		$this->fieldCollection[] = $property;
-	}
+    protected function addField(MS_property $property) {
+        $this->fieldCollection[] = $property;
+    }
 
 
     /**
      * we loop though the passed data and through the fields
-     * @param array $data : fill the model with an associate array
+     * will only fill the current model
+     *
+     * @param $data : fill the model with an associate array
+     *
+     * @throws \Exception
      */
-    public function fillModel(array $data) {
+    public function fillModel($data) {
         foreach ($data as $name => $item) {
             foreach ($this->fieldCollection as $field) {
                 if ($field->name == $name) {
@@ -60,11 +64,10 @@ class MS_model {
                 }
             }
         }
-        //model is filled and validated
     }
 
     /**
-     * @param \MSmvc\system\models\properties\MS_property $name
+     * @param \App\system\models\properties\MS_property   $name
      * @param                                             $data
      */
     private function fillProperty(MS_property $name, $data) {
