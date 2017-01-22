@@ -47,9 +47,9 @@ abstract class MS_property {
 
     /**
      * not null value
-     * @var bool
+     * @var string
      */
-    private $notNull = FALSE;
+    private $notNull = NULL;
 
     /**
      * Autoincrement for int fields
@@ -73,28 +73,34 @@ abstract class MS_property {
      * False or a instance of another property
      * @var MS_property
      */
-    private $refrenceProperty = FALSE;
+    private $referencePropertyString = FALSE;
 
     /**
      * @var MS_model
      */
-    private $refrenceModel;
+    private $referenceModelString = FALSE;
+
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function isNotNull(): bool {
+    public function getNotNull() {
         return $this->notNull;
     }
 
     /**
      * @param boolean $notNull
+     *
+     * @return $this
      */
     public function setNotNull(bool $notNull = TRUE) {
-        if ($notNull == FALSE) {
-            $this->primaryKey = FALSE;
+        if ($notNull === TRUE) {
+            $this->notNull = "NOT NULL ";
+        } else {
+            $this->notNull = NULL;
+            $this->setPrimaryKey(FALSE);
         }
-        $this->notNull = $notNull;
+        return $this;
     }
 
     /**
@@ -106,12 +112,15 @@ abstract class MS_property {
 
     /**
      * @param boolean $primaryKey
+     *
+     * @return $this
      */
     public function setPrimaryKey(bool $primaryKey = TRUE) {
         if ($primaryKey == TRUE) {
-            $this->notNull = TRUE;
+            $this->setNotNull(TRUE);
         }
         $this->primaryKey = $primaryKey;
+        return $this;
     }
 
     /**
@@ -134,7 +143,7 @@ abstract class MS_property {
      */
     protected function setAutoIncrement(bool $autoIncrement = TRUE) {
         if ($autoIncrement === TRUE) {
-            $this->autoIncrement = "AUTO_INCREMENT";
+            $this->autoIncrement = "AUTO_INCREMENT ";
         } else {
             $this->autoIncrement = NULL;
         }
@@ -150,32 +159,57 @@ abstract class MS_property {
 
     /**
      * @param mixed $value
+     *
+     * @return $this
      */
     public function setValue($value) {
         $this->value = $value;
+        return $this;
+    }
+
+
+    /**
+     * @param string $refrenceModel
+     * @param string $refrenceProperty
+     */
+    public function setForeignKey($refrenceModel, $refrenceProperty) {
+        $this->refrenceModelString = $refrenceModel;
+        $this->refrencePropertyString = $refrenceProperty;
     }
 
     /**
-     * @param \MSmvc\system\models\MS_model               $refrenceModel
-     * @param \MSmvc\system\models\properties\MS_property $refrenceProperty
+     * @return \App\system\models\properties\MS_property
      */
-    public function setForeignKey(MS_model $refrenceModel, MS_property $refrenceProperty) {
-        $this->refrenceModel = $refrenceModel;
-        $this->refrenceProperty = $refrenceProperty;
+    public function getReferenceProperty() {
+        return $this->referencePropertyString;
+    }
+
+
+    /**
+     * @return \App\system\models\MS_model
+     */
+    public function getReferenceModel() {
+        return $this->referenceModelString;
     }
 
     /**
-     * @return \MSmvc\system\models\properties\MS_property
+     * @param string $name
+     *
+     * @return $this
      */
-    public function getRefrenceProperty(){
-        return $this->refrenceProperty;
+    public function setName(string $name) {
+        $this->name = $name;
+        return $this;
     }
 
     /**
-     * @return \MSmvc\system\models\MS_model
+     * @param $length
+     *
+     * @return $this
      */
-    public function getRefrenceModel(){
-        return $this->refrenceModel;
+    public function setLength($length) {
+        $this->length = $length;
+        return $this;
     }
 
 }

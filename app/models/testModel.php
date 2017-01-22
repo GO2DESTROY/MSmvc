@@ -7,7 +7,8 @@ use App\system\models\properties\integer;
 use App\system\models\properties\varchar;
 
 class testModel extends MS_model {
-	function __construct() {
+
+    public function up() {
 		$this->dataBaseConnection = 'development';
 		$id = new integer();
 		$id->name = "id";
@@ -16,12 +17,14 @@ class testModel extends MS_model {
 		$this->addField($id);
 
 
-		$name = new varchar();
-		$name->name = 'name';
-		$this->addField($name);
+		$this->addField(string("name"));
 
 		$test = new varchar();
 		$test->name = 'test';
 		$this->addField($test);
+
+		$type = new integer();
+		$type->setForeignKey("types","id");
+		$this->addField($type);
 	}
 }

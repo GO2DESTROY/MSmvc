@@ -70,7 +70,7 @@ class MS_start {
 		if($this->uri === NULL) {
 			$request_path = explode('?', $_SERVER['REQUEST_URI']);    //root of the URI
 			$request_root = rtrim(dirname($_SERVER['SCRIPT_NAME']), '\/');    //The url
-			$uri = '/' . utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1));
+			$uri = '/' . rtrim(utf8_decode(substr(urldecode($request_path[0]), strlen($request_root) + 1)),"/");
 			$this->uri = $uri;
 		}
 	}

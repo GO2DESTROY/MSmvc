@@ -1,4 +1,4 @@
-<?php layout('layouts/system/layout'); ?>
+<?php setLayout('system/layout'); ?>
 
 <div class="row">
 	<div class="title col-md-12"><h2>Generate</h2></div>

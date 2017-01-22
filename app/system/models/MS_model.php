@@ -8,7 +8,7 @@ use App\system\models\properties\MS_property;
  * Class MS_model: this is the model class to be extended of the model
  * @package system\models
  */
-class MS_model {
+abstract class MS_model {
 
     /**
      * MS_resource name to be used for the connection
@@ -22,6 +22,19 @@ class MS_model {
      * @var array
      */
     private $fieldCollection;
+
+    /**
+     * name of the model
+     * @var string
+     */
+    private $modelName;
+
+    /**
+     * MS_model constructor.
+     */
+    final function __construct() {
+        $this->setModelName();
+    }
 
     /**
      * @return null
@@ -74,4 +87,37 @@ class MS_model {
         $name->setValue($data);
         $name->validateProperty();
     }
+
+    /**
+     * this function will set the model name
+     */
+    private function setModelName() {
+        $modelInformation = new \ReflectionClass($this);
+        $this->modelName = $modelInformation->getShortName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongModelName() {
+        return $this->modelName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortModelName() {
+        return rtrim($this->modelName, "Model");
+    }
+
+    /**
+     * within this method you may setup the model
+     * @return mixed
+     */
+    abstract public function up();
+
+    /**
+     * within this method you may setup the model
+     * @return mixed
+     */
 }

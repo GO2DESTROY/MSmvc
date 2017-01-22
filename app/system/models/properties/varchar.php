@@ -19,6 +19,5 @@ class varchar extends MS_property{
 		else{
 			throw new \Exception('the property is invalid');
 		}
-		// TODO: Implement validateProperty() method.
 	}
 }

@@ -3,7 +3,6 @@ namespace App\system\databases;
 
 use App\system\models\MS_model;
 use App\system\models\properties\MS_property;
-use App\system\databases\MS_modelQueryBuilder;
 
 /**
  * Class MS_queryBuilder: this class will build the queries based on the models
@@ -15,13 +14,13 @@ class  MS_queryBuilder {
      * the model to be used
      * @var MS_model
      */
-    private $model;
+    protected $model;
 
     /**
      * the table to be used
      * @var string
      */
-    private $table;
+    protected $table;
 
     /**
      * fields to be selected
@@ -39,7 +38,7 @@ class  MS_queryBuilder {
      * fields that are marked as primary keys
      * @var array
      */
-    private $primaryKeys;
+    protected $primaryKeys;
 
     /**
      * the SQL query that will be used
@@ -79,7 +78,7 @@ class  MS_queryBuilder {
      * SELECT | CREATE TABLE | UPDATE | DELETE | INSERT INTO
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * real data that is used in the prepare statement
@@ -87,60 +86,7 @@ class  MS_queryBuilder {
      */
     private $prepareData;
 
-    /**
-     * SELECT statement
-     * @var string
-     */
-    private $sql_select = "SELECT";
-
-    /**
-     * CREATE TABLE statement
-     * @var string
-     */
-    private $sql_create_table = "CREATE TABLE";
-
-    /**
-     * FROM statement
-     * @var string
-     */
-    private $sql_from = "FROM";
-
-    /**
-     * WHERE statement
-     * @var string
-     */
-    private $sql_where = "WHERE";
-
-    /**
-     * DELETE FROM statement
-     * @var string
-     */
-    private $sql_delete = "DELETE FROM";
-
-    /**
-     * INSERT INTO statement
-     * @var string
-     */
-    private $sql_insert = "INSERT INTO";
-
-    /**
-     * UPDATE statement
-     * @var string
-     */
-    private $sql_update = "UPDATE";
-
-    /**
-     * VALUES statement
-     * @var string
-     */
-    private $sql_values = "VALUES";
-
-    /**
-     * SET statement
-     * @var string
-     */
-    private $sql_set = "SET";
-
+    use MS_sqlStatements;
 
     /**
      * todo: add support without a model and split up to a class that has a model
@@ -221,8 +167,8 @@ class  MS_queryBuilder {
      * @return $this
      * @throws \Exception
      */
-    public function set($data) {
-        if ($data instanceof MS_model) {
+    public function set(array $data = NULL) {
+        if ($this->model instanceof MS_model) {
             /**
              * @var $field MS_property
              */
@@ -255,14 +201,6 @@ class  MS_queryBuilder {
     }
 
     /**
-     * @return $this
-     */
-    public function modelToTable() {
-        $this->type = 'CREATE TABLE';
-        return $this;
-    }
-
-    /**
      * @param $name    :the field name
      * @param $type    : the field type
      * @param $options : other options
@@ -272,24 +210,6 @@ class  MS_queryBuilder {
     public function addField($name, $type, $options) {
         $this->addFields[] = ['name' => $name, 'type' => $type, 'options' => $options];
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getPrimaryKeysString() {
-        return "PRIMARY KEY(" . implode(",", $this->primaryKeys) . ")";
-    }
-
-    /**
-     * @param MS_property $property
-     *
-     * @internal param mixed $primaryKeys
-     */
-    public function setPrimaryKeys(MS_property $property) {
-        if ($property->isPrimaryKey() == TRUE) {
-            $this->primaryKeys[] = $property->name;
-        }
     }
 
     /**
@@ -316,11 +236,9 @@ class  MS_queryBuilder {
      *
      * @return $this
      */
-    public function insert($data) {
+    public function insert($data = NULL) {
         $this->type = "INSERT INTO";
-        if ($data instanceof MS_model) {
-            $this->model = $data;
-            $this->setTable($data);
+        if ($this->model instanceof MS_model) {
             $dataToInsert = [];
             /**
              * @var $field MS_property
@@ -391,21 +309,11 @@ class  MS_queryBuilder {
         return $this;
     }
 
-    /**
-     * this function will set all the properties for a single field
-     *
-     * @param \App\system\models\properties\MS_property $property
-     *
-     * @return string
-     */
-    private function propertyToField(MS_property $property) {
-        return rtrim("$property->name $property->type ($property->length)" . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
-    }
 
     /**
      * this method will build the query based on the set values
      */
-    private function buildQuery() {
+    protected function buildQuery() {
         switch ($this->type) {
             case 'SELECT':
                 $query = "$this->sql_select ";
@@ -413,16 +321,6 @@ class  MS_queryBuilder {
                     $query .= $field . ',';
                 }
                 $this->addStatementToQuery(rtrim($query, ',') . " $this->sql_from $this->table");
-                break;
-            case 'CREATE TABLE':
-                $query = "$this->sql_create_table $this->table (";
-                foreach ($this->model->getFieldCollection() as $field) {
-                    //todo: remove if statement from the loop
-                    $query .= $this->propertyToField($field);
-                    $this->setPrimaryKeys($field);
-                }
-                $query .= $this->getPrimaryKeysString();
-                $this->addStatementToQuery($query . ")");
                 break;
             case 'DELETE':
                 $this->addStatementToQuery("$this->sql_delete $this->table");
@@ -493,7 +391,7 @@ class  MS_queryBuilder {
      *
      * @param string $statement : sql query
      */
-    private function addStatementToQuery(string $statement) {
+    protected function addStatementToQuery(string $statement) {
         $this->query .= $statement;
     }
 
@@ -517,6 +415,10 @@ class  MS_queryBuilder {
         return rtrim($query, ",");
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     private function buildUpdateStatement() {
         if (!is_null($this->targetFields)) {
             return implode("=?,", $this->targetFields);

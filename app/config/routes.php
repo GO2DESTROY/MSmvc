@@ -27,10 +27,8 @@ use App\system\router\MS_route;
 */
 MS_route::any('/', ['uses' => 'example@index', 'as' => 'home']);
 
-MS_route::get('/generate', ['uses' => 'generate@getGenerateFormPage', 'as' => 'generateFormPage']);
-MS_route::post('/generate', ['uses' => 'generate@submitGenerateFormPage', 'as' => 'submitGenerateFormPage']);
-MS_route::get('/generate/table/{id}', ['uses' => 'generate@getGenerateTables', 'as' => 'generateFormPage']);
-MS_route::get('/generate/model/{id}',['uses' => 'generate@requestModelContent']);
+MS_route::get('/generate', ['uses' => 'generate@index', 'as' => 'generateFormPage']);
+//MS_route::get('/generate/model/{id}',['uses' => 'generate@requestModelContent']);
 
 MS_route::any('/test',['uses' => 'tableControllerName@index']);
 

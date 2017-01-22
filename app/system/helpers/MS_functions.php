@@ -109,3 +109,27 @@ if (!function_exists('isAssoc')) {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 }
+if (!function_exists("string")) {
+    /**
+     * @param string $name
+     *
+     * @return \App\system\models\properties\varchar
+     */
+    function string(string $name) {
+        $string = new \App\system\models\properties\varchar();
+        $string->name = $name;
+        return $string;
+    }
+}
+if (!function_exists("int")) {
+    /**
+     * @param string $name
+     *
+     * @return \App\system\models\properties\integer
+     */
+    function int(string $name) {
+        $int = new \App\system\models\properties\integer();
+        $int->name = $name;
+        return $int;
+    }
+}
