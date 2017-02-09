@@ -17,7 +17,7 @@ class example extends MS_controller {
         $test = new testModel();
         //$qb = new MS_queryBuilder();
         //todo: in de migratie de up uitvoeren
-     //   echo $test->getShortModelName();
+        echo $test->getShortModelName();
 
 
         MS_migrationHandler::addMigrationModel($test);

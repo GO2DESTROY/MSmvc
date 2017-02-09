@@ -133,3 +133,15 @@ if (!function_exists("int")) {
         return $int;
     }
 }
+if (!function_exists("includeWholeDirectory")) {
+    /**
+     * @param        $directory
+     * @param string $extension
+     */
+    function includeWholeDirectory($directory, $extension = "php") {
+        foreach (glob(\App\system\pipelines\MS_pipeline::$root.DIRECTORY_SEPARATOR.$directory . "/*." . $extension) as $filename) {
+            $includeFile = new \App\system\pipelines\MS_pipeline($filename);
+            $includeFile->getDataSetFromRequest();
+        }
+    }
+}

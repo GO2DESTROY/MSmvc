@@ -14,7 +14,6 @@ class MS_handler
 
 	protected $environment;
 	private   $errorSettings;
-	protected $root;
 
 	/**
 	 * this will handle the exceptions

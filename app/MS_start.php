@@ -30,7 +30,6 @@ class MS_start {
 	 * MS_start constructor.
 	 */
 	public function __construct() {
-		MS_pipeline::$root = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 		//	set_exception_handler([new MS_handler, 'exceptionHandler']);
 		//	set_error_handler([new MS_handler, 'errorHandler']);
 		//	register_shutdown_function([new MS_handler, 'fatal_handler']);
@@ -41,15 +40,20 @@ class MS_start {
 	 * called followed by the response
 	 */
 	public function boot() {
+        //MS_pipeline::includeFile('system' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'MS_functions');
 		$this->setRequestInterface();
 		if($this->currentRequestInterface !== 'CLI') {
 			$this->setRequestUri();
 		}
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestInterface;
-		foreach(glob(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config\*.php') as $filename) {
-			MS_pipeline::getConfigFileContent($filename, 'basic');
-		}
+		//we add the root to the include path
+        set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(__FILE__)));
+        MS_pipeline::$root = dirname(dirname(__FILE__));
+		$functions = new MS_pipeline("app".DIRECTORY_SEPARATOR."system".DIRECTORY_SEPARATOR."helpers".DIRECTORY_SEPARATOR."MS_functions");
+		$functions->getDataSetFromRequest();
+		includeWholeDirectory("app".DIRECTORY_SEPARATOR."config");
+
 		$router = new MS_router();
 		$router->routes = MS_route::returnRouteCollection();
 		$router->currentRequestMethod = $this->currentRequestInterface;

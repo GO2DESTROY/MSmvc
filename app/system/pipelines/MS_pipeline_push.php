@@ -1,6 +1,7 @@
 <?php
 
 namespace MSmvc\system\pipelines;
+use App\system\pipelines\MS_pipeline;
 
 
 /**
@@ -12,6 +13,11 @@ class MS_pipeline_push extends MS_pipeline {
     private $dataSet;
     private $dataToAdd;
 
+
+    function __construct($requestData = NULL) {
+        parent::__construct($requestData);
+    }
+
     /**
      * todo: fix this method
      * todo: desired result we push lines to config files
@@ -20,14 +26,9 @@ class MS_pipeline_push extends MS_pipeline {
      * @param      $content
      * @param bool $replace
      */
-    public function addToConfig($requestFile, $content, $replace = FALSE) {
-        $this->requestedDataSet = $requestFile;
-
-        $this->requestTypeHandler = self::$dataSetsLocation['datasets'][$this->requestedDataSet];
+    public function addToConfig($content, $replace = FALSE) {
         $this->connectToDataHandler();
-
         $this->pushToDataSet($content);
-        self::$configCollections[$requestFile] = $this->getRequestedData();
     }
 
     public function closePushStream() {
@@ -35,7 +36,7 @@ class MS_pipeline_push extends MS_pipeline {
     }
 
     private function connectToDataHandler() {
-        switch ($this->requestTypeHandler) {
+        switch ($this->extension) {
             case 'php':
                 $this->dataSet = $this->openPhpFile();
                 break;
@@ -52,7 +53,7 @@ class MS_pipeline_push extends MS_pipeline {
      * @param $input
      */
     private function pushToDataSet($input) {
-        switch ($this->requestTypeHandler) {
+        switch ($this->extension) {
             case 'php':
                 $this->pushToPhpFile($input);
                 break;
@@ -74,14 +75,14 @@ class MS_pipeline_push extends MS_pipeline {
      * @return mixed
      */
     protected function openPhpFile() {
-        return fopen(self::$root . '/config/' . $this->requestedDataSet . '.php', 'a');
+        return fopen(self::$root . '/config/' . $this->getRequestedDataSet()["filename"] . '.php', 'a');
     }
-
+//$lock ? LOCK_EX : 0
     /**
      * @return mixed
      */
     protected function openJsonFile() {
-        return json_decode(fopen(self::$root . '/config/' . $this->requestedDataSet . '.json','r+'), TRUE);
+        return json_decode(fopen(self::$root . '/config/' . $this->getRequestedDataSet()["filename"] . '.json','r+'), TRUE);
     }
 
     private function addToLog($file, $line) {
