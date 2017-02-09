@@ -4,7 +4,7 @@ namespace App\controllers;
 
 use App\models\someModel;
 use App\models\typesModel;
-use App\system\databases\migrations\MS_migrations;
+use App\system\databases\MS_migrationHandler;
 use App\models\testModel;
 use App\system\MS_controller;
 
@@ -20,10 +20,10 @@ class example extends MS_controller {
      //   echo $test->getShortModelName();
 
 
-        MS_migrations::addMigrationModel($test);
-        MS_migrations::addMigrationModel(new  typesModel());
-        MS_migrations::addMigrationModel(new someModel());
-        new MS_migrations();
+        MS_migrationHandler::addMigrationModel($test);
+		MS_migrationHandler::addMigrationModel(new  typesModel());
+		MS_migrationHandler::addMigrationModel(new someModel());
+        new MS_migrationHandler();
 
         //$migration = new MS_migrations();
         //  $results = $qb->update("test")->set(["test" =>"tetetetetete"])->where("id",":test")->execute([":test"=>250]);

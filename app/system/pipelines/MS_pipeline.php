@@ -17,13 +17,17 @@ class MS_pipeline {
 
 	/**
 	 * MS_pipeline constructor.
+	 *
+	 * @param null $requestData
 	 */
-	function __construct() {
-
+	function __construct($requestData = null) {
+		if (!is_null($requestData)) {
+			$this->requestedDataSet = $requestData;
+		}
 	}
 
 	public static function includeWholeDirectory($directory, $extension = "php") {
-		foreach(glob($directory . "/*." . $extension) as $filename) {
+		foreach (glob($directory . "/*." . $extension) as $filename) {
 			self::includeFile($filename);
 		}
 	}
@@ -32,11 +36,12 @@ class MS_pipeline {
 	 * @param        $file  : the file u wish to get the content of
 	 * @param string $connectionType
 	 * @param bool   $force : if you wish to force to reopen the file defaults to false
+	 *
 	 * @return mixed : the file content will be returned
 	 * @throws \Exception
 	 */
 	public static function getConfigFileContent($file, string $connectionType = 'php', bool $force = FALSE) {
-		if($force === TRUE || !isset(self::$configCollections[$file])) {
+		if ($force === TRUE || !isset(self::$configCollections[$file])) {
 			$configData = new MS_pipeline();
 			$configData->requestedDataSet = $file;
 			$configData->requestTypeHandler = $connectionType;
@@ -48,10 +53,11 @@ class MS_pipeline {
 	/**
 	 * @param      $file
 	 * @param bool $force
+	 *
 	 * @return mixed
 	 */
 	public static function includeFile($file, $force = FALSE) {
-		if($force === TRUE || !isset(self::$fileCollections[$file])) {
+		if ($force === TRUE || !isset(self::$fileCollections[$file])) {
 			self::$fileCollections[$file] = include self::$root . $file . '.php';
 		}
 		return self::$fileCollections[$file];
@@ -60,10 +66,11 @@ class MS_pipeline {
 	/**
 	 * @param            $file
 	 * @param array|NULL $data
+	 *
 	 * @return string
 	 */
 	public static function executeAndReturnFileContent($file, array $data = NULL) {
-		if(is_array($data)) {
+		if (is_array($data)) {
 			extract($data, EXTR_SKIP);
 		}
 		ob_start();
@@ -73,18 +80,19 @@ class MS_pipeline {
 
 	/**
 	 * @param $directory
+	 *
 	 * @return array
 	 */
 	public static function getClassesWithinDirectory($directory) {
 		$dir = new \DirectoryIterator($directory);
 		$filesWithinDirectory = [];
 		$classesWithinDirectory = [];
-		foreach($dir as $fileinfo) {
-			if(!$fileinfo->isDot() && $fileinfo->getFilename() !== '.gitkeep') {
+		foreach ($dir as $fileinfo) {
+			if (!$fileinfo->isDot() && $fileinfo->getFilename() !== '.gitkeep') {
 				$filesWithinDirectory[] = $directory . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
 			}
 		}
-		foreach($filesWithinDirectory as $file) {
+		foreach ($filesWithinDirectory as $file) {
 			$classesWithinDirectory[$file] = self::getClassesWithinFile($file);
 		}
 		return $classesWithinDirectory;
@@ -92,6 +100,7 @@ class MS_pipeline {
 
 	/**
 	 * @param $file
+	 *
 	 * @return array
 	 */
 	public static function getClassesWithinFile($file) {
@@ -99,8 +108,8 @@ class MS_pipeline {
 		$classes = [];
 		$tokens = token_get_all($php_code);
 		$count = count($tokens);
-		for($i = 2; $i < $count; $i++) {
-			if($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING) {
+		for ($i = 2; $i < $count; $i++) {
+			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING) {
 
 				$class_name = $tokens[$i][1];
 				$classes[] = $class_name;
@@ -114,7 +123,7 @@ class MS_pipeline {
 	 * @throws \Exception
 	 */
 	public function openDataHandler() {
-		switch($this->requestTypeHandler) {
+		switch ($this->requestTypeHandler) {
 			case 'php':
 				return $this->openPhpFile();
 				break;
@@ -144,25 +153,36 @@ class MS_pipeline {
 
 	/**
 	 * @param $file
+	 *
 	 * @return string
 	 */
 	public static function returnViewFilePath($file) {
 		return self::$root . 'resources/views/' . $file . '.php';
 	}
 
-    /**
-     * @param $file
-     * @return string
-     */
-    public static function returnLayoutFilePath($file) {
-        return self::$root . 'resources/views/layouts/' . $file . '.php';
-    }
+	/**
+	 * @param $file
+	 *
+	 * @return string
+	 */
+	public static function returnLayoutFilePath($file) {
+		return self::$root . 'resources/views/layouts/' . $file . '.php';
+	}
 
 	/**
 	 * @return mixed
 	 */
 	private function openJsonFile() {
 		return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
+	}
+
+	/**
+	 * @param string $filename
+	 *
+	 * @return string
+	 */
+	public static function getFileContent(string $filename) {
+		return file_get_contents(self::$root . $filename);
 	}
 }
 

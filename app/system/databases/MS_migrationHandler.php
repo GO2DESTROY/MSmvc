@@ -17,7 +17,7 @@ use system\models\MS_modelTemplate;
  * Class MS_migrations
  * @package App\system\databases\migrations
  */
-class MS_migrations {
+class MS_migrationHandler {
 
     /**
      * @var array
@@ -51,6 +51,7 @@ class MS_migrations {
         if (!empty(self::$migrationModels)) {
             array_walk(self::$migrationModels, [$this, "setMigrationReferences"]);
             $this->migrations = self::$migrationModels;
+
             //todo: create migration
             //todo: compare migration with live version
             //todo: dynamic checkset based on query builder to change the database
@@ -66,6 +67,9 @@ class MS_migrations {
         /**
          * @var $field MS_property
          */
+        //todo: compare current model to existing migrations
+		//todo: find changes between model and migration and write to new migration
+
         foreach ($model->getFieldCollection() as $field) {
             //short model name
             if (!empty($field->getReferenceModel())) {

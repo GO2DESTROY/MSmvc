@@ -1,0 +1,12 @@
+<?php
+
+namespace App\system\migrations;
+
+use App\system\databases\MS_migration;
+
+class templateClass extends MS_migration {
+
+	function up() {
+		///
+	}
+}

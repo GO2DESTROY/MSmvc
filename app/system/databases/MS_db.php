@@ -29,7 +29,7 @@ class MS_db {
 	/**
 	 * @param      $query : the SQL query to be executed
 	 * @param null $data  : the pdo data for prepare statement to be used
-	 *todo: return false when there are no results
+	 *
 	 * @return mixed : we return the query results
 	 */
 	public function query($query, $data = NULL) {
