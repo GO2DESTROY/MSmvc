@@ -75,7 +75,7 @@ class  MS_queryBuilder {
 
     /**
      * query type that will be executed
-     * SELECT | CREATE TABLE | UPDATE | DELETE | INSERT INTO
+     * SELECT | UPDATE | DELETE | INSERT INTO
      * @var string
      */
     protected $type;
@@ -298,6 +298,15 @@ class  MS_queryBuilder {
     }
 
     /**
+     * This will show all tables
+     * @return $this
+     */
+    public function showTables(){
+        $this->addStatementToQuery($this->sql_show." tables");
+        return $this;
+    }
+
+    /**
      * @param        $key
      * @param string $value
      * @param string $type
@@ -332,6 +341,8 @@ class  MS_queryBuilder {
             case 'INSERT INTO':
                 $this->addStatementToQuery("$this->sql_insert $this->table ");
                 $this->addStatementToQuery($this->buildInsertStatement());
+                break;
+            case 'NONE':
                 break;
         }
         if (!empty($this->whereFields)) {
@@ -374,7 +385,6 @@ class  MS_queryBuilder {
      * setter for the table
      *
      * @param $table MS_model | string
-     *
      */
     protected function setTable($table) {
         if ($table instanceof MS_model) {

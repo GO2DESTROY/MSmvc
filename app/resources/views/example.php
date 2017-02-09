@@ -1,3 +1,3 @@
 <?php setLayout("layout"); ?>
 
-Welcomez
+Welcome

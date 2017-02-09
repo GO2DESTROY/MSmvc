@@ -31,4 +31,15 @@ class integer extends MS_property {
 		parent::setAutoIncrement($autoIncrement);
 		return $this;
 	}
+
+    /**
+     * @param string $refrenceModel
+     * @param string $refrenceProperty
+     *
+     * @return $this
+     */
+    public function setForeignKey($refrenceModel, $refrenceProperty) {
+        parent::setForeignKey($refrenceModel, $refrenceProperty);
+        return $this;
+    }
 }

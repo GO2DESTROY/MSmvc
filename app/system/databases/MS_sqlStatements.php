@@ -68,4 +68,15 @@ trait MS_sqlStatements {
      */
     private $sql_set = "SET";
 
+    /**
+     * SHOW statement;
+     * @var string
+     */
+    private $sql_show = "SHOW";
+
+    /**
+     * SHOW statement;
+     * @var string
+     */
+    private $sql_full = "FULL";
 }

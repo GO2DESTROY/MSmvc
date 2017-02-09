@@ -107,7 +107,7 @@ abstract class MS_model {
      * @return string
      */
     public function getShortModelName() {
-        return rtrim($this->modelName, "Model");
+        return str_replace("Model","",$this->modelName);
     }
 
     /**

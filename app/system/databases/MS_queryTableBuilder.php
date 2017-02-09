@@ -74,6 +74,8 @@ class MS_queryTableBuilder extends MS_queryBuilder {
                 break;
             case 'ALTER TABLE':
                 break;
+            default:
+                break;
         }
     }
 }

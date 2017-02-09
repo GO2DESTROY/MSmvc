@@ -71,12 +71,12 @@ abstract class MS_property {
 
     /**
      * False or a instance of another property
-     * @var MS_property
+     * @var string
      */
     private $referencePropertyString = FALSE;
 
     /**
-     * @var MS_model
+     * @var string
      */
     private $referenceModelString = FALSE;
 
@@ -138,8 +138,6 @@ abstract class MS_property {
 
     /**
      * @param bool $autoIncrement
-     *
-     * @return $this
      */
     protected function setAutoIncrement(bool $autoIncrement = TRUE) {
         if ($autoIncrement === TRUE) {
@@ -147,7 +145,6 @@ abstract class MS_property {
         } else {
             $this->autoIncrement = NULL;
         }
-        return $this;
     }
 
     /**
@@ -169,12 +166,16 @@ abstract class MS_property {
 
 
     /**
-     * @param string $refrenceModel
+     * @param string | MS_model $refrenceModel
      * @param string $refrenceProperty
      */
-    public function setForeignKey($refrenceModel, $refrenceProperty) {
-        $this->refrenceModelString = $refrenceModel;
-        $this->refrencePropertyString = $refrenceProperty;
+    protected function setForeignKey($refrenceModel, $refrenceProperty) {
+        if ($refrenceModel instanceof MS_model) {
+            $this->referenceModelString = $refrenceModel->getShortModelName();
+        } else {
+            $this->referenceModelString = $refrenceModel;
+        }
+        $this->referencePropertyString = $refrenceProperty;
     }
 
     /**

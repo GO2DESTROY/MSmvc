@@ -24,7 +24,8 @@ class testModel extends MS_model {
 		$this->addField($test);
 
 		$type = new integer();
-		$type->setForeignKey("types","id");
+		$type->name = "TypeRefrenceIdFromTest";
+		$type->setForeignKey("some","someId");
 		$this->addField($type);
 	}
 }
