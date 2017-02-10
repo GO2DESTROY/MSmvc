@@ -3,10 +3,12 @@
 namespace App\system\migrations;
 
 use App\system\databases\MS_migration;
+$property_uses$
 
 class templateClass extends MS_migration {
 
 	function up() {
 		///
+		$up_properties$
 	}
 }

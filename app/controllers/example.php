@@ -7,6 +7,7 @@ use App\models\typesModel;
 use App\system\databases\MS_migrationHandler;
 use App\models\testModel;
 use App\system\MS_controller;
+use App\system\MS_templateHandler;
 
 class example extends MS_controller {
     /**
@@ -20,11 +21,13 @@ class example extends MS_controller {
         echo $test->getShortModelName();
 
 
-        MS_migrationHandler::addMigrationModel($test);
+/*        MS_migrationHandler::addMigrationModel($test);
 		MS_migrationHandler::addMigrationModel(new  typesModel());
 		MS_migrationHandler::addMigrationModel(new someModel());
         new MS_migrationHandler();
-
+*/
+$tp = new MS_templateHandler();
+var_dump($tp);
         //$migration = new MS_migrations();
         //  $results = $qb->update("test")->set(["test" =>"tetetetetete"])->where("id",":test")->execute([":test"=>250]);
         //    var_dump($qb);

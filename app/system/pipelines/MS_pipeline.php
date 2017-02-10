@@ -12,7 +12,7 @@ class MS_pipeline {
      * the existing datasets on name assoc
      * @var array
      */
-    private static $dataSets;// the dataset it self
+    private static $dataSets;
 
     /**
      * pathinfo array content
@@ -131,7 +131,7 @@ class MS_pipeline {
      * @return mixed
      */
     private function basicIncludeFile() {
-        return include $this->getRequestedDataSet()["requestFile"];
+        return file_get_contents($this->getRequestedDataSet()["requestFile"],FILE_USE_INCLUDE_PATH);
     }
 
     /**
@@ -163,7 +163,7 @@ class MS_pipeline {
      * @return mixed
      */
     private function openJsonFile() {
-        return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json'), TRUE);
+        return json_decode(file_get_contents(self::$root . 'config' . DIRECTORY_SEPARATOR . $this->requestedDataSet . '.json', FILE_USE_INCLUDE_PATH), TRUE);
     }
 
     /**
