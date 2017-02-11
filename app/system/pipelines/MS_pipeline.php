@@ -21,6 +21,7 @@ class MS_pipeline {
     private $requestedDataSet;
 
     /**
+     * this will be used if the included path is not possible
      * @var
      */
     public static $root;
