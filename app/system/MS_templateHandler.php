@@ -80,7 +80,8 @@ class MS_templateHandler {
      */
     public function createFile($name = NULL, $location = NULL) {
         $this->readTemplate($name);
-        file_put_contents(MS_pipeline::$root."$location/$name.".end($this->template["extensions"]), $this->content);
+        $this->applyReplacements();
+        file_put_contents(MS_pipeline::$root . "$location/$name." . end($this->template["extensions"]), $this->content);
     }
 
     /**
@@ -88,6 +89,22 @@ class MS_templateHandler {
      */
     public function setTemplate(string $template) {
         $this->template = $this->fileInfo($template);
+    }
+
+    /**
+     * this function will apply the replacements to the content
+     */
+    private function applyReplacements() {
+        foreach ($this->replacements as $target => $replacement) {
+            if (is_array($replacement)) {
+                $replacementString = "";
+                foreach ($replacement as $item) {
+                    $replacement .= $item . PHP_EOL;
+                }
+                str_replace($target, $replacementString, $this->content);
+            }
+            str_replace($target, $replacement, $this->content);
+        }
     }
 
     /**
@@ -107,18 +124,18 @@ class MS_templateHandler {
         $extensions = [];
         while (isset($file["extension"])) {
             $extensions[] = $file["extension"];
-            $file= pathInfo($file["filename"]);
+            $file = pathInfo($file["filename"]);
         }
-        return ["trimmedName"=>$file["filename"],"extensions"=>$extensions];
+        return ["trimmedName" => $file["filename"], "extensions" => $extensions];
     }
 
     /**
-     * @param string $file: filepath
+     * @param string $file : filepath
      *
      * @return array
      */
-    private function fileInfo(string $file){
-        return array_merge(pathinfo($file),$this->getFileExtensions(pathinfo($file)));
+    private function fileInfo(string $file) {
+        return array_merge(pathinfo($file), $this->getFileExtensions(pathinfo($file)));
     }
 
     /**
