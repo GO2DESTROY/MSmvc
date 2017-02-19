@@ -92,13 +92,19 @@ class  MS_queryBuilder {
      * todo: add support without a model and split up to a class that has a model
      * MS_modelQueryBuilder constructor.
      *
-     * @param \App\system\models\MS_model $model
+     * @param null $model
      */
-    function __construct(MS_model $model = NULL) {
+    function __construct($model = NULL) {
         if (!is_null($model)) {
-            $this->model = $model;
-            $this->setDatabaseConnection($this->model->getDataBaseConnection());
-            $this->setTable($model);
+            if ($model instanceof MS_model) {
+                $model->up();
+                $this->model = $model;
+                $this->setDatabaseConnection($this->model->getDataBaseConnection());
+                $this->setTable($model);
+            } elseif ($model instanceof MS_migration) {
+                //todo: add support for a migration
+
+            }
         }
     }
 
@@ -301,8 +307,8 @@ class  MS_queryBuilder {
      * This will show all tables
      * @return $this
      */
-    public function showTables(){
-        $this->addStatementToQuery($this->sql_show." tables");
+    public function showTables() {
+        $this->addStatementToQuery($this->sql_show . " tables");
         return $this;
     }
 
@@ -318,11 +324,47 @@ class  MS_queryBuilder {
         return $this;
     }
 
+    /**
+     * this function will set all the properties for a single field
+     *
+     * @param \App\system\models\properties\MS_property $property
+     *
+     * @return string
+     */
+    private function propertyToField(MS_property $property) {
+        return rtrim("$property->name $property->type ($property->length) " . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
+    }
+
+    /**
+     * @param MS_property $property
+     *
+     * @internal param mixed $primaryKeys
+     */
+    private function setPrimaryKeys(MS_property $property) {
+        if ($property->isPrimaryKey() == TRUE) {
+            $this->primaryKeys[] = $property->name;
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    public function createTable() {
+        $this->type = 'CREATE TABLE';
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getPrimaryKeysString() {
+        return "PRIMARY KEY(" . implode(",", $this->primaryKeys) . ")";
+    }
 
     /**
      * this method will build the query based on the set values
      */
-    protected function buildQuery() {
+    private function buildQuery() {
         switch ($this->type) {
             case 'SELECT':
                 $query = "$this->sql_select ";
@@ -341,6 +383,19 @@ class  MS_queryBuilder {
             case 'INSERT INTO':
                 $this->addStatementToQuery("$this->sql_insert $this->table ");
                 $this->addStatementToQuery($this->buildInsertStatement());
+                break;
+            case 'CREATE TABLE':
+                $query = "$this->sql_create_table $this->table (";
+                var_dump($this->model->getFieldCollection());
+                foreach ($this->model->getFieldCollection() as $field) {
+                    //todo: remove if statement from the loop
+                    $query .= $this->propertyToField($field);
+                    $this->setPrimaryKeys($field);
+                }
+                $query .= $this->getPrimaryKeysString();
+                $this->addStatementToQuery($query . ")");
+                break;
+            case 'ALTER TABLE':
                 break;
             case 'NONE':
                 break;

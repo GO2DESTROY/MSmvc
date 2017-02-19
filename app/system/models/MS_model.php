@@ -13,7 +13,7 @@ abstract class MS_model {
     /**
      * MS_resource name to be used for the connection
      * if no name is given the default will be used
-     * @var null
+     * @var string
      */
     protected $dataBaseConnection = NULL;
 

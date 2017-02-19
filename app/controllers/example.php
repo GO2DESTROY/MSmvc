@@ -6,6 +6,7 @@ use App\models\someModel;
 use App\models\typesModel;
 use App\system\databases\MS_migrationHandler;
 use App\models\testModel;
+use App\system\databases\MS_queryBuilder;
 use App\system\MS_controller;
 use App\system\MS_templateHandler;
 
@@ -16,18 +17,20 @@ class example extends MS_controller {
     public function index() {
         //	MS_databaseResource::create(['name' => 'development', 'settings' => ['host' => '127.0.0.1', 'driver' => 'mysql', 'port' => 3306, 'database' => 'test', 'username' => 'root', 'password' => '']]);
         $test = new testModel();
-        //$qb = new MS_queryBuilder();
+        $qb = new MS_queryBuilder($test);
+        $qb->createTable()->execute();
         //todo: in de migratie de up uitvoeren
-        echo $test->getShortModelName();
+      //  echo $test->getShortModelName();
 
-
-/*        MS_migrationHandler::addMigrationModel($test);
-		MS_migrationHandler::addMigrationModel(new  typesModel());
-		MS_migrationHandler::addMigrationModel(new someModel());
-        new MS_migrationHandler();
+/*
+                MS_migrationHandler::addMigrationModel($test);
+                MS_migrationHandler::addMigrationModel(new  typesModel());
+                MS_migrationHandler::addMigrationModel(new someModel());
+                $mh = new MS_migrationHandler();
+                $mh->generateNewMigrations();
 */
-$tp = new MS_templateHandler();
-var_dump($tp);
+     //   $tp = new MS_templateHandler();
+   //     var_dump($tp);
         //$migration = new MS_migrations();
         //  $results = $qb->update("test")->set(["test" =>"tetetetetete"])->where("id",":test")->execute([":test"=>250]);
         //    var_dump($qb);

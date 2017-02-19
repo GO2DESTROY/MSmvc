@@ -10,6 +10,7 @@ namespace App\system\databases;
 
 use App\system\models\MS_model;
 use App\system\models\properties\MS_property;
+use App\system\MS_templateHandler;
 use system\models\MS_modelTemplate;
 
 
@@ -53,11 +54,14 @@ class MS_migrationHandler {
             $this->migrations = self::$migrationModels;
 
             //todo: create migration
-            //todo: compare migration with live version
-            //todo: dynamic checkset based on query builder to change the database
+            //todo: run the migrations that are created
         } else {
             throw new \Exception("No migrations pending");
         }
+    }
+
+    public function executeMigrations(){
+
     }
 
     /**
@@ -68,7 +72,7 @@ class MS_migrationHandler {
          * @var $field MS_property
          */
         //todo: compare current model to existing migrations
-		//todo: find changes between model and migration and write to new migration
+        //todo: find changes between model and migration and write to new migration
 
         foreach ($model->getFieldCollection() as $field) {
             //short model name
@@ -79,15 +83,41 @@ class MS_migrationHandler {
     }
 
     /**
+     *
+     */
+    public function generateNewMigrations() {
+        //todo: loop though migraitons and create template for them
+        var_dump($this->migrations);
+
+        foreach ($this->migrations as $migration) {
+            $this->getNewMigrationGenerateFieldLine($migration);
+            //todo: compare with existing migrations -> create new migration with the changes
+
+        }
+    }
+
+    /**
+     * @param \App\system\models\MS_model $migrationModel
+     */
+    private function getNewMigrationGenerateFieldLine(MS_model $migrationModel) {
+
+        /** @var MS_property $field */
+        foreach ($migrationModel->getFieldCollection() as $field) {
+            //todo: add to string on the properties
+        }
+    }
+
+    /**
      * this method will get the current state of the database and the tables within + the columns
      */
-    public function getCurrentDatabaseState(){
+    public function getCurrentDatabaseState() {
         $tablesQuery = new MS_queryBuilder();
         $tables = $tablesQuery->showTables();
         $currentModels = [];
-        foreach ($tables as $table){
+        foreach ($tables as $table) {
             $currentModel = new MS_modelTemplate();
             "SHOW FULL COLUMNS FROM test";
         }
     }
+    //todo: use php reflection to check the default values of the MS_property values and based on the results create setters in the migration also use the reflection to get changes between instance and blueprint
 }

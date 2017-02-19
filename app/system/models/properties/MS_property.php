@@ -213,4 +213,7 @@ abstract class MS_property {
         return $this;
     }
 
+   public function returnPropertyAsMigrationField (){
+   }
+
 }
