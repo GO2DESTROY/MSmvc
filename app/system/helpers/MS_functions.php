@@ -1,32 +1,6 @@
 <?php
 use App\system\MS_response;
 
-if (!function_exists('dumpArray')) {
-    /**
-     * we transform an array to an ul with li elements
-     *
-     * @param $array : the array to dump
-     *
-     * @return string: the html string
-     */
-    function dumpArray($array) {
-        $string = '<ul>';
-        if (is_array($array) || is_object($array)) {
-            foreach ($array as $key => $value) {
-                if (is_array($value) || is_object($value) || is_resource($value)) {
-                    $value = dumpArray($value);
-                    $string .= '<li><span class="highlight">' . $key . '</span> <small>' . gettype($value) . ' [' . count($value) . ']</small> ' . $value . ' </li>';
-                } else {
-                    $string .= '<li><span class="highlight">' . $key . '</span> ' . $value . ' <small>' . gettype($value) . ' [' . strlen($value) . ']</small></li>';
-                }
-            }
-        } else {
-            $string .= '<li>' . $array . '</li>';
-        }
-        $string .= '</ul>';
-        return $string;
-    }
-}
 if (!function_exists('view')) {
     /**
      * @param      $view       : the view to send
@@ -136,12 +110,44 @@ if (!function_exists("int")) {
 if (!function_exists("includeWholeDirectory")) {
     /**
      * @param        $directory
+     * @param string $pattern
      * @param string $extension
      */
-    function includeWholeDirectory($directory, $extension = "php") {
-        foreach (glob(\App\system\pipelines\MS_pipeline::$root.DIRECTORY_SEPARATOR.$directory . "/*." . $extension) as $filename) {
-            $includeFile = new \App\system\pipelines\MS_pipeline($filename);
+    function includeWholeDirectory($directory, $pattern = "/*", $extension = ".php", $subdirectories = FALSE) {
+
+        foreach (glob(\App\system\pipelines\MS_filesystem::$root . DIRECTORY_SEPARATOR . $directory . $pattern . $extension) as $filename) {
+            if ($subdirectories === TRUE) {
+
+            }
+            $includeFile = new \App\system\pipelines\MS_filesystem($filename);
             $includeFile->getDataSetFromRequest();
         }
+    }
+}
+
+if (!function_exists("showWholeDirectory")) {
+    /**
+     * @param        $directory
+     * @param string $pattern
+     * @param string $extension
+     *
+     * @return array
+     */
+    function showWholeDirectory($directory,$pattern="/*", $subdirectories = FALSE) {
+        $files = new \App\system\pipelines\MS_filesystem($directory);
+        exit;
+        /*
+        $files = glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory."/*" );
+        var_dump($files);
+        var_dump(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory );
+        if ($subdirectories == TRUE) {
+            var_dump(glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory . $pattern  , GLOB_ONLYDIR | GLOB_NOSORT));
+            foreach (glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory . $pattern , GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+                $files = array_merge($files, showWholeDirectory($dir, "*", TRUE));
+
+            }
+        }
+        */
+        return $files;
     }
 }

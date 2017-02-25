@@ -132,7 +132,7 @@ abstract class MS_property {
     /**
      * @return mixed
      */
-    public function getAutoIncrement() {
+    public final function getAutoIncrement() {
         return $this->autoIncrement;
     }
 
@@ -167,7 +167,7 @@ abstract class MS_property {
 
     /**
      * @param string | MS_model $refrenceModel
-     * @param string $refrenceProperty
+     * @param string            $refrenceProperty
      */
     protected function setForeignKey($refrenceModel, $refrenceProperty) {
         if ($refrenceModel instanceof MS_model) {
@@ -198,7 +198,7 @@ abstract class MS_property {
      *
      * @return $this
      */
-    public function setName(string $name) {
+    public final function setName(string $name) {
         $this->name = $name;
         return $this;
     }
@@ -208,12 +208,19 @@ abstract class MS_property {
      *
      * @return $this
      */
-    public function setLength($length) {
+    public final function setLength($length) {
         $this->length = $length;
         return $this;
     }
 
-   public function returnPropertyAsMigrationField (){
-   }
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get($name) {
+        return $this->$name;
+    }
 
 }

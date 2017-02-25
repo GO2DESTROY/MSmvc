@@ -4,7 +4,7 @@
 // this file contains a lot of dirty code we have to improve this in the near future
 namespace App;
 use App\system\MS_request;
-use App\system\pipelines\MS_pipeline;
+use App\system\pipelines\MS_filesystem;
 use App\system\router\MS_route;
 use App\system\router\MS_router;
 
@@ -47,10 +47,12 @@ class MS_start {
 		}
 		$request = new MS_request();
 		$request->requestInterface = $this->currentRequestInterface;
-		//we add the root to the include path
+
         set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(__FILE__)));
-        MS_pipeline::$root = dirname(dirname(__FILE__));
-		$functions = new MS_pipeline("app".DIRECTORY_SEPARATOR."system".DIRECTORY_SEPARATOR."helpers".DIRECTORY_SEPARATOR."MS_functions");
+
+        MS_filesystem::$root = dirname(dirname(__FILE__));
+
+		$functions = new MS_filesystem("app/system\helpers/MS_functions");
 		$functions->getDataSetFromRequest();
 		includeWholeDirectory("app".DIRECTORY_SEPARATOR."config");
 

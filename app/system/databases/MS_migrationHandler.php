@@ -10,8 +10,6 @@ namespace App\system\databases;
 
 use App\system\models\MS_model;
 use App\system\models\properties\MS_property;
-use App\system\MS_templateHandler;
-use system\models\MS_modelTemplate;
 
 
 /**

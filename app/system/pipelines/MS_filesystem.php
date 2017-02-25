@@ -6,7 +6,7 @@ namespace App\system\pipelines;
  * Class MS_pipeline
  * @package system\pipelines
  */
-class MS_pipeline {
+class MS_filesystem {
 
     /**
      * the existing datasets on name assoc
@@ -21,6 +21,11 @@ class MS_pipeline {
     private $requestedDataSet;
 
     /**
+     * @var
+     */
+    private $path;
+
+    /**
      * this will be used if the included path is not possible
      * @var
      */
@@ -29,23 +34,38 @@ class MS_pipeline {
 
     /**
      * MS_pipeline constructor.
-     *
+     * todo: make pipeline a filemanger and use change dir to change between diretories!
      * this is the file that is requested
+     *
      * @param null|string $requestDataSet
      *
      * @internal param null $requestData
      */
-    function __construct($requestDataSet = NULL) {
-        if (!is_null($requestDataSet)) {
-            $pathinfo = pathinfo($requestDataSet);
-            if(!isset($pathinfo["extension"])){
-                $requestDataSet .=".php";
-                $pathinfo = pathinfo($requestDataSet);
+    function __construct($path = NULL) {
+        if (!is_null($path)) {
+            $this->setPath($path);
+
+            $pathinfo = pathinfo($this->path);
+            if (!isset($pathinfo["extension"])) {
+                $path .= ".php";
+                $pathinfo = pathinfo($path);
             }
-            $pathinfo["requestFile"] = $requestDataSet;
-      //      var_dump($pathinfo);
+            $pathinfo["requestFile"] = $path;
             $this->setRequestedDataSet($pathinfo);
         }
+    }
+
+    public function setPath(string $path){
+        $this->path = $this->cleanPath($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return mixed
+     */
+    public function cleanPath($path) {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -61,26 +81,6 @@ class MS_pipeline {
         ob_start();
         include $file;
         return ob_get_clean();
-    }
-
-    /**
-     * @param $directory
-     *
-     * @return array
-     */
-    public static function getClassesWithinDirectory($directory) {
-        $dir = new \DirectoryIterator($directory);
-        $filesWithinDirectory = [];
-        $classesWithinDirectory = [];
-        foreach ($dir as $fileinfo) {
-            if (!$fileinfo->isDot() && $fileinfo->getFilename() !== '.gitkeep') {
-                $filesWithinDirectory[] = $directory . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
-            }
-        }
-        foreach ($filesWithinDirectory as $file) {
-            $classesWithinDirectory[$file] = self::getClassesWithinFile($file);
-        }
-        return $classesWithinDirectory;
     }
 
     /**
@@ -104,27 +104,62 @@ class MS_pipeline {
     }
 
     /**
+     * Determine if a file exists.
+     *
+     * @param  string $path
+     *
+     * @return bool
+     */
+    public function exists($path) {
+        return file_exists($path);
+    }
+
+    /**
+     * Get the contents of a file.
+     *
+     * @param  string $path
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getContent(string $path) {
+        if ($this->isFile($path)) {
+            return file_get_contents($path);
+        }
+        throw new \Exception("File does not exist at path $path");
+    }
+
+    /**
+     * @param $file
+     *
+     * @return bool
+     */
+    public function isFile($file) {
+        return is_file($file);
+    }
+
+    /**
      * @param bool $force
      *
      * @return int|mixed
      */
     public function getDataSetFromRequest(bool $force = FALSE) {
-        if(!isset(self::$dataSets[$this->getRequestedDataSet()["filename"]]) || $force === TRUE){
+        if (!isset(self::$dataSets[$this->getRequestedDataSet()["filename"]]) || $force === TRUE) {
 
 
-        switch ($this->getRequestedDataSet()["extension"]) {
-            case 'php':
-                return $this->openPhpFile();
-                break;
-            case 'json':
-                return $this->openJsonFile();
-                break;
-            default:
-                return $this->basicIncludeFile();
-                break;
-        }
-        }else{
-          return self::$dataSets[$this->getRequestedDataSet()["filename"]];
+            switch ($this->getRequestedDataSet()["extension"]) {
+                case 'php':
+                    return $this->openPhpFile();
+                    break;
+                case 'json':
+                    return $this->openJsonFile();
+                    break;
+                default:
+                    return $this->basicIncludeFile();
+                    break;
+            }
+        } else {
+            return self::$dataSets[$this->getRequestedDataSet()["filename"]];
         }
     }
 
@@ -132,7 +167,7 @@ class MS_pipeline {
      * @return mixed
      */
     private function basicIncludeFile() {
-        return file_get_contents($this->getRequestedDataSet()["requestFile"],FILE_USE_INCLUDE_PATH);
+        return file_get_contents($this->getRequestedDataSet()["requestFile"], FILE_USE_INCLUDE_PATH);
     }
 
     /**

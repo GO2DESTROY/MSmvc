@@ -12,6 +12,7 @@ class testModel extends MS_model {
 		$this->dataBaseConnection = 'development';
 		$id = new integer();
 		$id->name = "id";
+		$id->setLength(23);
 		$id->setPrimaryKey(true);
 		$id->setAutoIncrement(true);
 		$this->addField($id);
