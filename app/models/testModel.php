@@ -8,7 +8,7 @@ use App\system\models\properties\varchar;
 
 class testModel extends MS_model {
 
-    public function up() {
+	public function up() {
 		$this->dataBaseConnection = 'development';
 		$id = new integer();
 		$id->name = "id";
@@ -17,7 +17,7 @@ class testModel extends MS_model {
 		$id->setAutoIncrement(true);
 		$this->addField($id);
 
-
+		$this->addField(int("id")->setAutoIncrement(TRUE));
 		$this->addField(string("name"));
 
 		$test = new varchar();
@@ -26,7 +26,7 @@ class testModel extends MS_model {
 
 		$type = new integer();
 		$type->name = "TypeRefrenceIdFromTest";
-		$type->setForeignKey("some","someId");
+		$type->setForeignKey("some", "someId");
 		$this->addField($type);
 	}
 }
