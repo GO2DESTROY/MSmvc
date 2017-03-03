@@ -50,9 +50,11 @@ class MS_start {
 
         set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(__FILE__)));
 
+        //todo: set back to public after response
+		chdir(dirname(dirname(__FILE__)));
         MS_filesystem::$root = dirname(dirname(__FILE__));
 
-		$functions = new MS_filesystem("app/system\helpers/MS_functions");
+		$functions = new MS_filesystem("app/system/helpers/MS_functions.php");
 		$functions->getDataSetFromRequest();
 		includeWholeDirectory("app".DIRECTORY_SEPARATOR."config");
 

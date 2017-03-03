@@ -15,7 +15,7 @@ class integer extends MS_property {
      * @throws \Exception
      */
     public function validateProperty() {
-        if (is_int(intval($this->value))) {
+        if (is_int($this->value)) {
             return TRUE;
         } else {
             throw new \Exception('the property is invalid');

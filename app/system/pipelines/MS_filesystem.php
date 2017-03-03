@@ -6,32 +6,12 @@ namespace App\system\pipelines;
  * Class MS_pipeline
  * @package system\pipelines
  */
-class MS_filesystem {
+class MS_filesystem extends \RecursiveDirectoryIterator {
 
 
-    /**
-     * path content to include
-     * @var array
-     */
-    private $requestedDataSet;
 
-    /**
-     * @var bool
-     */
-    private $file;
-
-    /**
-     * @var
-     */
-    private $path;
-
-    /**
-     * this will be used if the included path is not possible
-     * @var
-     */
-    public static $root;
-
-
+	//todo: remove this
+	public static $root;
     /**
      * MS_pipeline constructor.
      * todo: make pipeline a filemanger and use change dir to change between diretories!
@@ -41,8 +21,11 @@ class MS_filesystem {
      */
     function __construct($path = NULL) {
         if (!is_null($path)) {
-            $this->setPath($path);
-            $this->setFile();
+        	//todo create a check if path is a file
+			echo getcwd() . "\n";
+		//	chdir('public_html');
+        	var_dump($this->cleanPath($path));
+            parent::__construct($this->cleanPath($path), parent::SKIP_DOTS);
         }
     }
 
@@ -219,17 +202,6 @@ class MS_filesystem {
      */
     public function setRequestedDataSet(array $requestedDataSet) {
         $this->requestedDataSet = $requestedDataSet;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFile() {
-        return $this->file;
-    }
-
-    public function setFile() {
-        $this->file = is_file($this->path);
     }
 }
 
