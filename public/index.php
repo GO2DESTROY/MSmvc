@@ -5,6 +5,7 @@
  * @author  Maurice Schurink
  * @version 0.2
  */
+
 require __DIR__ . '/../vendor/autoload.php';
 use App\MS_start;
 ini_set('xdebug.var_display_max_depth', -1);
