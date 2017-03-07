@@ -51,25 +51,19 @@ class MS_start {
 
         set_include_path(get_include_path() . PATH_SEPARATOR . dirname(dirname(__FILE__)));
 
-        //todo: set back to public after response no need since html file included from public
         chdir(dirname(dirname(__FILE__)));
-        //  MS_filesystem::$root = dirname(dirname(__FILE__));
 
-        $functions = new MS_filesystem("app/system/helpers/MS_functions.php", MS_filesystem::FILE_PATH_AS_VIEW);
+        $functions = new MS_filesystem("app/system/helpers/MS_functions.php");
         $functions->include();
-var_dump($functions);
-   //     $configs = new MS_filesystem("app/config");
-      //  $configs->filterExtensions("php");
-      //  $configs->include();
 
-      //  includeWholeDirectory("app" . DIRECTORY_SEPARATOR . "config");
-
-        exit;
-
+        $configs = new MS_filesystem("app/config");
+        $configs->filterExtensions("php");
+        $configs->include();
 
         $router = new MS_router();
         $router->routes = MS_route::returnRouteCollection();
         $router->currentRequestMethod = $this->currentRequestInterface;
+
         if ($this->currentRequestInterface !== 'CLI') {
             $router->uri = $this->uri;
         }

@@ -1,10 +1,6 @@
 <?php
 
-/*
- * todo: make an audio helper for audio streaming
- */
-
-class MS_zip extends \system\MS_core implements blueprints\MS_compressInterface
+class MS_zip
 {
 	private $archiveFile;
 	private $openZipFile;

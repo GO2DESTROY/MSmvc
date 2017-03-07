@@ -26,7 +26,6 @@ class MS_optionals {
 	 * @param bool  $basic
 	 */
 	function __construct(array $values, $minus = null, bool $basic = false) {
-		var_dump($values);
 		$this->setBasic($basic);
 		if (!is_null($minus)) {
 			if (is_array($minus)) {
@@ -46,7 +45,6 @@ class MS_optionals {
 		} else {
 			$this->values = $values;
 		}
-		var_dump($this->values);
 	}
 
 	/**

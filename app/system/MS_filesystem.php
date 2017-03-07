@@ -39,287 +39,287 @@ namespace App\system;
  */
 class MS_filesystem implements \SeekableIterator {
 
-	/**
-	 * this prepend the view path
-	 */
-	const FILE_PATH_AS_VIEW = 1;
+    /**
+     * this prepend the view path
+     */
+    const USE_VIEW_PATH = 1;
 
-	/**
-	 * this prepend the view path
-	 */
-	const TEST_TEST = 2;
+    /**
+     * this prepend the view path
+     */
+    const USE_LAYOUT_PATH = 2;
 
-	/**
-	 * @var MS_optionals
-	 */
-	private $options;
+    /**
+     * @var MS_optionals
+     */
+    private $options;
 
-	private $path;
-	/**
-	 * array filled with segments based on the path
-	 * @var array
-	 */
-	private $segments;
+    /**
+     * @var string
+     */
+    private $path;
+    /**
+     * array filled with segments based on the path
+     * @var array
+     */
+    private $segments;
 
-	/**
-	 * @var int
-	 */
-	private $position = 0;
-	/**
-	 * array with all the fileobjects
-	 * @var array
-	 */
-	private $collection;
+    /**
+     * array with all the fileobjects
+     * @var array
+     */
+    private $collection;
 
-	/**
-	 * if subdirectories will be included true / false
-	 * @var bool
-	 */
-	private $includeSubDirectories;
+    /**
+     * if subdirectories will be included true / false
+     * @var bool
+     */
+    private $includeSubDirectories;
 
-	/**
-	 * MS_filesystem constructor.
-	 *
-	 * @param null|string $path
-	 */
-	function __construct($path) {
-		$this->options = new MS_optionals(func_get_args(),$path,true);
+    /**
+     * MS_filesystem constructor.
+     *
+     * @param null|string $path
+     */
+    function __construct($path) {
+        $this->options = new MS_optionals(func_get_args(), $path, TRUE);
+        $this->setPath($path);
 
-		$this->setPath($path);
-		if (is_file($path)) {
-			$this->collection[] = new \SplFileInfo($path);
-		} else {
-			$glob = glob($this->path);
-			foreach ($glob as $file) {
-				$this->collection[] = new \SplFileInfo($file);
-			}
-		}
-	}
+        if (is_file($this->getPath())) {
+            $this->collection[] = new \SplFileInfo($this->getPath());
+        } else {
+            $glob = glob($this->getPath()."*");
+            foreach ($glob as $file) {
+                $this->collection[] = new \SplFileInfo($file);
+            }
+        }
+    }
 
-/*	private function checkOverloadedOption(array $options,$){
+    /**
+     * this method will set the segments for the directory
+     *
+     * @param string $path
+     */
+    public function setSegments(string $path) {
+        $segments = array_filter(explode(DIRECTORY_SEPARATOR, $path));
+        $segments["last"] = end($segments);
+        $segments["first"] = reset($segments);
+        $segments["full"] = $path;
+        $this->segments = $segments;
+    }
 
-	}
-*/
-	/**
-	 * this method will set the segments for the directory
-	 *
-	 * @param string $path
-	 */
-	public function setSegments(string $path) {
-		$segments = explode(DIRECTORY_SEPARATOR, $path);
-		$segments["last"] = end($segments);
-		$segments["first"] = reset($segments);
-		$segments["full"] = $path;
-		$this->segments = $segments;
-	}
+    /**
+     * @param string $path
+     */
+    public function setPath(string $path) {
+        if ($this->options->checkExists(self::USE_VIEW_PATH)) {
+            $path = "app/resources/views/$path";
+        } elseif ($this->options->checkExists(self::USE_LAYOUT_PATH)) {
+            $path = "app/resources/views/layouts/$path";
+        }
+        if(!is_file($path)){
+            $path = rtrim($path,ord(DIRECTORY_SEPARATOR)).DIRECTORY_SEPARATOR;
+        }
+        $this->path = $this->cleanPath($path);
+        $this->setSegments($this->path);
+    }
 
-	/**
-	 * @param string $path
-	 */
-	public function setPath(string $path) {
-		$this->path = $this->cleanPath($path);
-		$this->setSegments($this->path);
-	}
-
-	/**
-	 * @param $path
-	 *
-	 * @return mixed
-	 */
-	public function cleanPath($path) {
-		return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-	}
-
-
-	/**
-	 * @param            $file
-	 * @param array|NULL $data
-	 *
-	 * @return string
-	 */
-	public static function executeAndReturnFileContent($file, array $data = NULL) {
-		if (is_array($data)) {
-			extract($data, EXTR_SKIP);
-		}
-		ob_start();
-		include $file;
-		return ob_get_clean();
-	}
-
-	/**
-	 * Determine if a file exists.
-	 * @return bool
-	 */
-	public function exists() {
-		return file_exists($this->path);
-	}
-
-	/**
-	 * @param $file
-	 *
-	 * @return string
-	 */
-	public static function returnViewFilePath($file) {
-		return 'resources/views/' . $file . '.php';
-	}
-
-	/**
-	 * todo: fix it in a none static way
-	 *
-	 * @param $file
-	 *
-	 * @return string
-	 */
-	public static function returnLayoutFilePath($file) {
-		return self::$root . 'resources/views/layouts/' . $file . '.php';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFileContent() {
-		return file_get_contents($this->current());
-	}
-
-	/**
-	 * the callback foreach file that is found
-	 *
-	 * @param                $callbackMethod
-	 * @param null           $callbackObject
-	 */
-	private function fileAction($callbackMethod, $callbackObject = NULL) {
-		if ($callbackObject !== NULL) {
-			while ($this->valid()) {
-				$callbackObject->$callbackMethod($this->current());
-				$this->next();
-			}
-		} else {
-			while ($this->valid()) {
-				$callbackMethod($this->current());
-				$this->next();
-			}
-		}
-
-	}
+    /**
+     * @return string
+     */
+    public function getPath() {
+        return $this->path;
+    }
 
 
-	/**
-	 * @param \SplFileInfo $target
-	 */
-	private function includeTarget(\SplFileInfo $target) {
-		include $target->getPathname();
+    /**
+     * @param $path
+     *
+     * @return mixed
+     */
+    public function cleanPath($path) {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+    }
 
-	}
 
-	public function include () {
-		$this->fileAction("includeTarget", $this);
-	}
+    /**
+     * todo:fix it
+     * @param            $file
+     * @param array|NULL $data
+     *
+     * @return string
+     */
+    public static function executeAndReturnFileContent($file, array $data = NULL) {
+        if (is_array($data)) {
+            extract($data, EXTR_SKIP);
+        }
+        ob_start();
+        include $file;
+        return ob_get_clean();
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isIncludeSubDirectories() {
-		return $this->includeSubDirectories;
-	}
+    /**
+     * Determine if a file exists.
+     * @return bool
+     */
+    public function exists() {
+        return file_exists($this->path);
+    }
 
-	/**
-	 * @param bool $includeSubDirectories
-	 */
-	public function setIncludeSubDirectories(bool $includeSubDirectories = TRUE) {
-		$this->includeSubDirectories = $includeSubDirectories;
-	}
+    /**
+     * @return string
+     */
+    public function getFileContent() {
+        return file_get_contents($this->current());
+    }
 
-	/**
-	 * todo: fix it without a iterator
-	 *
-	 * @param $regex
-	 */
-	public function regexFilter($regex) {
-		$test = new \RegexIterator($this, $regex);
-	}
+    /**
+     * the callback foreach file that is found
+     *
+     * @param                $callbackMethod
+     * @param null           $callbackObject
+     */
+    private function fileAction($callbackMethod, $callbackObject = NULL) {
+        if ($callbackObject !== NULL) {
+            while ($this->valid()) {
+                $callbackObject->$callbackMethod($this->current());
+                $this->next();
+            }
+        } else {
+            while ($this->valid()) {
+                $callbackMethod($this->current());
+                $this->next();
+            }
+        }
 
-	/**
-	 * @param      $extensions
-	 * @param bool $only : if you want to only return the files that have this extension or all the files except these
-	 */
-	public function filterExtensions($extensions, bool $only = FALSE) {
-		if (is_array($extensions)) {
-			implode(array_map("ltrim", $extensions, "\x2E"), "|");
-			// todo: fix this
-		} else {
-			$extensions = ltrim($extensions, "\x2E");
-			//    var_dump(preg_match("/^.*\.($extensions)$/i",$this->getPathname()));
-			$this->regexFilter("/^.*\.($extensions)$/i");
-		}
-	}
+    }
 
-	/**
-	 * Return the current element
-	 * @link  http://php.net/manual/en/iterator.current.php
-	 * @return \SplFileObject Can return any type.
-	 * @since 5.0.0
-	 */
-	public function current() {
-		return $this->collection[$this->position];
-	}
 
-	/**
-	 * Move forward to next element
-	 * @link  http://php.net/manual/en/iterator.next.php
-	 * @return void Any returned value is ignored.
-	 * @since 5.0.0
-	 */
-	public function next() {
-		++$this->position;
-	}
+    /**
+     * @param \SplFileInfo $target
+     */
+    private function includeTarget(\SplFileInfo $target) {
+        include $target->getPathname();
+    }
 
-	/**
-	 * Return the key of the current element
-	 * @link  http://php.net/manual/en/iterator.key.php
-	 * @return mixed scalar on success, or null on failure.
-	 * @since 5.0.0
-	 */
-	public function key() {
-		return $this->position;
-	}
+    public function include () {
+        $this->fileAction("includeTarget", $this);
+    }
 
-	/**
-	 * Checks if current position is valid
-	 * @link  http://php.net/manual/en/iterator.valid.php
-	 * @return boolean The return value will be casted to boolean and then evaluated.
-	 * Returns true on success or false on failure.
-	 * @since 5.0.0
-	 */
-	public function valid() {
-		return isset($this->collection[$this->position]) ? true : false;
-	}
+    /**
+     * @return bool
+     */
+    public function isIncludeSubDirectories() {
+        return $this->includeSubDirectories;
+    }
 
-	/**
-	 * Rewind the Iterator to the first element
-	 * @link  http://php.net/manual/en/iterator.rewind.php
-	 * @return void Any returned value is ignored.
-	 * @since 5.0.0
-	 */
-	public function rewind() {
-		reset($this->collection);
-	}
+    /**
+     * @param bool $includeSubDirectories
+     */
+    public function setIncludeSubDirectories(bool $includeSubDirectories = TRUE) {
+        $this->includeSubDirectories = $includeSubDirectories;
+    }
 
-	/**
-	 * Seeks to a position
-	 * @link  http://php.net/manual/en/seekableiterator.seek.php
-	 *
-	 * @param int $position <p>
-	 *                      The position to seek to.
-	 *                      </p>
-	 *
-	 * @return void
-	 * @since 5.1.0
-	 */
-	public function seek($position) {
-		if (!isset($this->collection[$position])) {
-			throw new \OutOfBoundsException("invalid seek position ($position)");
-		} else {
-			$this->position = $position;
-		}
-	}
+    /**
+     * todo: fix it without a iterator
+     *
+     * @param $regex
+     */
+    public function regexFilter($regex) {
+        /**
+         * @var $item \SplFileInfo
+         */
+        foreach ($this->collection as $key => $item)
+        {
+            if (!preg_match($regex,$item->getFilename())){
+                unset($this->collection[$key]);
+            }
+        }
+    }
+
+    /**
+     * @param $extensions
+     *
+     * @internal param bool $only : if you want to only return the files that have this extension or all the files except these
+     */
+    public function filterExtensions($extensions) {
+        if (is_array($extensions)) {
+            $extensions = implode(array_map("ltrim", $extensions, "\x2E"), "|");
+            $this->regexFilter("/^.*\.($extensions)$/i");
+        } else {
+            $extensions = ltrim($extensions, "\x2E");
+            $this->regexFilter("/^.*\.($extensions)$/i");
+        }
+    }
+
+    /**
+     * Return the current element
+     * @link  http://php.net/manual/en/iterator.current.php
+     * @return \SplFileObject Can return any type.
+     * @since 5.0.0
+     */
+    public function current() {
+       return current($this->collection);
+    }
+
+    /**
+     * Move forward to next element
+     * @link  http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function next() {
+        next($this->collection);
+    }
+
+    /**
+     * Return the key of the current element
+     * @link  http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     * @since 5.0.0
+     */
+    public function key() {
+        return key($this->collection);
+    }
+
+    /**
+     * Checks if current position is valid
+     * @link  http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     * @since 5.0.0
+     */
+    public function valid() {
+        $key = $this->key();
+        return isset($this->collection[$key]) ? TRUE : FALSE;
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     * @link  http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function rewind() {
+        reset($this->collection);
+    }
+
+    /**
+     * Seeks to a position
+     * @link  http://php.net/manual/en/seekableiterator.seek.php
+     *
+     * @param int $position <p>
+     *                      The position to seek to.
+     *                      </p>
+     *
+     * @return void
+     * @since 5.1.0
+     */
+    public function seek($position) {
+        if (!isset($this->collection[$position])) {
+            throw new \OutOfBoundsException("invalid seek position ($position)");
+        } else {
+            $this->position = $position;
+        }
+    }
 }
