@@ -55,12 +55,12 @@ class MS_start {
         chdir(dirname(dirname(__FILE__)));
         //  MS_filesystem::$root = dirname(dirname(__FILE__));
 
-        $functions = new MS_filesystem("app/system/helpers/MS_functions.php");
+        $functions = new MS_filesystem("app/system/helpers/MS_functions.php", MS_filesystem::FILE_PATH_AS_VIEW);
         $functions->include();
-dd(123);
-        $configs = new MS_filesystem("app/config");
-        $configs->filterExtensions("php");
-        $configs->include();
+var_dump($functions);
+   //     $configs = new MS_filesystem("app/config");
+      //  $configs->filterExtensions("php");
+      //  $configs->include();
 
       //  includeWholeDirectory("app" . DIRECTORY_SEPARATOR . "config");
 
