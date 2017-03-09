@@ -54,7 +54,9 @@ if (!function_exists('renderBody')) {
 	 * This method will be used to render the body inside the layout
 	 */
 	function renderBody() {
-		echo App\system\MS_view::$viewHtml;
+		foreach (App\system\MS_view::$viewHtml as $viewHtml){
+			echo $viewHtml;
+		}
 	}
 }
 if (!function_exists('setLayout')) {
@@ -64,7 +66,7 @@ if (!function_exists('setLayout')) {
 	 * @param string $layoutName : layout to use
 	 */
 	function setLayout(string $layoutName) {
-		App\system\MS_view::$layout = $layoutName;
+		App\system\MS_view::setLayout($layoutName);
 	}
 }
 if (!function_exists('partial')) {
@@ -105,49 +107,5 @@ if (!function_exists("int")) {
 		$int = new \App\system\models\properties\integer();
 		$int->name = $name;
 		return $int;
-	}
-}
-if (!function_exists("includeWholeDirectory")) {
-	/**
-	 * @param        $directory
-	 * @param string $pattern
-	 * @param string $extension
-	 */
-	function includeWholeDirectory($directory, $pattern = "/*", $extension = ".php", $subdirectories = FALSE) {
-
-		foreach (glob(\App\system\MS_filesystem::$root . DIRECTORY_SEPARATOR . $directory . $pattern . $extension) as $filename) {
-			if ($subdirectories === TRUE) {
-
-			}
-			$includeFile = new \App\system\MS_filesystem($filename);
-			$includeFile->getDataSetFromRequest();
-		}
-	}
-}
-
-if (!function_exists("showWholeDirectory")) {
-	/**
-	 * @param        $directory
-	 * @param string $pattern
-	 * @param string $extension
-	 *
-	 * @return array
-	 */
-	function showWholeDirectory($directory, $pattern = "/*", $subdirectories = FALSE) {
-		$files = new \App\system\MS_filesystem($directory);
-		exit;
-		/*
-		$files = glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory."/*" );
-		var_dump($files);
-		var_dump(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory );
-		if ($subdirectories == TRUE) {
-			var_dump(glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory . $pattern  , GLOB_ONLYDIR | GLOB_NOSORT));
-			foreach (glob(\App\system\pipelines\MS_pipeline::$root . DIRECTORY_SEPARATOR . $directory . $pattern , GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-				$files = array_merge($files, showWholeDirectory($dir, "*", TRUE));
-
-			}
-		}
-		*/
-		return $files;
 	}
 }

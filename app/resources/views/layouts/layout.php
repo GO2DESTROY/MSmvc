@@ -5,6 +5,7 @@
     <meta name="author" content="Maurice Schurink">
 </head>
 <body>
+<h1>Layout</h1>
 <?php renderBody(); ?>
 </body>
 </html>

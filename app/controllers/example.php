@@ -18,7 +18,7 @@ class example extends MS_controller {
     public function index() {
         //	MS_databaseResource::create(['name' => 'development', 'settings' => ['host' => '127.0.0.1', 'driver' => 'mysql', 'port' => 3306, 'database' => 'test', 'username' => 'root', 'password' => '']]);
         $test = new testModel();
-echo 123;
+
         //todo: in de migratie de up uitvoeren
         //  echo $test->getShortModelName();
 
@@ -26,9 +26,8 @@ echo 123;
      //   MS_migrationHandler::addMigrationModel($test);
         //    MS_migrationHandler::addMigrationModel(new  typesModel());
         //         MS_migrationHandler::addMigrationModel(new someModel());
-        $MB = new MS_migrationBuilder($test);
-        $MB->execute();
-
+       // $MB = new MS_migrationBuilder($test);
+     //   $MB->execute();
         //MS_migrationBuilder::checkHistory();
       //  $mh = new MS_migrationHandler();
       //  $mh->generateNewMigrations();

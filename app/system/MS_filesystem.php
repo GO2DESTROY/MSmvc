@@ -76,6 +76,17 @@ class MS_filesystem implements \SeekableIterator {
      */
     private $includeSubDirectories;
 
+	/**
+	 * array filled with data keys are variables and values data
+	 * @var array
+	 */
+    private $localData;
+
+	/**
+	 * @var array
+	 */
+    private $fileContents;
+
     /**
      * MS_filesystem constructor.
      *
@@ -141,21 +152,33 @@ class MS_filesystem implements \SeekableIterator {
         return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 
+	/**
+	 * @return array
+	 */
+	public function getFileContents(): array {
+		return $this->fileContents;
+	}
 
-    /**
+	/**
+	 * @param mixed $fileContents
+	 */
+	public function addFileContents($fileContents) {
+		$this->fileContents[] = $fileContents;
+	}
+
+
+	/**
      * todo:fix it
      * @param            $file
-     * @param array|NULL $data
-     *
-     * @return string
+	 *
      */
-    public static function executeAndReturnFileContent($file, array $data = NULL) {
-        if (is_array($data)) {
-            extract($data, EXTR_SKIP);
+    private function executeAndReturnFileContent(\SplFileInfo $file) {
+        if (is_array($this->getLocalData())) {
+            extract($this->getLocalData(), EXTR_SKIP);
         }
         ob_start();
-        include $file;
-        return ob_get_clean();
+        include $file->getPathname();
+        $this->addFileContents(ob_get_clean());
     }
 
     /**
@@ -205,6 +228,25 @@ class MS_filesystem implements \SeekableIterator {
     public function include () {
         $this->fileAction("includeTarget", $this);
     }
+
+	public function executeAndReturn () {
+		$this->fileAction("executeAndReturnFileContent", $this);
+		return $this->getFileContents();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLocalData() {
+		return $this->localData;
+	}
+
+	/**
+	 * @param mixed $localData
+	 */
+	public function setLocalData($localData) {
+		$this->localData = $localData;
+	}
 
     /**
      * @return bool
