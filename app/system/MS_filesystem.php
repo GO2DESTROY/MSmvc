@@ -37,7 +37,7 @@ namespace App\system;
  * Class MS_pipeline
  * @package system\pipelines
  */
-class MS_filesystem implements \SeekableIterator {
+class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
 
     /**
      * this prepend the view path
@@ -363,5 +363,25 @@ class MS_filesystem implements \SeekableIterator {
         } else {
             $this->position = $position;
         }
+    }
+
+    /**
+     * Returns if an iterator can be created for the current entry.
+     * @link  http://php.net/manual/en/recursiveiterator.haschildren.php
+     * @return bool true if the current entry can be iterated over, otherwise returns false.
+     * @since 5.1.0
+     */
+    public function hasChildren() {
+        return $this->current()->isDir() ? TRUE : FALSE;
+    }
+
+    /**
+     * Returns an iterator for the current entry.
+     * @link  http://php.net/manual/en/recursiveiterator.getchildren.php
+     * @return \RecursiveIterator An iterator for the current entry.
+     * @since 5.1.0
+     */
+    public function getChildren() {
+        return new MS_filesystem($this->current()->getPathname());
     }
 }
