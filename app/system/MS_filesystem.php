@@ -65,26 +65,37 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     private $segments;
 
     /**
+     * @var int;
+     */
+    private $position = 0;
+
+    /**
+     * The current depth of the directory
+     * @var int
+     */
+    private $depth =0;
+
+    /**
+     * maximum depth to transverse to
+     * @var int
+     */
+    private $maxDepth=1;
+
+    /**
      * array with all the fileobjects
      * @var array
      */
     private $collection;
 
     /**
-     * if subdirectories will be included true / false
-     * @var bool
+     * array filled with data keys are variables and values data
+     * @var array
      */
-    private $includeSubDirectories;
-
-	/**
-	 * array filled with data keys are variables and values data
-	 * @var array
-	 */
     private $localData;
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     private $fileContents;
 
     /**
@@ -94,12 +105,15 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     function __construct($path) {
         $this->options = new MS_optionals(func_get_args(), $path, TRUE);
+        $this->collection = NULL;
+        $this->rewind();
+        ++$this->depth;
         $this->setPath($path);
 
         if (is_file($this->getPath())) {
             $this->collection[] = new \SplFileInfo($this->getPath());
         } else {
-            $glob = glob($this->getPath()."*");
+            $glob = glob($this->getPath() . "*");
             foreach ($glob as $file) {
                 $this->collection[] = new \SplFileInfo($file);
             }
@@ -128,8 +142,8 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
         } elseif ($this->options->checkExists(self::USE_LAYOUT_PATH)) {
             $path = "app/resources/views/layouts/$path";
         }
-        if(!is_file($path)){
-            $path = rtrim($path,ord(DIRECTORY_SEPARATOR)).DIRECTORY_SEPARATOR;
+        if (!is_file($path)) {
+            $path = rtrim($path, ord(DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR;
         }
         $this->path = $this->cleanPath($path);
         $this->setSegments($this->path);
@@ -152,25 +166,43 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
         return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 
-	/**
-	 * @return array
-	 */
-	public function getFileContents(): array {
-		return $this->fileContents;
-	}
+    /**
+     * @return array
+     */
+    public function getFileContents(): array {
+        return $this->fileContents;
+    }
 
-	/**
-	 * @param mixed $fileContents
-	 */
-	public function addFileContents($fileContents) {
-		$this->fileContents[] = $fileContents;
-	}
+    /**
+     * @return int
+     */
+    public function getMaxDepth(): int {
+        return $this->maxDepth;
+    }
 
+    /**
+     * @param int $maxDepth
+     */
+    public function setMaxDepth(int $maxDepth) {
+        $this->maxDepth = $maxDepth;
+    }
 
-	/**
-     * todo:fix it
-     * @param            $file
-	 *
+    /**
+     * @return int
+     */
+    public function getDepth(): int {
+        return $this->depth;
+    }
+
+    /**
+     * @param mixed $fileContents
+     */
+    public function addFileContents($fileContents) {
+        $this->fileContents[] = $fileContents;
+    }
+
+    /**
+     * @param \SplFileInfo $file
      */
     private function executeAndReturnFileContent(\SplFileInfo $file) {
         if (is_array($this->getLocalData())) {
@@ -199,24 +231,31 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * the callback foreach file that is found
      *
-     * @param                $callbackMethod
-     * @param null           $callbackObject
+     * @param string | array $callback
      */
-    private function fileAction($callbackMethod, $callbackObject = NULL) {
-        if ($callbackObject !== NULL) {
-            while ($this->valid()) {
-                $callbackObject->$callbackMethod($this->current());
-                $this->next();
+    private function fileAction($callback) {
+        while ($this->valid()) {
+            if ($this->getDepth() <= $this->getMaxDepth() === TRUE && $this->current()->isDir() === TRUE) {
+                $this->getChildren()->customCallback($callback);
+            } else {
+                call_user_func_array($callback, [$this->current()]);
             }
-        } else {
-            while ($this->valid()) {
-                $callbackMethod($this->current());
-                $this->next();
-            }
+            $this->next();
         }
-
     }
 
+    /**
+     * this is the public interface of fileAction
+     *
+     * @param $callback
+     */
+    public function customCallback($callback) {
+        return $this->fileAction($callback);
+    }
+
+    public function show() {
+        $this->fileAction("var_dump");
+    }
 
     /**
      * @param \SplFileInfo $target
@@ -226,55 +265,41 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     public function include () {
-        $this->fileAction("includeTarget", $this);
+        $this->fileAction([$this, "includeTarget"]);
     }
 
-	public function executeAndReturn () {
-		$this->fileAction("executeAndReturnFileContent", $this);
-		return $this->getFileContents();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLocalData() {
-		return $this->localData;
-	}
-
-	/**
-	 * @param mixed $localData
-	 */
-	public function setLocalData($localData) {
-		$this->localData = $localData;
-	}
-
     /**
-     * @return bool
+     * @return array
      */
-    public function isIncludeSubDirectories() {
-        return $this->includeSubDirectories;
+    public function executeAndReturn() {
+        $this->fileAction([$this, "executeAndReturnFileContent"]);
+        return $this->getFileContents();
     }
 
     /**
-     * @param bool $includeSubDirectories
+     * @return mixed
      */
-    public function setIncludeSubDirectories(bool $includeSubDirectories = TRUE) {
-        $this->includeSubDirectories = $includeSubDirectories;
+    public function getLocalData() {
+        return $this->localData;
     }
 
     /**
-     * todo: fix it without a iterator
-     *
+     * @param mixed $localData
+     */
+    private function setLocalData($localData) {
+        $this->localData = $localData;
+    }
+
+    /**
      * @param $regex
      */
     public function regexFilter($regex) {
         /**
          * @var $item \SplFileInfo
          */
-        foreach ($this->collection as $key => $item)
-        {
-            if (!preg_match($regex,$item->getFilename())){
-                unset($this->collection[$key]);
+        foreach ($this->collection as $key => $item) {
+            if (!preg_match($regex, $item->getFilename())) {
+                $this->unsetEntryByKey($key);
             }
         }
     }
@@ -282,7 +307,8 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * @param $extensions
      *
-     * @internal param bool $only : if you want to only return the files that have this extension or all the files except these
+     * @internal param bool $only : if you want to only return the files that have this extension or all the files
+     *           except these
      */
     public function filterExtensions($extensions) {
         if (is_array($extensions)) {
@@ -295,13 +321,31 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     /**
+     * removes the entry of the given id
+     *
+     * @param int $key
+     */
+    public function unsetEntryByKey(int $key) {
+        $this->seek($key);
+        $this->unsetCurrentEntry();
+    }
+
+    /**
+     * removes the current entry
+     */
+    public function unsetCurrentEntry() {
+        unset($this->collection[$this->position]);
+        $this->collection = array_values($this->collection);
+    }
+
+    /**
      * Return the current element
      * @link  http://php.net/manual/en/iterator.current.php
      * @return \SplFileObject Can return any type.
      * @since 5.0.0
      */
     public function current() {
-       return current($this->collection);
+        return $this->collection[$this->position];
     }
 
     /**
@@ -311,7 +355,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @since 5.0.0
      */
     public function next() {
-        next($this->collection);
+        ++$this->position;
     }
 
     /**
@@ -321,7 +365,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @since 5.0.0
      */
     public function key() {
-        return key($this->collection);
+        return $this->position;
     }
 
     /**
@@ -332,9 +376,9 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @since 5.0.0
      */
     public function valid() {
-        $key = $this->key();
-        return isset($this->collection[$key]) ? TRUE : FALSE;
+        return isset($this->collection[$this->position]) ? TRUE : FALSE;
     }
+
 
     /**
      * Rewind the Iterator to the first element
@@ -343,7 +387,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @since 5.0.0
      */
     public function rewind() {
-        reset($this->collection);
+        $this->position = 0;
     }
 
     /**
@@ -378,10 +422,12 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * Returns an iterator for the current entry.
      * @link  http://php.net/manual/en/recursiveiterator.getchildren.php
-     * @return \RecursiveIterator An iterator for the current entry.
+     * @return MS_filesystem
      * @since 5.1.0
      */
     public function getChildren() {
-        return new MS_filesystem($this->current()->getPathname());
+        $child = clone $this;
+        $child->__construct($this->current()->getPathname());
+        return $child;
     }
 }
