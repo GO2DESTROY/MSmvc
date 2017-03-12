@@ -284,13 +284,6 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     /**
-     * @param mixed $localData
-     */
-    private function setLocalData($localData) {
-        $this->localData = $localData;
-    }
-
-    /**
      * @param $regex
      */
     public function regexFilter($regex) {
@@ -394,9 +387,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * Seeks to a position
      * @link  http://php.net/manual/en/seekableiterator.seek.php
      *
-     * @param int $position <p>
-     *                      The position to seek to.
-     *                      </p>
+     * @param int $position: The position to seek to.
      *
      * @return void
      * @since 5.1.0
