@@ -73,13 +73,13 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * The current depth of the directory
      * @var int
      */
-    private $depth =0;
+    private $depth = 0;
 
     /**
      * maximum depth to transverse to
      * @var int
      */
-    private $maxDepth=1;
+    private $maxDepth = 1;
 
     /**
      * array with all the fileobjects
@@ -99,17 +99,21 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     private $fileContents;
 
     /**
+     * this array contains all the filters indexed by depth and asterisk for all
+     * @var array
+     */
+    private $filters;
+
+    /**
      * MS_filesystem constructor.
      *
      * @param null|string $path
      */
     function __construct($path) {
         $this->options = new MS_optionals(func_get_args(), $path, TRUE);
-        $this->collection = NULL;
-        $this->rewind();
-        ++$this->depth;
-        $this->setPath($path);
 
+        $this->setPath($path);
+        var_dump($this->depth);
         if (is_file($this->getPath())) {
             $this->collection[] = new \SplFileInfo($this->getPath());
         } else {
@@ -202,6 +206,41 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     /**
+     * @param     $filter
+     * @param int $depth
+     */
+    public function addFilter($filter, int $depth = NULL) {
+        if ($depth === NULL) {
+            $depth = "*";
+        }
+        $this->filters[$depth][] = $filter;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getCurrentFilter() {
+        return $this->getFilterByDepth($this->depth);
+    }
+
+    /**
+     * @param $depth
+     *
+     * @return array
+     */
+    private function getFilterByDepth($depth) {
+        $localFilters = [];
+        if (!empty($this->filters[$depth])) {
+            $localFilters = array_merge($localFilters, $this->filters[$depth]);
+        }
+        if (!empty($this->filters["*"])) {
+            $localFilters = array_merge($localFilters, $this->filters["*"]);
+        }
+        return $localFilters;
+    }
+
+    /**
      * @param \SplFileInfo $file
      */
     private function executeAndReturnFileContent(\SplFileInfo $file) {
@@ -235,9 +274,12 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     private function fileAction($callback) {
         while ($this->valid()) {
+            //trigger on dir and depth match todo: change so callback will only be called on valid fileobject filter todo: create interface for check!!
             if ($this->getDepth() <= $this->getMaxDepth() === TRUE && $this->current()->isDir() === TRUE) {
+                //trigger checks
                 $this->getChildren()->customCallback($callback);
             } else {
+                //trigger check
                 call_user_func_array($callback, [$this->current()]);
             }
             $this->next();
@@ -331,6 +373,12 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
         $this->collection = array_values($this->collection);
     }
 
+    public function __clone() {
+        $this->collection = NULL;
+        $this->rewind();
+        ++$this->depth;
+    }
+
     /**
      * Return the current element
      * @link  http://php.net/manual/en/iterator.current.php
@@ -387,7 +435,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * Seeks to a position
      * @link  http://php.net/manual/en/seekableiterator.seek.php
      *
-     * @param int $position: The position to seek to.
+     * @param int $position : The position to seek to.
      *
      * @return void
      * @since 5.1.0
