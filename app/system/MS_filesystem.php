@@ -113,7 +113,6 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
         $this->options = new MS_optionals(func_get_args(), $path, TRUE);
 
         $this->setPath($path);
-        var_dump($this->depth);
         if (is_file($this->getPath())) {
             $this->collection[] = new \SplFileInfo($this->getPath());
         } else {
@@ -201,7 +200,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * @param mixed $fileContents
      */
-    public function addFileContents($fileContents) {
+    private function addFileContents($fileContents) {
         $this->fileContents[] = $fileContents;
     }
 
@@ -209,7 +208,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @param     $filter
      * @param int $depth
      */
-    public function addFilter($filter, int $depth = NULL) {
+    public function addFilter(MS_fileFilter $filter, int $depth = NULL) {
         if ($depth === NULL) {
             $depth = "*";
         }
@@ -275,12 +274,15 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     private function fileAction($callback) {
         while ($this->valid()) {
             //trigger on dir and depth match todo: change so callback will only be called on valid fileobject filter todo: create interface for check!!
-            if ($this->getDepth() <= $this->getMaxDepth() === TRUE && $this->current()->isDir() === TRUE) {
-                //trigger checks
-                $this->getChildren()->customCallback($callback);
-            } else {
-                //trigger check
-                call_user_func_array($callback, [$this->current()]);
+            if ($this->passFilters() === TRUE) {
+                if ($this->getDepth() <= $this->getMaxDepth() === TRUE && $this->current()->isDir() === TRUE) {
+                    //trigger checks
+
+                    $this->getChildren()->customCallback($callback);
+                } else {
+                    //trigger check
+                    call_user_func_array($callback, [$this->current()]);
+                }
             }
             $this->next();
         }
@@ -418,6 +420,21 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     public function valid() {
         return isset($this->collection[$this->position]) ? TRUE : FALSE;
+    }
+
+    /**
+     * @return bool
+     */
+    private function passFilters() {
+        /**
+         * @var $filter MS_fileFilter
+         */
+        foreach ($this->getCurrentFilter() as $filter) {
+            if ($filter->filter($this->current()) === FALSE) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
 

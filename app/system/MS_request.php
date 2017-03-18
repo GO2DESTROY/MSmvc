@@ -2,8 +2,6 @@
 
 namespace App\system;
 
-use App\system\pipelines\MS_pipeline;
-
 /**
  * Class MS_request
  * @package MSmvc\system
