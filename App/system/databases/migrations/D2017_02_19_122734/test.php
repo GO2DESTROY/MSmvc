@@ -1,6 +1,6 @@
 <?php
 
-namespace App\system\databases\migrations;
+namespace App\system\databases\migrations\D2017_02_19_122734;
 
 use App\system\databases\MS_migration;
 

@@ -5,6 +5,7 @@ namespace App\system\databases;
 use App\system\databases\migrations\test;
 use App\system\models\MS_model;
 use App\system\models\properties\MS_property;
+use App\system\MS_filesystem;
 
 
 /**
@@ -21,6 +22,7 @@ class MS_migrationBuilder {
     private $model;
 
     /**
+     * contains the name of the property and if it's a default value or not
      * changes that need to be made this array contains all the changes to duplicate to model to a migration minus the
      * changes that occurred in previous migrations
      * @var array
@@ -57,25 +59,42 @@ class MS_migrationBuilder {
     }
 
     public function execute() {
+        $oldMigrations = new MS_filesystem("App/system/databases/migrations");
+        $oldMigrations->customCallback([$this, "applyOldMigrations"]);
         $this->buildChangeSet();
-        var_dump($this->changeSet);
+        //    var_dump($this->changeSet);
         //do stuff execute all the things
     }
 
-    private function buildChangeSet() {
-        var_dump(showWholeDirectory("app/system/databases/migrations", "/*_" . $this->model->getShortModelName(),".php",TRUE));
+    /**
+     * @param \SplFileInfo $file
+     */
+    public function applyOldMigrations(\SplFileInfo $file) {
+        /**
+         * @type $migration MS_migration
+         */
+        $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
+        //new $directory();
+        // new \.$directory();
+        $migration = new $migrationString();
+        $migration->up();
+        var_dump($migration);
+        //     $test =  '\App\system\databases\migrations\D2017_02_19_122734\test';
+        //  new $test();
+        //  new \App\system\databases\migrations\D2017_02_19_122734\test();
+    }
 
-   //     var_dump(MS_pipeline::getClassesWithinDirectory("app/system/databases/migrations"));
+    private function buildChangeSet() {
         foreach ($this->model->getFieldCollection() as $field) {
             //todo: mark the fields that are changed
             //todo: mark the fields that are default ---------done
             $this->changeSet[$field->name] = $this->checkFieldProperties($field);
-
         }
     }
 
     /**
      * todo: check this for the history
+     *
      * @param \App\system\models\properties\MS_property $field
      *
      * @return array
@@ -86,11 +105,11 @@ class MS_migrationBuilder {
         $changes = [];
         foreach ($reflection->getProperties() as $fieldValues) {
             $fieldValue = $field->__get($fieldValues->name);
-            $data=[];
+            $data = [];
             $data["value"] = $fieldValue;
             if (in_array($fieldValue, $defaultValues)) {
                 $data["default"] = TRUE;
-            }else{
+            } else {
                 $data["default"] = FALSE;
             }
             $changes[$fieldValues->name] = $data;
@@ -98,14 +117,4 @@ class MS_migrationBuilder {
         return $changes;
     }
 
-    /**
-     * work in progress
-     */
-    private function checkHistory() {
-        $test = showWholeDirectory("app/system/databases/migrations", "/*_" . $this->model->getShortModelName());
-        $classtest = MS_pipeline::getClassesWithinFile($test[0]);
-        // new App\system\databases\migrations\test();
-        $ct = new $classtest[0];
-        //$th = new $test[0];
-    }
 }

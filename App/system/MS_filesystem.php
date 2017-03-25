@@ -141,9 +141,9 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     public function setPath(string $path) {
         if ($this->options->checkExists(self::USE_VIEW_PATH)) {
-            $path = "app/resources/views/$path";
+            $path = "App/resources/views/$path";
         } elseif ($this->options->checkExists(self::USE_LAYOUT_PATH)) {
-            $path = "app/resources/views/layouts/$path";
+            $path = "App/resources/views/layouts/$path";
         }
         if (!is_file($path)) {
             $path = rtrim($path, ord(DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR;
@@ -286,6 +286,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
             }
             $this->next();
         }
+        $this->rewind();
     }
 
     /**

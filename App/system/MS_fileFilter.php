@@ -44,7 +44,7 @@ namespace App\system;
 
 /**
  * Interface MS_fileFilter
- * @package app\system
+ * @package App\system
  */
 interface MS_fileFilter {
     /**

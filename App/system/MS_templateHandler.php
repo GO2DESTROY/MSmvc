@@ -142,7 +142,7 @@ class MS_templateHandler {
      * @return mixed
      */
     public function getTemplate() {
-        return "app/system/templates/" . $this->template["basename"];
+        return "App/system/templates/" . $this->template["basename"];
     }
 
     private function readTemplate($name) {

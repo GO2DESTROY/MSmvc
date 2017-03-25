@@ -53,10 +53,10 @@ class MS_start {
 
         chdir(dirname(dirname(__FILE__)));
 
-        $functions = new MS_filesystem("app/system/helpers/MS_functions.php");
+        $functions = new MS_filesystem("App/system/helpers/MS_functions.php");
         $functions->include();
 
-        $configs = new MS_filesystem("app/config");
+        $configs = new MS_filesystem("App/config");
         $configs->filterExtensions("php");
         $configs->include();
 

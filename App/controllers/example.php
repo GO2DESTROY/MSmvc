@@ -10,8 +10,7 @@ class example extends MS_controller {
 
     public function index() {
         $test = new MS_migrationBuilder(new testModel());
-        var_dump($test);
-        echo 123;
+        $test->execute();
         //  echo $test->getShortModelName();
     }
 }
