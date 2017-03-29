@@ -61,6 +61,7 @@ class MS_migrationBuilder {
     public function execute() {
         $oldMigrations = new MS_filesystem("App/system/databases/migrations");
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
+
         $this->buildChangeSet();
         //    var_dump($this->changeSet);
         //do stuff execute all the things
@@ -73,15 +74,11 @@ class MS_migrationBuilder {
         /**
          * @type $migration MS_migration
          */
+        echo 1;
         $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
-        //new $directory();
-        // new \.$directory();
         $migration = new $migrationString();
         $migration->up();
-        var_dump($migration);
-        //     $test =  '\App\system\databases\migrations\D2017_02_19_122734\test';
-        //  new $test();
-        //  new \App\system\databases\migrations\D2017_02_19_122734\test();
+      //  var_dump($migration);
     }
 
     private function buildChangeSet() {

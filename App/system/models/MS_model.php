@@ -111,6 +111,22 @@ abstract class MS_model {
     }
 
     /**
+     * will return true if the object properties match
+     *
+     * @param \App\system\models\MS_model $otherModel
+     *
+     * @return bool
+     */
+    public final function compare(MS_model $otherModel){
+        if($this == $otherModel){
+            return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+    }
+
+    /**
      * within this method you may setup the model
      * @return mixed
      */

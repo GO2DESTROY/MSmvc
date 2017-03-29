@@ -33,6 +33,9 @@
 
 namespace App\system;
 
+use App\system\databases\MS_migrationBuilder;
+use App\system\databases\MS_migrationHandler;
+
 /**
  * Class MS_pipeline
  * @package system\pipelines
@@ -105,11 +108,18 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     private $filters;
 
     /**
+     * the callback that will be used
+     * @var array | string
+     */
+    private $callback;
+
+    /**
      * MS_filesystem constructor.
      *
      * @param null|string $path
      */
     function __construct($path) {
+
         $this->options = new MS_optionals(func_get_args(), $path, TRUE);
 
         $this->setPath($path);
@@ -145,11 +155,26 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
         } elseif ($this->options->checkExists(self::USE_LAYOUT_PATH)) {
             $path = "App/resources/views/layouts/$path";
         }
+
         if (!is_file($path)) {
-            $path = rtrim($path, ord(DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR;
+            if ($this->endsWith($path, DIRECTORY_SEPARATOR === FALSE)) {
+                $path = $path . DIRECTORY_SEPARATOR;
+            }
         }
         $this->path = $this->cleanPath($path);
         $this->setSegments($this->path);
+    }
+
+    /**
+     * @param $FullStr
+     * @param $needle
+     *
+     * @return bool
+     */
+    private function endsWith($FullStr, $needle) {
+        $StrLen = strlen($needle);
+        $FullStrEnd = substr($FullStr, strlen($FullStr) - $StrLen);
+        return $FullStrEnd == $needle;
     }
 
     /**
@@ -193,7 +218,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * @return int
      */
-    public function getDepth(): int {
+    public function getDepth() {
         return $this->depth;
     }
 
@@ -268,20 +293,19 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
 
     /**
      * the callback foreach file that is found
+     * todo: ERROR IS FOUND !! het laatste char wordt getrimt als we hem clonen gebeurt in setpath
      *
      * @param string | array $callback
      */
-    private function fileAction($callback) {
+    private function fileAction() {
         while ($this->valid()) {
             //trigger on dir and depth match todo: change so callback will only be called on valid fileobject filter todo: create interface for check!!
+            //todo: problem with cloning and the customCallBack
             if ($this->passFilters() === TRUE) {
-                if ($this->getDepth() <= $this->getMaxDepth() === TRUE && $this->current()->isDir() === TRUE) {
-                    //trigger checks
-
-                    $this->getChildren()->customCallback($callback);
+                if ($this->getDepth() <= $this->getMaxDepth() && $this->current()->isDir() === TRUE) {
+                    $this->getChildren()->fileAction();
                 } else {
-                    //trigger check
-                    call_user_func_array($callback, [$this->current()]);
+                    call_user_func_array($this->callback, [$this->current()]);
                 }
             }
             $this->next();
@@ -295,11 +319,13 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @param $callback
      */
     public function customCallback($callback) {
-        return $this->fileAction($callback);
+        $this->callback = $callback;
+        $this->fileAction();
     }
 
     public function show() {
-        $this->fileAction("var_dump");
+        $this->callback = "var_dump";
+        $this->fileAction();
     }
 
     /**
@@ -310,6 +336,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     public function include () {
+        $this->callback = [$this, "includeTarget"];
         $this->fileAction([$this, "includeTarget"]);
     }
 
@@ -317,7 +344,8 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @return array
      */
     public function executeAndReturn() {
-        $this->fileAction([$this, "executeAndReturnFileContent"]);
+        $this->callback = [$this, "executeAndReturnFileContent"];
+        $this->fileAction();
         return $this->getFileContents();
     }
 

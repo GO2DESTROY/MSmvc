@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\system\databases\migrations\D2017_02_23_16_38_32;
+namespace App\system\databases\migrations\D2017_02_23_163832;
 
 use App\system\databases\MS_migration;
 
