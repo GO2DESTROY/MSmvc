@@ -213,7 +213,6 @@ abstract class MS_property {
         return $this;
     }
 
-
     /**
      * @param $name
      *
@@ -221,6 +220,25 @@ abstract class MS_property {
      */
     public function __get($name) {
         return $this->$name;
+    }
+
+    /**
+     * @param \App\system\models\properties\MS_property $property
+     *
+     * @return bool
+     */
+    public function compare(MS_property $property) {
+        return $this == $property ? TRUE : FALSE;
+    }
+
+    /**
+     * todo: implent this method to return the properties that differ 
+     * @param \App\system\models\properties\MS_property $property
+     *
+     * @return array
+     */
+    public function getDifferentProperties(MS_property $property) {
+        return [];
     }
 
 }

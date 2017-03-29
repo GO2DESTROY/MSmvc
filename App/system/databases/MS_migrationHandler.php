@@ -50,9 +50,6 @@ class MS_migrationHandler {
         if (!empty(self::$migrationModels)) {
             array_walk(self::$migrationModels, [$this, "setMigrationReferences"]);
             $this->migrations = self::$migrationModels;
-
-            //todo: create migration
-            //todo: run the migrations that are created
         } else {
             throw new \Exception("No migrations pending");
         }
