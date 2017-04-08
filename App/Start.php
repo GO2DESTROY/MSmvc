@@ -5,7 +5,7 @@
 namespace App;
 
 use App\system\Request;
-use App\system\MS_filesystem;
+use App\system\Filesystem;
 use App\system\router\Route;
 use App\system\router\Router;
 
@@ -53,10 +53,10 @@ class Start {
 
         chdir(dirname(dirname(__FILE__)));
 
-        $functions = new MS_filesystem("App/system/helpers/MS_functions.php");
+        $functions = new Filesystem("App/system/helpers/MS_functions.php");
         $functions->include();
 
-        $configs = new MS_filesystem("App/config");
+        $configs = new Filesystem("App/config");
         $configs->filterExtensions("php");
         $configs->include();
 

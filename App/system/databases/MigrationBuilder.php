@@ -6,7 +6,7 @@ use App\system\databases\migrations\test;
 use App\system\models\Model;
 use App\system\models\properties\Property;
 use App\system\FileFilter;
-use App\system\MS_filesystem;
+use App\system\Filesystem;
 use App\system\databases\MigrationFilter;
 
 
@@ -61,7 +61,7 @@ class MigrationBuilder {
     }
 
     public function execute() {
-        $oldMigrations = new MS_filesystem("App/system/databases/migrations");
+        $oldMigrations = new Filesystem("App/system/databases/migrations");
         $oldMigrations->addFilter(new MigrationFilter($this->model->getShortModelName()));
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
 

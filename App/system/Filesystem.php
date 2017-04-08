@@ -40,7 +40,7 @@ use App\system\databases\MigrationHandler;
  * Class MS_pipeline
  * @package system\pipelines
  */
-class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
+class Filesystem implements \SeekableIterator, \RecursiveIterator {
 
     /**
      * this prepend the view path
@@ -114,7 +114,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     private $callback;
 
     /**
-     * MS_filesystem constructor.
+     * Filesystem constructor.
      *
      * @param null|string $path
      */
@@ -507,7 +507,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     /**
      * Returns an iterator for the current entry.
      * @link  http://php.net/manual/en/recursiveiterator.getchildren.php
-     * @return MS_filesystem
+     * @return Filesystem
      * @since 5.1.0
      */
     public function getChildren() {

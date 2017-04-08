@@ -58,11 +58,11 @@ class View {
 	}
 
 	public function loadView() {
-		$viewFile = new MS_filesystem(self::getView()['view'], MS_filesystem::USE_VIEW_PATH);
+		$viewFile = new Filesystem(self::getView()['view'], Filesystem::USE_VIEW_PATH);
 		$viewFile->setLocalData(self::getView()['data']);
 		self::$viewHtml = $viewFile->executeAndReturn();
 		if (self::$layout !== NULL) {
-			$viewFile = new MS_filesystem(self::getLayout(), MS_filesystem::USE_LAYOUT_PATH);
+			$viewFile = new Filesystem(self::getLayout(), Filesystem::USE_LAYOUT_PATH);
 			$viewFile->include();
 		} else {
 			echo self::$viewHtml;
@@ -73,7 +73,7 @@ class View {
 	 * @param string $viewName
 	 */
 	public static function loadPartial(string $viewName) {
-		$view = MS_filesystem::returnViewFilePath($viewName);
+		$view = Filesystem::returnViewFilePath($viewName);
 		include $view;
 	}
 }
