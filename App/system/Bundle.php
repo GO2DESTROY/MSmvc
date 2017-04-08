@@ -4,7 +4,7 @@ namespace App\system;
 
 use App\system\pipelines\MS_pipeline;
 
-class MS_bundle
+class Bundle
 {
 	private static $scriptSet;
 	private static $styleSet;

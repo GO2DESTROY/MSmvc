@@ -3,10 +3,10 @@
 namespace App\system;
 
 /**
- * Class MS_optionals
+ * Class Optionals
  * @package App\system
  */
-class MS_optionals {
+class Optionals {
 
 	/**
 	 * @var array|int
@@ -19,7 +19,7 @@ class MS_optionals {
 	private $basic;
 
 	/**
-	 * MS_optionals constructor.
+	 * Optionals constructor.
 	 *
 	 * @param array $values
 	 * @param null  $minus

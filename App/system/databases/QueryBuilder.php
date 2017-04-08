@@ -1,18 +1,18 @@
 <?php
 namespace App\system\databases;
 
-use App\system\models\MS_model;
-use App\system\models\properties\MS_property;
+use App\system\models\Model;
+use App\system\models\properties\Property;
 
 /**
- * Class MS_queryBuilder: this class will build the queries based on the models
+ * Class QueryBuilder: this class will build the queries based on the models
  * @package MSmvc\system\databases
  */
-class  MS_queryBuilder {
+class  QueryBuilder {
 
     /**
      * the model to be used
-     * @var MS_model
+     * @var Model
      */
     protected $model;
 
@@ -86,7 +86,7 @@ class  MS_queryBuilder {
      */
     private $prepareData;
 
-    use MS_sqlStatements;
+    use SqlStatements;
 
     /**
      * todo: add support without a model and split up to a class that has a model
@@ -96,12 +96,12 @@ class  MS_queryBuilder {
      */
     function __construct($model = NULL) {
         if (!is_null($model)) {
-            if ($model instanceof MS_model) {
+            if ($model instanceof Model) {
                 $model->up();
                 $this->model = $model;
                 $this->setDatabaseConnection($this->model->getDataBaseConnection());
                 $this->setTable($model);
-            } elseif ($model instanceof MS_migration) {
+            } elseif ($model instanceof Migration) {
                 //todo: add support for a migration
 
             }
@@ -166,7 +166,7 @@ class  MS_queryBuilder {
     }
 
     /**
-     * MS_model or array
+     * Model or array
      *
      * @param $data
      *
@@ -174,9 +174,9 @@ class  MS_queryBuilder {
      * @throws \Exception
      */
     public function set(array $data = NULL) {
-        if ($this->model instanceof MS_model) {
+        if ($this->model instanceof Model) {
             /**
-             * @var $field MS_property
+             * @var $field Property
              */
             foreach ($this->model->getFieldCollection() as $field) {
                 $this->updateData[$field->name] = $field->getValue();
@@ -222,7 +222,7 @@ class  MS_queryBuilder {
      * @param        $key
      * @param string $value
      *
-     * @return \App\system\databases\MS_queryBuilder
+     * @return \App\system\databases\QueryBuilder
      */
     public function where($key, $value = '?') {
         return $this->where_filter($key, $value, 'AND ');
@@ -244,10 +244,10 @@ class  MS_queryBuilder {
      */
     public function insert($data = NULL) {
         $this->type = "INSERT INTO";
-        if ($this->model instanceof MS_model) {
+        if ($this->model instanceof Model) {
             $dataToInsert = [];
             /**
-             * @var $field MS_property
+             * @var $field Property
              */
             foreach ($this->model->getFieldCollection() as $field) {
                 $this->addInsertField($field->name);
@@ -297,7 +297,7 @@ class  MS_queryBuilder {
      * @param        $key
      * @param string $value
      *
-     * @return \App\system\databases\MS_queryBuilder
+     * @return \App\system\databases\QueryBuilder
      */
     public function where_or($key, $value = '?') {
         return $this->where_filter($key, $value, 'OR ');
@@ -327,20 +327,20 @@ class  MS_queryBuilder {
     /**
      * this function will set all the properties for a single field
      *
-     * @param \App\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\Property $property
      *
      * @return string
      */
-    private function propertyToField(MS_property $property) {
+    private function propertyToField(Property $property) {
         return rtrim("$property->name $property->type ($property->length) " . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
     }
 
     /**
-     * @param MS_property $property
+     * @param Property $property
      *
      * @internal param mixed $primaryKeys
      */
-    private function setPrimaryKeys(MS_property $property) {
+    private function setPrimaryKeys(Property $property) {
         if ($property->isPrimaryKey() == TRUE) {
             $this->primaryKeys[] = $property->name;
         }
@@ -432,17 +432,17 @@ class  MS_queryBuilder {
             $this->prepareData = $values;
         }
         $this->buildQuery();
-        $call = new MS_db($this->databaseConnection);
+        $call = new Db($this->databaseConnection);
         return $call->query($this->query, $this->prepareData);
     }
 
     /**
      * setter for the table
      *
-     * @param $table MS_model | string
+     * @param $table Model | string
      */
     protected function setTable($table) {
-        if ($table instanceof MS_model) {
+        if ($table instanceof Model) {
             $this->model = $table;
             $modelInformation = new \ReflectionClass($table);
             $this->table = rtrim($modelInformation->getShortName(), 'Model');

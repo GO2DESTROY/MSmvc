@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-class MS_session
+class Session
 {
 	private static $session;
 	public static  $driver = ['driver' => 'file', 'location' => '/storage/sessions'];

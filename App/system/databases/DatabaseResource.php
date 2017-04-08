@@ -8,13 +8,11 @@
 
 namespace App\system\databases;
 
-use App\system\pipelines\MS_pipeline;
-
 /**
- * Class MS_databaseResource
+ * Class DatabaseResource
  * @package MSmvc\system\databases
  */
-class MS_databaseResource {
+class DatabaseResource {
 	private static $dataBaseResourceSet = [];
 	private static $defaultConnectionName;
 
@@ -23,7 +21,7 @@ class MS_databaseResource {
 	 */
 	public static function getDefaultConnectionName() {
 		if(empty(self::$dataBaseResourceSet)){
-			MS_pipeline::getConfigFileContent('database');
+			MS_pipeline::getConfigFileContent('database'); //todo: fix it
 		}
 		return self::$defaultConnectionName;
 	}

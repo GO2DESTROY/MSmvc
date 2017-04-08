@@ -2,35 +2,35 @@
 
 namespace App\system\databases;
 
-use App\system\models\MS_model;
-use App\system\models\properties\MS_property;
+use App\system\models\Model;
+use App\system\models\properties\Property;
 
 /**
  * This class will be used to convert a model to a table
  *
- * Class MS_queryTableBuilder
+ * Class QueryTableBuilder
  * @package system\databases
  */
-class MS_queryTableBuilder extends MS_queryBuilder {
-    use MS_sqlStatements;
+class QueryTableBuilder extends QueryBuilder {
+    use SqlStatements;
 
     /**
-     * MS_queryTableBuilder constructor.
+     * QueryTableBuilder constructor.
      *
-     * @param \App\system\models\MS_model $model
+     * @param \App\system\models\Model $model
      */
-    function __construct(MS_model $model) {
+    function __construct(Model $model) {
         parent::__construct($model);
     }
 
     /**
      * this function will set all the properties for a single field
      *
-     * @param \App\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\Property $property
      *
      * @return string
      */
-    private function propertyToField(MS_property $property) {
+    private function propertyToField(Property $property) {
         return rtrim("$property->name $property->type ($property->length) " . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
     }
 
@@ -50,11 +50,11 @@ class MS_queryTableBuilder extends MS_queryBuilder {
     }
 
     /**
-     * @param MS_property $property
+     * @param Property $property
      *
      * @internal param mixed $primaryKeys
      */
-    public function setPrimaryKeys(MS_property $property) {
+    public function setPrimaryKeys(Property $property) {
         if ($property->isPrimaryKey() == TRUE) {
             $this->primaryKeys[] = $property->name;
         }

@@ -3,21 +3,23 @@
 namespace App\system\databases;
 
 use App\system\databases\migrations\test;
-use App\system\models\MS_model;
-use App\system\models\properties\MS_property;
+use App\system\models\Model;
+use App\system\models\properties\Property;
+use App\system\FileFilter;
 use App\system\MS_filesystem;
+use App\system\databases\MigrationFilter;
 
 
 /**
- * Class MS_migrationBuilder
+ * Class MigrationBuilder
  *
  * this class will build a migration based on a model
  */
-class MS_migrationBuilder {
+class MigrationBuilder {
 
     /**
      * this is the current model that we will use to create new migrations
-     * @var MS_model
+     * @var Model
      */
     private $model;
 
@@ -30,11 +32,11 @@ class MS_migrationBuilder {
     private $changeSet;
 
     /**
-     * MS_migrationBuilder constructor.
+     * MigrationBuilder constructor.
      *
-     * @param \App\system\models\MS_model $model
+     * @param \App\system\models\Model $model
      */
-    function __construct(MS_model $model = NULL) {
+    function __construct(Model $model = NULL) {
         if (!is_null($model)) {
             $this->setModel($model);
         }
@@ -52,7 +54,7 @@ class MS_migrationBuilder {
      *
      * @return $this
      */
-    public function setModel(MS_model $model) {
+    public function setModel(Model $model) {
         $this->model = $model;
         $this->model->up();
         return $this;
@@ -60,6 +62,7 @@ class MS_migrationBuilder {
 
     public function execute() {
         $oldMigrations = new MS_filesystem("App/system/databases/migrations");
+        $oldMigrations->addFilter(new MigrationFilter($this->model->getShortModelName()));
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
 
         $this->buildChangeSet();
@@ -72,13 +75,12 @@ class MS_migrationBuilder {
      */
     public function applyOldMigrations(\SplFileInfo $file) {
         /**
-         * @type $migration MS_migration
+         * @type $migration Migration
          */
-        echo 1;
         $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
         $migration = new $migrationString();
         $migration->up();
-      //  var_dump($migration);
+        var_dump($migration);
     }
 
     private function buildChangeSet() {
@@ -92,11 +94,11 @@ class MS_migrationBuilder {
     /**
      * todo: check this for the history
      *
-     * @param \App\system\models\properties\MS_property $field
+     * @param \App\system\models\properties\Property $field
      *
      * @return array
      */
-    private function checkFieldProperties(MS_property $field) {
+    private function checkFieldProperties(Property $field) {
         $reflection = new \ReflectionObject($field);
         $defaultValues = $reflection->getDefaultProperties();
         $changes = [];

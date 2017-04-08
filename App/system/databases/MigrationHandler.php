@@ -8,15 +8,15 @@
 
 namespace App\system\databases;
 
-use App\system\models\MS_model;
-use App\system\models\properties\MS_property;
+use App\system\models\Model;
+use App\system\models\properties\Property;
 
 
 /**
  * Class MS_migrations
  * @package App\system\databases\migrations
  */
-class MS_migrationHandler {
+class MigrationHandler {
 
     /**
      * @var array
@@ -38,7 +38,7 @@ class MS_migrationHandler {
      *
      * @param $model
      */
-    public static function addMigrationModel(MS_model $model) {
+    public static function addMigrationModel(Model $model) {
         $model->up();
         self::$migrationModels[$model->getShortModelName()] = $model;
     }
@@ -60,11 +60,11 @@ class MS_migrationHandler {
     }
 
     /**
-     * @param \App\system\models\MS_model $model
+     * @param \App\system\models\Model $model
      */
-    private function setMigrationReferences(MS_model $model) {
+    private function setMigrationReferences(Model $model) {
         /**
-         * @var $field MS_property
+         * @var $field Property
          */
         //todo: compare current model to existing migrations
         //todo: find changes between model and migration and write to new migration
@@ -92,11 +92,11 @@ class MS_migrationHandler {
     }
 
     /**
-     * @param \App\system\models\MS_model $migrationModel
+     * @param \App\system\models\Model $migrationModel
      */
-    private function getNewMigrationGenerateFieldLine(MS_model $migrationModel) {
+    private function getNewMigrationGenerateFieldLine(Model $migrationModel) {
 
-        /** @var MS_property $field */
+        /** @var Property $field */
         foreach ($migrationModel->getFieldCollection() as $field) {
             //todo: add to string on the properties
         }
@@ -106,7 +106,7 @@ class MS_migrationHandler {
      * this method will get the current state of the database and the tables within + the columns
      */
     public function getCurrentDatabaseState() {
-        $tablesQuery = new MS_queryBuilder();
+        $tablesQuery = new QueryBuilder();
         $tables = $tablesQuery->showTables();
         $currentModels = [];
         foreach ($tables as $table) {
@@ -114,5 +114,5 @@ class MS_migrationHandler {
             "SHOW FULL COLUMNS FROM test";
         }
     }
-    //todo: use php reflection to check the default values of the MS_property values and based on the results create setters in the migration also use the reflection to get changes between instance and blueprint
+    //todo: use php reflection to check the default values of the Property values and based on the results create setters in the migration also use the reflection to get changes between instance and blueprint
 }

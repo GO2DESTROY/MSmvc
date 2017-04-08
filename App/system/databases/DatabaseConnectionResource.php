@@ -1,10 +1,10 @@
 <?php
 namespace App\system\databases;
 /**
- * Class MS_databaseConnectionResource
+ * Class DatabaseConnectionResource
  * @package MSmvc\system\databases
  */
-class  MS_databaseConnectionResource {
+class  DatabaseConnectionResource {
     private $name;
     private $host;
     private $database;

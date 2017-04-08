@@ -2,13 +2,13 @@
 
 namespace App\system\models\properties;
 
-use App\system\models\MS_model;
+use App\system\models\Model;
 
 /**
- * Class MS_property: this abstract class will be used as a blueprint for the database field
+ * Class Property: this abstract class will be used as a blueprint for the database field
  * @package system\models\properties
  */
-abstract class MS_property {
+abstract class Property {
     /**
      * name of the field
      * @var string
@@ -25,7 +25,7 @@ abstract class MS_property {
      * SQL property
      * @var string
      */
-    public $type = 'varchar';
+    public $type = 'Varchar';
 
     /**
      * default value
@@ -166,11 +166,11 @@ abstract class MS_property {
 
 
     /**
-     * @param string | MS_model $refrenceModel
-     * @param string            $refrenceProperty
+     * @param string | Model $refrenceModel
+     * @param string         $refrenceProperty
      */
     protected function setForeignKey($refrenceModel, $refrenceProperty) {
-        if ($refrenceModel instanceof MS_model) {
+        if ($refrenceModel instanceof Model) {
             $this->referenceModelString = $refrenceModel->getShortModelName();
         } else {
             $this->referenceModelString = $refrenceModel;
@@ -179,7 +179,7 @@ abstract class MS_property {
     }
 
     /**
-     * @return \App\system\models\properties\MS_property
+     * @return \App\system\models\properties\Property
      */
     public function getReferenceProperty() {
         return $this->referencePropertyString;
@@ -187,7 +187,7 @@ abstract class MS_property {
 
 
     /**
-     * @return \App\system\models\MS_model
+     * @return \App\system\models\Model
      */
     public function getReferenceModel() {
         return $this->referenceModelString;
@@ -223,22 +223,11 @@ abstract class MS_property {
     }
 
     /**
-     * @param \App\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\Property $property
      *
      * @return bool
      */
-    public function compare(MS_property $property) {
+    public function compare(Property $property) {
         return $this == $property ? TRUE : FALSE;
     }
-
-    /**
-     * todo: implent this method to return the properties that differ 
-     * @param \App\system\models\properties\MS_property $property
-     *
-     * @return array
-     */
-    public function getDifferentProperties(MS_property $property) {
-        return [];
-    }
-
 }

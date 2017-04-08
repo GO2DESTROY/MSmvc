@@ -1,5 +1,5 @@
 <?php
-use App\system\MS_response;
+use App\system\Response;
 
 if (!function_exists('view')) {
 	/**
@@ -8,10 +8,10 @@ if (!function_exists('view')) {
 	 * @param null $masterView : master to overwrite
 	 */
 	function view($view, $data = NULL, $masterView = NULL) {
-		MS_response::addViewToCollection($view, $data);
-		MS_response::view();
+		Response::addViewToCollection($view, $data);
+		Response::view();
 		if ($masterView !== NULL) {
-			MS_response::overwriteMasterView($masterView);
+			Response::overwriteMasterView($masterView);
 		}
 	}
 }
@@ -36,7 +36,7 @@ if (!function_exists('download')) {
 	 * @param $file : the file to download
 	 */
 	function download($file) {
-		MS_response::download($file);
+		Response::download($file);
 	}
 }
 if (!function_exists('json')) {
@@ -46,7 +46,7 @@ if (!function_exists('json')) {
 	 * @param $data : the json data to return
 	 */
 	function json($data) {
-		MS_response::json($data);
+		Response::json($data);
 	}
 }
 if (!function_exists('renderBody')) {
@@ -54,7 +54,7 @@ if (!function_exists('renderBody')) {
 	 * This method will be used to render the body inside the layout
 	 */
 	function renderBody() {
-		foreach (App\system\MS_view::$viewHtml as $viewHtml){
+		foreach (App\system\View::$viewHtml as $viewHtml){
 			echo $viewHtml;
 		}
 	}
@@ -66,12 +66,12 @@ if (!function_exists('setLayout')) {
 	 * @param string $layoutName : layout to use
 	 */
 	function setLayout(string $layoutName) {
-		App\system\MS_view::setLayout($layoutName);
+		App\system\View::setLayout($layoutName);
 	}
 }
 if (!function_exists('partial')) {
 	function partial(string $viewName) {
-		App\system\MS_view::loadPartial('partials' . DIRECTORY_SEPARATOR . $viewName);
+		App\system\View::loadPartial('partials' . DIRECTORY_SEPARATOR . $viewName);
 	}
 }
 if (!function_exists('isAssoc')) {
@@ -89,10 +89,10 @@ if (!function_exists("string")) {
 	/**
 	 * @param string $name
 	 *
-	 * @return \App\system\models\properties\varchar
+	 * @return \App\system\models\properties\Varchar
 	 */
 	function string(string $name) {
-		$string = new \App\system\models\properties\varchar();
+		$string = new \App\system\models\properties\Varchar();
 		$string->name = $name;
 		return $string;
 	}
@@ -101,10 +101,10 @@ if (!function_exists("int")) {
 	/**
 	 * @param string $name
 	 *
-	 * @return \App\system\models\properties\integer
+	 * @return \App\system\models\properties\Integer
 	 */
 	function int(string $name) {
-		$int = new \App\system\models\properties\integer();
+		$int = new \App\system\models\properties\Integer();
 		$int->name = $name;
 		return $int;
 	}

@@ -2,14 +2,11 @@
 
 namespace App\system;
 
-
-use App\system\pipelines\MS_pipeline;
-
 /**
- * Class MS_handler: this class will handle all the exception and error's thrown
+ * Class Handler: this class will handle all the exception and error's thrown
  * @package MSmvc\system
  */
-class MS_handler
+class Handler
 {
 
 	protected $environment;

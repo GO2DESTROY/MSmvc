@@ -10,10 +10,10 @@ namespace App\system\databases;
 
 
 /**
- * Class MS_sqlStatements
+ * Class SqlStatements
  * @package App\system\databases
  */
-trait MS_sqlStatements {
+trait SqlStatements {
     /**
      * SELECT statement
      * @var string

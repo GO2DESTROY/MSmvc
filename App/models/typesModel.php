@@ -9,22 +9,22 @@
 namespace App\models;
 
 
-use App\system\models\MS_model;
-use App\system\models\properties\integer;
-use App\system\models\properties\varchar;
+use App\system\models\Model;
+use App\system\models\properties\Integer;
+use App\system\models\properties\Varchar;
 
-class typesModel extends MS_model {
+class typesModel extends Model {
 
     public function up() {
         $this->dataBaseConnection = 'development';
 
-        $id = new integer();
+        $id = new Integer();
         $id->name = "id";
         $id->setPrimaryKey(true);
         $id->setAutoIncrement(true);
         $this->addField($id);
 
-        $name = new varchar();
+        $name = new Varchar();
         $name->name = 'Type name';
         $this->addField($name);
     }

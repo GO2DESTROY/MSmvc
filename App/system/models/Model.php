@@ -2,13 +2,13 @@
 
 namespace App\system\models;
 
-use App\system\models\properties\MS_property;
+use App\system\models\properties\Property;
 
 /**
- * Class MS_model: this is the model class to be extended of the model
+ * Class Model: this is the model class to be extended of the model
  * @package system\models
  */
-abstract class MS_model {
+abstract class Model {
 
     /**
      * MS_resource name to be used for the connection
@@ -18,7 +18,7 @@ abstract class MS_model {
     protected $dataBaseConnection = NULL;
 
     /**
-     * array filled with MS_property objects
+     * array filled with Property objects
      * @var array
      */
     private $fieldCollection;
@@ -30,7 +30,7 @@ abstract class MS_model {
     private $modelName;
 
     /**
-     * MS_model constructor.
+     * Model constructor.
      */
     final function __construct() {
         $this->setModelName();
@@ -51,11 +51,11 @@ abstract class MS_model {
     }
 
     /**
-     * @param \App\system\models\properties\MS_property $property
+     * @param \App\system\models\properties\Property $property
      *
-     * @internal param \system\models\properties\MS_property $type type of the property
+     * @internal param \system\models\properties\Property $type type of the property
      */
-    protected function addField(MS_property $property) {
+    protected function addField(Property $property) {
         $this->fieldCollection[] = $property;
     }
 
@@ -80,10 +80,10 @@ abstract class MS_model {
     }
 
     /**
-     * @param \App\system\models\properties\MS_property   $name
+     * @param \App\system\models\properties\Property      $name
      * @param                                             $data
      */
-    private function fillProperty(MS_property $name, $data) {
+    private function fillProperty(Property $name, $data) {
         $name->setValue($data);
         $name->validateProperty();
     }
@@ -113,11 +113,11 @@ abstract class MS_model {
     /**
      * will return true if the object properties match
      *
-     * @param \App\system\models\MS_model $otherModel
+     * @param \App\system\models\Model $otherModel
      *
      * @return bool
      */
-    public final function compare(MS_model $otherModel){
+    public final function compare(Model $otherModel){
         if($this == $otherModel){
             return TRUE;
         }

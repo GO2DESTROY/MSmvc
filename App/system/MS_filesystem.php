@@ -33,8 +33,8 @@
 
 namespace App\system;
 
-use App\system\databases\MS_migrationBuilder;
-use App\system\databases\MS_migrationHandler;
+use App\system\databases\MigrationBuilder;
+use App\system\databases\MigrationHandler;
 
 /**
  * Class MS_pipeline
@@ -53,7 +53,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
     const USE_LAYOUT_PATH = 2;
 
     /**
-     * @var MS_optionals
+     * @var Optionals
      */
     private $options;
 
@@ -120,7 +120,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     function __construct($path) {
 
-        $this->options = new MS_optionals(func_get_args(), $path, TRUE);
+        $this->options = new Optionals(func_get_args(), $path, TRUE);
 
         $this->setPath($path);
         if (is_file($this->getPath())) {
@@ -233,7 +233,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      * @param     $filter
      * @param int $depth
      */
-    public function addFilter(MS_fileFilter $filter, int $depth = NULL) {
+    public function addFilter(FileFilter $filter, int $depth = NULL) {
         if ($depth === NULL) {
             $depth = "*";
         }
@@ -456,7 +456,7 @@ class MS_filesystem implements \SeekableIterator, \RecursiveIterator {
      */
     private function passFilters() {
         /**
-         * @var $filter MS_fileFilter
+         * @var $filter FileFilter
          */
         foreach ($this->getCurrentFilter() as $filter) {
             if ($filter->filter($this->current()) === FALSE) {

@@ -2,10 +2,10 @@
 
 namespace App\system\router;
 /**
- * Class MS_route: this class will be used to create new routes
+ * Class Route: this class will be used to create new routes
  * @package MSmvc\system\router
  */
-class MS_route {
+class Route {
     /**
      * routes array indexed on the uri
      * @var array

@@ -2,10 +2,10 @@
 namespace App\system\models\properties;
 
 /**
- * Class integer
+ * Class Integer
  * @package system\models\properties
  */
-class integer extends MS_property {
+class Integer extends Property {
 
     public $type = 'int';
     public $length = 11;
@@ -25,7 +25,7 @@ class integer extends MS_property {
 	/**
 	 * @param bool $autoIncrement
 	 *
-     * @return \App\system\models\properties\MS_property
+     * @return \App\system\models\properties\Property
      */
 	public function setAutoIncrement(bool $autoIncrement = true) {
 		parent::setAutoIncrement($autoIncrement);

@@ -36,13 +36,13 @@
 
 namespace App\system\databases\migrations\D2017_02_19_122735;
 
-use App\system\databases\MS_migration;
+use App\system\databases\Migration;
 
 /**
  * Class test
  * @package App\system\databases\migrations
  */
-class test extends MS_migration{
+class test extends Migration{
 
     function up() {
         $this->createField(string("field"));

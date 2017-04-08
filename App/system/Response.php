@@ -2,13 +2,13 @@
 
 namespace App\system;
 
-use App\system\MS_view;
+use App\system\View;
 
 /**
- * Class MS_response
+ * Class Response
  * @package MSmvc\system
  */
-class MS_response {
+class Response {
 	private static $responseCollection;
 	private static $responseMaster = NULL;
 	private static $data;
@@ -122,12 +122,12 @@ class MS_response {
 	}
 
 	/**
-	 * we return the MS_view response body
+	 * we return the View response body
 	 */
 	private function returnViewResponseBody() {
-		$response = new MS_view();
-		MS_view::setView(self::$responseCollection);
-		MS_view::setLayout(self::$responseMaster);
+		$response = new View();
+		View::setView(self::$responseCollection);
+		View::setLayout(self::$responseMaster);
 		$response->loadView();
 	}
 }

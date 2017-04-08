@@ -41,14 +41,14 @@
 
 namespace App\system;
 
-use App\system\models\MS_model;
+use App\system\models\Model;
 use App\system\pipelines\MS_pipeline;
 
 /**
- * Class MS_templateHandler
+ * Class TemplateHandler
  * @package App\system
  */
-class MS_templateHandler {
+class TemplateHandler {
     /**
      * name of the template file
      * @var string
@@ -66,7 +66,7 @@ class MS_templateHandler {
     private $replacements;
 
     /**
-     * MS_templateHandler constructor.
+     * TemplateHandler constructor.
      *
      * @param string $template
      */
@@ -151,8 +151,8 @@ class MS_templateHandler {
     }
 
     /**
-     * @param MS_model $model
+     * @param Model $model
      */
-    private function fillMigration(MS_model $model) {
+    private function fillMigration(Model $model) {
     }
 }

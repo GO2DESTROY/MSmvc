@@ -2,28 +2,28 @@
 
 namespace models;
 
-use system\helpers\MS_db;
+use system\helpers\Db;
 
 class $name$Model
 {
 
     public static function retrieveAllResources() {
-        return MS_db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$");
+        return Db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$");
     }
 
     public static function createSingleResource($values$) {
-       return MS_db::connection('$databaseConnectionSet$')->query("INSERT INTO $name$ ($columns$) VALUES ([$questionMarksForColumns$])",$values$);
+       return Db::connection('$databaseConnectionSet$')->query("INSERT INTO $name$ ($columns$) VALUES ([$questionMarksForColumns$])",$values$);
     }
 
     public static function retrieveSingleResource($keys$) {
-       return MS_db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$ WHERE $questionSet$",[$keys$]);
+       return Db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$ WHERE $questionSet$",[$keys$]);
     }
 
     public static function updateSingleResource($keys$,$values$) {
-          MS_db::connection('$databaseConnectionSet$')->query("UPDATE $name$ SET $columnAndQuestionMark$ WHERE $questionSet$",[$values$,$keys$]);
+          Db::connection('$databaseConnectionSet$')->query("UPDATE $name$ SET $columnAndQuestionMark$ WHERE $questionSet$",[$values$,$keys$]);
     }
 
     public static function deleteSingleResource($keys$) {
-          MS_db::connection('$databaseConnectionSet$')->query("DELETE FROM $name$ WHERE $questionSet$",[$keys$]);
+          Db::connection('$databaseConnectionSet$')->query("DELETE FROM $name$ WHERE $questionSet$",[$keys$]);
     }
 }

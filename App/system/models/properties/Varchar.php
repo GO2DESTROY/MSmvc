@@ -2,10 +2,10 @@
 namespace App\system\models\properties;
 
 /**
- * Class varchar: default varchar property
+ * Class Varchar: default Varchar property
  * @package system\models\properties
  */
-class varchar extends MS_property{
+class Varchar extends Property{
 
 	/**
 	 * @return bool

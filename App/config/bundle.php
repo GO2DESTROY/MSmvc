@@ -1,6 +1,6 @@
 <?php
 /*
-use system\MS_bundle;
+use system\Bundle;
 
-MS_bundle::javascript('main');
+Bundle::javascript('main');
 */

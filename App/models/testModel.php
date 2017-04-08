@@ -2,15 +2,15 @@
 
 namespace App\models;
 
-use App\system\models\MS_model;
-use App\system\models\properties\integer;
-use App\system\models\properties\varchar;
+use App\system\models\Model;
+use App\system\models\properties\Integer;
+use App\system\models\properties\Varchar;
 
-class testModel extends MS_model {
+class testModel extends Model {
 
 	public function up() {
 		$this->dataBaseConnection = 'development';
-		$id = new integer();
+		$id = new Integer();
 		$id->name = "id";
 		$id->setLength(23);
 		$id->setPrimaryKey(true);
@@ -20,11 +20,11 @@ class testModel extends MS_model {
 		$this->addField(int("id")->setAutoIncrement(TRUE));
 		$this->addField(string("name"));
 
-		$test = new varchar();
+		$test = new Varchar();
 		$test->name = 'test';
 		$this->addField($test);
 
-		$type = new integer();
+		$type = new Integer();
 		$type->name = "TypeRefrenceIdFromTest";
 		$type->setForeignKey("some", "someId");
 		$this->addField($type);

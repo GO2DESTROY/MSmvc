@@ -43,10 +43,10 @@ namespace App\system;
 
 
 /**
- * Interface MS_fileFilter
+ * Interface FileFilter
  * @package App\system
  */
-interface MS_fileFilter {
+interface FileFilter {
     /**
      * @param \SplFileInfo $file
      *

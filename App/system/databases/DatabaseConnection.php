@@ -3,15 +3,15 @@
 namespace App\system\databases;
 
 /**
- * Class MS_databaseConnection
+ * Class DatabaseConnection
  * @package MSmvc\system\databases
  */
-class MS_databaseConnection {
+class DatabaseConnection {
     private static $databaseConnectionsCollections = [];
     private static $databaseConnectionsDetails = [];
 
     /**
-     * MS_databaseConnection constructor.
+     * DatabaseConnection constructor.
      *
      * @param string $resource           : the resource name that we use from the resources
      * @param bool   $forceNewConnection : used to force a new connection
@@ -22,7 +22,7 @@ class MS_databaseConnection {
         if (!empty(self::$databaseConnectionsCollections[$resource]) && $forceNewConnection === FALSE) {
             self::$databaseConnectionsCollections[$resource];
         } else {
-            self::$databaseConnectionsDetails = MS_databaseResource::getDataBaseResourceSet();
+            self::$databaseConnectionsDetails = DatabaseResource::getDataBaseResourceSet();
             self::$databaseConnectionsCollections[$resource] = $this->setUpConnection($resource);
         }
 
@@ -35,7 +35,7 @@ class MS_databaseConnection {
      */
     public static function getDatabaseConnectionsCollections($connectionName) {
         if (empty(self::$databaseConnectionsCollections[$connectionName])) {
-            new MS_databaseConnection($connectionName);
+            new DatabaseConnection($connectionName);
         }
         return self::$databaseConnectionsCollections[$connectionName];
     }

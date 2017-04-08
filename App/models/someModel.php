@@ -9,9 +9,9 @@
 namespace App\models;
 
 
-use App\system\models\MS_model;
+use App\system\models\Model;
 
-class someModel extends MS_model {
+class someModel extends Model {
     public function up() {
         // TODO: Implement up() method.
         $this->addField(string("testSome"));

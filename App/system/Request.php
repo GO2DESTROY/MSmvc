@@ -3,10 +3,10 @@
 namespace App\system;
 
 /**
- * Class MS_request
+ * Class Request
  * @package MSmvc\system
  */
-class MS_request {
+class Request {
     public $requestInterface = 'HTTP';
     public $requestInterfaceInformation = NULL;
     public $realRequestInterface = 'HTTP';
@@ -22,7 +22,7 @@ class MS_request {
      * we will prepare the response when the request is started that way we can change it at any point
      */
     function __construct() {
-        $this->response = new MS_response();
+        $this->response = new Response();
     }
 
     /**

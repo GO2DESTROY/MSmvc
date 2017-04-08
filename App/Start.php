@@ -4,17 +4,17 @@
 // this file contains a lot of dirty code we have to improve this in the near future
 namespace App;
 
-use App\system\MS_request;
+use App\system\Request;
 use App\system\MS_filesystem;
-use App\system\router\MS_route;
-use App\system\router\MS_router;
+use App\system\router\Route;
+use App\system\router\Router;
 
 /**
  * Class MS_start: this class will start the framework
  * @package system: MSmvc main
  * @author  Maurice Schurink
  */
-class MS_start {
+class Start {
     /**
      * the controller that is requested
      * @var null
@@ -31,9 +31,9 @@ class MS_start {
      * MS_start constructor.
      */
     public function __construct() {
-        //	set_exception_handler([new MS_handler, 'exceptionHandler']);
-        //	set_error_handler([new MS_handler, 'errorHandler']);
-        //	register_shutdown_function([new MS_handler, 'fatal_handler']);
+        //	set_exception_handler([new Handler, 'exceptionHandler']);
+        //	set_error_handler([new Handler, 'errorHandler']);
+        //	register_shutdown_function([new Handler, 'fatal_handler']);
     }
 
     /**
@@ -46,7 +46,7 @@ class MS_start {
         if ($this->currentRequestInterface !== 'CLI') {
             $this->setRequestUri();
         }
-        $request = new MS_request();
+        $request = new Request();
         $request->requestInterface = $this->currentRequestInterface;
 
         set_include_path(get_include_path() . PATH_SEPARATOR . dirname(dirname(__FILE__)));
@@ -60,8 +60,8 @@ class MS_start {
         $configs->filterExtensions("php");
         $configs->include();
 
-        $router = new MS_router();
-        $router->routes = MS_route::returnRouteCollection();
+        $router = new Router();
+        $router->routes = Route::returnRouteCollection();
         $router->currentRequestMethod = $this->currentRequestInterface;
 
         if ($this->currentRequestInterface !== 'CLI') {

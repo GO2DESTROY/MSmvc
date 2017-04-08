@@ -1,13 +1,13 @@
 <?php
 namespace App\system\databases;
 
-use App\system\models\properties\MS_property;
+use App\system\models\properties\Property;
 
 /**
  * Class MS_databaseMigrations
  * @package system\databases
  */
-abstract class MS_migration {
+abstract class Migration {
 
     private $fields;
 
@@ -15,11 +15,11 @@ abstract class MS_migration {
         //todo: make this function to commit all the changes that are pending
     }
 
-    protected function createField(MS_property $field) {
+    protected function createField(Property $field) {
         $this->fields[] = $field;
     }
 
-    protected function updateField(MS_property $field) {
+    protected function updateField(Property $field) {
     //    $this->fields[$field->name] = $field;
     }
 

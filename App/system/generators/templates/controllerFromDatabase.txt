@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-use system\MS_controller;
+use system\Controller;
 use models\$name$Model;
 
 class $name${

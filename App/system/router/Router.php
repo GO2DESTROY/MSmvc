@@ -2,10 +2,10 @@
 
 namespace App\system\router;
 /**
- * Class MS_router: this class will be used to handle the routes that are provided and pick the right one 
+ * Class Router: this class will be used to handle the routes that are provided and pick the right one
  * @package MSmvc\system\router
  */
-class MS_router
+class Router
 {
 	public $routes;
 	public $segments;

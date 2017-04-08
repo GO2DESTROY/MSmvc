@@ -4,9 +4,9 @@ namespace App\system;
 
 //todo: add support for the request / response
 /**
- * Class MS_controller
+ * Class Controller
  * @package MSmvc\system
  */
-class MS_controller {
+class Controller {
 
 }

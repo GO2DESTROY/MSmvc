@@ -2,24 +2,24 @@
 namespace App\system\databases;
 
 /**
- * Class MS_db
+ * Class Db
  * @package system\databases
  */
-class MS_db {
+class Db {
 
 	private $connection;
 
 	/**
-	 * MS_db constructor.
+	 * Db constructor.
 	 * @param string|NULL $connectionName: connection to be used otherwise default will be used
 	 * @throws \Exception: The default connection is not specified.
 	 */
 	function __construct(string $connectionName = NULL) {
 		if(!empty($connectionName)) {
-			$this->connection = MS_databaseConnection::getDatabaseConnectionsCollections($connectionName);
+			$this->connection = DatabaseConnection::getDatabaseConnectionsCollections($connectionName);
 		}
-		else if(!empty(MS_databaseResource::getDefaultConnectionName())) {
-			$this->connection = MS_databaseConnection::getDatabaseConnectionsCollections(MS_databaseResource::getDefaultConnectionName());
+		else if(!empty(DatabaseResource::getDefaultConnectionName())) {
+			$this->connection = DatabaseConnection::getDatabaseConnectionsCollections(DatabaseResource::getDefaultConnectionName());
 		}
 		else {
 			throw new \Exception('The connection is not specified');

@@ -3,10 +3,10 @@
 namespace App\system;
 
 /**
- * Class MS_view
+ * Class View
  * @package system
  */
-class MS_view {
+class View {
 	/**
 	 * view: name of the view file
 	 * data: array with the variables
