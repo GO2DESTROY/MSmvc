@@ -1,14 +1,14 @@
 <?php
 
-namespace App\system\models\properties;
+namespace App\system\models\fields;
 
 use App\system\models\Model;
 
 /**
- * Class Property: this abstract class will be used as a blueprint for the database field
- * @package system\models\properties
+ * Class Field: this abstract class will be used as a blueprint for the database field
+ * @package system\models\fields
  */
-abstract class Property {
+abstract class Field {
     /**
      * name of the field
      * @var string
@@ -179,7 +179,7 @@ abstract class Property {
     }
 
     /**
-     * @return \App\system\models\properties\Property
+     * @return string
      */
     public function getReferenceProperty() {
         return $this->referencePropertyString;
@@ -187,7 +187,7 @@ abstract class Property {
 
 
     /**
-     * @return \App\system\models\Model
+     * @return string
      */
     public function getReferenceModel() {
         return $this->referenceModelString;
@@ -223,11 +223,22 @@ abstract class Property {
     }
 
     /**
-     * @param \App\system\models\properties\Property $property
+     * @param \App\system\models\fields\Field $property
      *
      * @return bool
      */
-    public function compare(Property $property) {
+    public function compare(Field $property) {
         return $this == $property ? TRUE : FALSE;
+    }
+
+    /**
+     * todo: update this and return the different fieldproperties!!
+     *
+     * @param \App\system\models\fields\Field $property
+     */
+    public function getDifferences(Field $property) {
+        $self = get_object_vars($this);
+        $other = get_object_vars($property);
+        var_dump(array_diff($self, $other));
     }
 }

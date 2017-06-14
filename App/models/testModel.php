@@ -3,14 +3,16 @@
 namespace App\models;
 
 use App\system\models\Model;
-use App\system\models\properties\Integer;
-use App\system\models\properties\Varchar;
+use App\system\models\fields\Integer;
+use App\system\models\fields\Varchar;
 
 class testModel extends Model {
 
 	public function up() {
 		$this->dataBaseConnection = 'development';
 		$id = new Integer();
+
+
 		$id->name = "id";
 		$id->setLength(23);
 		$id->setPrimaryKey(true);
@@ -23,10 +25,5 @@ class testModel extends Model {
 		$test = new Varchar();
 		$test->name = 'test';
 		$this->addField($test);
-
-		$type = new Integer();
-		$type->name = "TypeRefrenceIdFromTest";
-		$type->setForeignKey("some", "someId");
-		$this->addField($type);
 	}
 }

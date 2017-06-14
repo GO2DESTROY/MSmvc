@@ -4,7 +4,7 @@ namespace App\system\databases;
 
 use App\system\databases\migrations\test;
 use App\system\models\Model;
-use App\system\models\properties\Property;
+use App\system\models\fields\Field;
 use App\system\FileFilter;
 use App\system\Filesystem;
 use App\system\databases\MigrationFilter;
@@ -30,6 +30,8 @@ class MigrationBuilder {
      * @var array
      */
     private $changeSet;
+
+    private $oldMigrationsBase;
 
     /**
      * MigrationBuilder constructor.
@@ -60,17 +62,21 @@ class MigrationBuilder {
         return $this;
     }
 
+    /**
+     * add create the migration based on olf models
+     */
     public function execute() {
         $oldMigrations = new Filesystem("App/system/databases/migrations");
         $oldMigrations->addFilter(new MigrationFilter($this->model->getShortModelName()));
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
 
         $this->buildChangeSet();
-        //    var_dump($this->changeSet);
+            var_dump($this->changeSet);
         //do stuff execute all the things
     }
 
     /**
+     * this will start the old version
      * @param \SplFileInfo $file
      */
     public function applyOldMigrations(\SplFileInfo $file) {
@@ -80,25 +86,26 @@ class MigrationBuilder {
         $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
         $migration = new $migrationString();
         $migration->up();
-        var_dump($migration);
+        //$oldMigrationsBase
+     //   var_dump($migration);
     }
 
     private function buildChangeSet() {
         foreach ($this->model->getFieldCollection() as $field) {
-            //todo: mark the fields that are changed
-            //todo: mark the fields that are default ---------done
             $this->changeSet[$field->name] = $this->checkFieldProperties($field);
         }
+        var_dump($this->changeSet);
     }
 
     /**
      * todo: check this for the history
+     * this method will set the default flag for a property value
      *
-     * @param \App\system\models\properties\Property $field
+     * @param \App\system\models\fields\Field $field
      *
      * @return array
      */
-    private function checkFieldProperties(Property $field) {
+    private function checkFieldProperties(Field $field) {
         $reflection = new \ReflectionObject($field);
         $defaultValues = $reflection->getDefaultProperties();
         $changes = [];

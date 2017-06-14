@@ -10,6 +10,7 @@ class example extends Controller {
 
     public function index() {
         $test = new MigrationBuilder(new testModel());
+
         $test->execute();
         //  echo $test->getShortModelName();
     }

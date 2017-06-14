@@ -8,8 +8,8 @@
 
 namespace App\system\databases;
 
-use App\system\models\Model;
-use App\system\models\properties\Property;
+use App\system\fields\Model;
+use App\system\fields\properties\Field;
 
 
 /**
@@ -60,11 +60,11 @@ class MigrationHandler {
     }
 
     /**
-     * @param \App\system\models\Model $model
+     * @param \App\system\fields\Model $model
      */
     private function setMigrationReferences(Model $model) {
         /**
-         * @var $field Property
+         * @var $field Field
          */
         //todo: compare current model to existing migrations
         //todo: find changes between model and migration and write to new migration
@@ -92,13 +92,13 @@ class MigrationHandler {
     }
 
     /**
-     * @param \App\system\models\Model $migrationModel
+     * @param \App\system\fields\Model $migrationModel
      */
     private function getNewMigrationGenerateFieldLine(Model $migrationModel) {
 
-        /** @var Property $field */
+        /** @var Field $field */
         foreach ($migrationModel->getFieldCollection() as $field) {
-            //todo: add to string on the properties
+            //todo: add to string on the fields
         }
     }
 
@@ -114,5 +114,5 @@ class MigrationHandler {
             "SHOW FULL COLUMNS FROM test";
         }
     }
-    //todo: use php reflection to check the default values of the Property values and based on the results create setters in the migration also use the reflection to get changes between instance and blueprint
+    //todo: use php reflection to check the default values of the Field values and based on the results create setters in the migration also use the reflection to get changes between instance and blueprint
 }

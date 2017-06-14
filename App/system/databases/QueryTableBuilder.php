@@ -2,8 +2,8 @@
 
 namespace App\system\databases;
 
-use App\system\models\Model;
-use App\system\models\properties\Property;
+use App\system\fields\Model;
+use App\system\fields\properties\Field;
 
 /**
  * This class will be used to convert a model to a table
@@ -17,20 +17,20 @@ class QueryTableBuilder extends QueryBuilder {
     /**
      * QueryTableBuilder constructor.
      *
-     * @param \App\system\models\Model $model
+     * @param \App\system\fields\Model $model
      */
     function __construct(Model $model) {
         parent::__construct($model);
     }
 
     /**
-     * this function will set all the properties for a single field
+     * this function will set all the fields for a single field
      *
-     * @param \App\system\models\properties\Property $property
+     * @param \App\system\fields\properties\Field $property
      *
      * @return string
      */
-    private function propertyToField(Property $property) {
+    private function propertyToField(Field $property) {
         return rtrim("$property->name $property->type ($property->length) " . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
     }
 
@@ -50,11 +50,11 @@ class QueryTableBuilder extends QueryBuilder {
     }
 
     /**
-     * @param Property $property
+     * @param Field $property
      *
      * @internal param mixed $primaryKeys
      */
-    public function setPrimaryKeys(Property $property) {
+    public function setPrimaryKeys(Field $property) {
         if ($property->isPrimaryKey() == TRUE) {
             $this->primaryKeys[] = $property->name;
         }

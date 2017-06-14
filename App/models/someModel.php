@@ -9,7 +9,7 @@
 namespace App\models;
 
 
-use App\system\models\Model;
+use App\system\fields\Model;
 
 class someModel extends Model {
     public function up() {

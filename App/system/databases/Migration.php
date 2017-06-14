@@ -1,7 +1,7 @@
 <?php
 namespace App\system\databases;
 
-use App\system\models\properties\Property;
+use App\system\models\fields\Field;
 
 /**
  * Class MS_databaseMigrations
@@ -9,17 +9,20 @@ use App\system\models\properties\Property;
  */
 abstract class Migration {
 
-    private $fields;
+    private $fields;   //array of fields
 
-    private function commitChanges() {
-        //todo: make this function to commit all the changes that are pending
+    /**
+     * @return mixed
+     */
+    public function getFields() {
+        return $this->fields;
     }
-
-    protected function createField(Property $field) {
+    
+    protected function createField(Field $field) {
         $this->fields[] = $field;
     }
 
-    protected function updateField(Property $field) {
+    protected function updateField(Field $field) {
     //    $this->fields[$field->name] = $field;
     }
 

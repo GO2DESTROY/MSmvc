@@ -1,11 +1,11 @@
 <?php
-namespace App\system\models\properties;
+namespace App\system\models\fields;
 
 /**
  * Class Varchar: default Varchar property
- * @package system\models\properties
+ * @package system\models\fields
  */
-class Varchar extends Property{
+class Varchar extends Field{
 
 	/**
 	 * @return bool

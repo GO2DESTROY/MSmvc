@@ -1,11 +1,11 @@
 <?php
-namespace App\system\models\properties;
+namespace App\system\models\fields;
 
 /**
  * Class Integer
- * @package system\models\properties
+ * @package system\models\fields
  */
-class Integer extends Property {
+class Integer extends Field {
 
     public $type = 'int';
     public $length = 11;
@@ -25,7 +25,7 @@ class Integer extends Property {
 	/**
 	 * @param bool $autoIncrement
 	 *
-     * @return \App\system\models\properties\Property
+     * @return \App\system\models\fields\Field
      */
 	public function setAutoIncrement(bool $autoIncrement = true) {
 		parent::setAutoIncrement($autoIncrement);

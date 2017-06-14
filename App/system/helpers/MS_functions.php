@@ -89,10 +89,10 @@ if (!function_exists("string")) {
 	/**
 	 * @param string $name
 	 *
-	 * @return \App\system\models\properties\Varchar
+	 * @return \App\system\models\fields\Varchar
 	 */
 	function string(string $name) {
-		$string = new \App\system\models\properties\Varchar();
+		$string = new \App\system\models\fields\Varchar();
 		$string->name = $name;
 		return $string;
 	}
@@ -101,10 +101,10 @@ if (!function_exists("int")) {
 	/**
 	 * @param string $name
 	 *
-	 * @return \App\system\models\properties\Integer
+	 * @return \App\system\models\fields\Integer
 	 */
 	function int(string $name) {
-		$int = new \App\system\models\properties\Integer();
+		$int = new \App\system\models\fields\Integer();
 		$int->name = $name;
 		return $int;
 	}

@@ -2,7 +2,7 @@
 
 namespace App\system\models;
 
-use App\system\models\properties\Property;
+use App\system\models\fields\Field;
 
 /**
  * Class Model: this is the model class to be extended of the model
@@ -51,11 +51,11 @@ abstract class Model {
     }
 
     /**
-     * @param \App\system\models\properties\Property $property
+     * @param \App\system\models\fields\Field $property
      *
-     * @internal param \system\models\properties\Property $type type of the property
+     * @internal param \system\models\fields\Property $type type of the property
      */
-    protected function addField(Property $property) {
+    protected function addField(Field $property) {
         $this->fieldCollection[] = $property;
     }
 
@@ -80,10 +80,10 @@ abstract class Model {
     }
 
     /**
-     * @param \App\system\models\properties\Property      $name
+     * @param \App\system\models\fields\Field         $name
      * @param                                             $data
      */
-    private function fillProperty(Property $name, $data) {
+    private function fillProperty(Field $name, $data) {
         $name->setValue($data);
         $name->validateProperty();
     }
@@ -111,13 +111,14 @@ abstract class Model {
     }
 
     /**
-     * will return true if the object properties match
+     * will return true if the object fields match
      *
      * @param \App\system\models\Model $otherModel
      *
      * @return bool
      */
     public final function compare(Model $otherModel){
+      //  foreach ($otherModel)
         if($this == $otherModel){
             return TRUE;
         }

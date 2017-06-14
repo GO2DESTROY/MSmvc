@@ -9,9 +9,9 @@
 namespace App\models;
 
 
-use App\system\models\Model;
-use App\system\models\properties\Integer;
-use App\system\models\properties\Varchar;
+use App\system\fields\Model;
+use App\system\fields\properties\Integer;
+use App\system\fields\properties\Varchar;
 
 class typesModel extends Model {
 

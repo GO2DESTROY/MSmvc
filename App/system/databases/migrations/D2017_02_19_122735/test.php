@@ -46,6 +46,5 @@ class test extends Migration{
 
     function up() {
         $this->createField(string("field"));
-        // TODO: Implement up() method.
     }
 }

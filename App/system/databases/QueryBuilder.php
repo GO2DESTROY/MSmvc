@@ -1,8 +1,8 @@
 <?php
 namespace App\system\databases;
 
-use App\system\models\Model;
-use App\system\models\properties\Property;
+use App\system\fields\Model;
+use App\system\fields\properties\Field;
 
 /**
  * Class QueryBuilder: this class will build the queries based on the models
@@ -176,7 +176,7 @@ class  QueryBuilder {
     public function set(array $data = NULL) {
         if ($this->model instanceof Model) {
             /**
-             * @var $field Property
+             * @var $field Field
              */
             foreach ($this->model->getFieldCollection() as $field) {
                 $this->updateData[$field->name] = $field->getValue();
@@ -247,7 +247,7 @@ class  QueryBuilder {
         if ($this->model instanceof Model) {
             $dataToInsert = [];
             /**
-             * @var $field Property
+             * @var $field Field
              */
             foreach ($this->model->getFieldCollection() as $field) {
                 $this->addInsertField($field->name);
@@ -325,22 +325,22 @@ class  QueryBuilder {
     }
 
     /**
-     * this function will set all the properties for a single field
+     * this function will set all the fields for a single field
      *
-     * @param \App\system\models\properties\Property $property
+     * @param \App\system\fields\properties\Field $property
      *
      * @return string
      */
-    private function propertyToField(Property $property) {
+    private function propertyToField(Field $property) {
         return rtrim("$property->name $property->type ($property->length) " . $property->getAutoIncrement() . $property->getNotNull(), " ") . ", ";
     }
 
     /**
-     * @param Property $property
+     * @param Field $property
      *
      * @internal param mixed $primaryKeys
      */
-    private function setPrimaryKeys(Property $property) {
+    private function setPrimaryKeys(Field $property) {
         if ($property->isPrimaryKey() == TRUE) {
             $this->primaryKeys[] = $property->name;
         }
