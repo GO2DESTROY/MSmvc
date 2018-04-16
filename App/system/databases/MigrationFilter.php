@@ -1,7 +1,9 @@
 <?php
 
 namespace App\system\databases;
-class  MigrationFilter implements \App\system\FileFilter {
+use App\system\FileFilter;
+
+class  MigrationFilter implements FileFilter {
     private $migrationName;
 
     function __construct($migrationName) {

@@ -210,7 +210,7 @@ class MS_curl
 		$fp = fopen($this->fileLocation, "r");
 
 		curl_setopt($curl, CURLOPT_URL, $this->url);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->$ftpUserPwd);
+		curl_setopt($curl, CURLOPT_USERPWD, $this->ftpUserPwd);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($curl, CURLOPT_UPLOAD, TRUE);
 		curl_setopt($curl, CURLOPT_INFILE, $fp);
@@ -227,7 +227,7 @@ class MS_curl
 
 	private function ftpShowCurl($curl) {
 		curl_setopt($curl, CURLOPT_URL, $this->url);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->$ftpUserPwd);
+		curl_setopt($curl, CURLOPT_USERPWD, $this->ftpUserPwd);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 
 		return $curl;
