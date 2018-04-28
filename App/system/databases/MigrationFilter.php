@@ -23,6 +23,5 @@ class  MigrationFilter implements FileFilter {
         } else {
             return FALSE;
         }
-        // TODO: Implement filter() method.
     }
 }

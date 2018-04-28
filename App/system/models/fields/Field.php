@@ -232,13 +232,22 @@ abstract class Field {
     }
 
     /**
-     * todo: update this and return the different fieldproperties!!
-     *
      * @param \App\system\models\fields\Field $property
+     *
+     * @return array: the differences
      */
     public function getDifferences(Field $property) {
         $self = get_object_vars($this);
         $other = get_object_vars($property);
-        var_dump(array_diff($self, $other));
+        $differences = [];
+        $differences["changed"] = array_diff($other, $self);
+        $differences["removed"] = array_diff($self, $other);
+        foreach ($differences["changed"] as $key => $value){
+            if (isset($differences["removed"][$key])){
+                unset($differences["removed"][$key]);
+            }
+        }
+
+        return $differences;
     }
 }

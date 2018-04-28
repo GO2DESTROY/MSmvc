@@ -1,3 +1,5 @@
-<?php setLayout("layout"); ?>
+<?php setLayout("layout");
 
-Welcome
+
+echo "Welcome";
+echo $test;

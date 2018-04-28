@@ -3,6 +3,7 @@ namespace App\system\databases;
 
 use App\system\fields\Model;
 use App\system\fields\properties\Field;
+use App\system\models\Model;
 
 /**
  * Class QueryBuilder: this class will build the queries based on the models

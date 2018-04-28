@@ -48,7 +48,7 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
     const USE_VIEW_PATH = 1;
 
     /**
-     * this prepend the view path
+     * this prepend the view layout path
      */
     const USE_LAYOUT_PATH = 2;
 
@@ -272,6 +272,9 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
             extract($this->getLocalData(), EXTR_SKIP);
         }
         ob_start();
+        if (!empty($this->localData)) {
+            extract($this->localData, EXTR_SKIP);
+        }
         include $file->getPathname();
         $this->addFileContents(ob_get_clean());
     }
@@ -335,9 +338,9 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
         include $target->getPathname();
     }
 
-    public function include () {
+    public function include() {
         $this->callback = [$this, "includeTarget"];
-        $this->fileAction([$this, "includeTarget"]);
+        $this->fileAction();
     }
 
     /**
@@ -347,6 +350,13 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
         $this->callback = [$this, "executeAndReturnFileContent"];
         $this->fileAction();
         return $this->getFileContents();
+    }
+
+    /**
+     * @param array $data: the data to set
+     */
+    public function setLocalData(array $data) {
+        $this->localData = $data;
     }
 
     /**

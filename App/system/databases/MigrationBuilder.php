@@ -68,10 +68,11 @@ class MigrationBuilder {
     public function execute() {
         $oldMigrations = new Filesystem("App/system/databases/migrations");
         $oldMigrations->addFilter(new MigrationFilter($this->model->getShortModelName()));
+        //todo: write custom iterator
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
 
         $this->buildChangeSet();
-            var_dump($this->changeSet);
+       //     var_dump($this->changeSet);
         //do stuff execute all the things
     }
 
@@ -86,15 +87,18 @@ class MigrationBuilder {
         $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
         $migration = new $migrationString();
         $migration->up();
-        //$oldMigrationsBase
-     //   var_dump($migration);
+        $this->oldMigrationsBase;
+       // var_dump($migration);
+    }
+
+    private function applyNewMigration(Migration $migration){
+
     }
 
     private function buildChangeSet() {
         foreach ($this->model->getFieldCollection() as $field) {
             $this->changeSet[$field->name] = $this->checkFieldProperties($field);
         }
-        var_dump($this->changeSet);
     }
 
     /**

@@ -2,8 +2,9 @@
 
 namespace App\system\databases;
 
-use App\system\fields\Model;
-use App\system\fields\properties\Field;
+use App\system\models\fields\Field;
+use App\system\models\Model;
+
 
 /**
  * This class will be used to convert a model to a table

@@ -12,6 +12,9 @@ class example extends Controller {
         $test = new MigrationBuilder(new testModel());
 
         $test->execute();
+        echo 234;
+
+        return view("example",["test"=>"tete"]);
         //  echo $test->getShortModelName();
     }
 }

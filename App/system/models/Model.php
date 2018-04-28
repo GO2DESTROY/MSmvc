@@ -81,7 +81,7 @@ abstract class Model {
 
     /**
      * @param \App\system\models\fields\Field         $name
-     * @param                                             $data
+     * @param                                         $data
      */
     private function fillProperty(Field $name, $data) {
         $name->setValue($data);
