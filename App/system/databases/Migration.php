@@ -2,13 +2,15 @@
 
 namespace App\system\databases;
 
+use App\system\DataStructureFile;
 use App\system\models\fields\Field;
+use App\system\models\Model;
 
 /**
  * Class MS_databaseMigrations
  * @package system\databases
  */
-abstract class Migration {
+abstract class Migration extends DataStructureFile {
 
     private $fields;   //array of fields
 
@@ -31,8 +33,6 @@ abstract class Migration {
             unset($this->fields[$name]);
     }
 
-    abstract function up();
-
     function getDifference(Migration $migration){
         $self = get_object_vars($this);
         $other = get_object_vars($migration);
@@ -46,4 +46,6 @@ abstract class Migration {
         }
         return $differences;
     }
+
+    abstract function up();
 }

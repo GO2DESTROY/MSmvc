@@ -5,9 +5,7 @@ namespace App\system\databases;
 use App\system\databases\migrations\test;
 use App\system\models\Model;
 use App\system\models\fields\Field;
-use App\system\FileFilter;
 use App\system\Filesystem;
-use App\system\databases\MigrationFilter;
 
 
 /**
@@ -31,7 +29,10 @@ class MigrationBuilder {
      */
     private $changeSet;
 
-    private $oldMigrationsBase;
+    /**
+     * @var array: this variable hold all the migrationFields
+     */
+    private $MigrationFieldCollection = [];
 
     /**
      * MigrationBuilder constructor.
@@ -68,17 +69,24 @@ class MigrationBuilder {
     public function execute() {
         $oldMigrations = new Filesystem("App/system/databases/migrations");
         $oldMigrations->addFilter(new MigrationFilter($this->model->getShortModelName()));
+
+
         //todo: write custom iterator
         $oldMigrations->customCallback([$this, "applyOldMigrations"]);
-
-        $this->buildChangeSet();
-       //     var_dump($this->changeSet);
+        //todo: get the current model and get the diffrences between that and the migration
+        //todo: write a new migration.
+        //
+        // $this->buildChangeSet();
         //do stuff execute all the things
+
     }
 
     /**
      * this will start the old version
+     *
      * @param \SplFileInfo $file
+     *
+     * @throws \Exception
      */
     public function applyOldMigrations(\SplFileInfo $file) {
         /**
@@ -86,13 +94,42 @@ class MigrationBuilder {
          */
         $migrationString = "\\" . $file->getPathInfo()->getPathname() . DIRECTORY_SEPARATOR . $file->getBasename('.' . $file->getExtension());
         $migration = new $migrationString();
-        $migration->up();
-        $this->oldMigrationsBase;
-       // var_dump($migration);
+        $this->applyNewMigration($migration);
     }
 
-    private function applyNewMigration(Migration $migration){
-
+    /**
+     * this method will build a single datastructure based on all the migrations of the current model.
+     * @param \App\system\databases\Migration $migration
+     *
+     * @throws \Exception
+     */
+    private function applyNewMigration(Migration $migration) {
+        $migration->up();
+        foreach ($migration->getFields() as $migrationField) {
+            if ($migrationField["new"] == TRUE) {
+                //new field
+                $this->MigrationFieldCollection[$migration->getFileName()][$migrationField["field"]->name]["dataStructure"] = $migrationField["field"];
+                $this->MigrationFieldCollection[$migration->getFileName()][$migrationField["field"]->name]["defaults"] = $this->checkFieldProperties($migrationField["field"]);
+                //  $this->mi$this->$migrationField["field"];
+            } else {
+                if (!empty($this->MigrationFieldCollection[$migration->getFileName()][$migrationField["field"]->name])) {
+                    $checkFieldProperties = $this->checkFieldProperties($migrationField["field"]);
+                    //We will remove the default value if they are also the default value of the first migration otherwise we will keep it
+                    foreach ($checkFieldProperties as $key => $checkFieldProperty) {
+                        //todo: update this check the name value seems to go wrong!
+                        if (($checkFieldProperty === TRUE && $this->MigrationFieldCollection[$migration->getFileName()][$migrationField["field"]->name]["defaults"][$key] === TRUE) || $key == "name") {
+                            unset($checkFieldProperties[$key]);
+                        }
+                    }
+                    //overwrite these fields note: we will not check if values are similar we will just overwrite the field another change check should be done on the last migration that exists
+                    foreach (array_keys($checkFieldProperties) as $propertyName) {
+                        $this->MigrationFieldCollection[$migration->getFileName()][$migrationField["field"]->name]["dataStructure"]->$propertyName = $migrationField["field"]->$propertyName;
+                    }
+                } else {
+                    throw new \Exception("trying to update a field that doesn't exist.");
+                }
+            }
+        }
     }
 
     private function buildChangeSet() {
@@ -107,20 +144,30 @@ class MigrationBuilder {
      *
      * @param \App\system\models\fields\Field $field
      *
+     * @param bool                            $includeValue
+     *
      * @return array
      */
-    private function checkFieldProperties(Field $field) {
+    private function checkFieldProperties(Field $field, $includeValue = FALSE) {
         $reflection = new \ReflectionObject($field);
         $defaultValues = $reflection->getDefaultProperties();
         $changes = [];
         foreach ($reflection->getProperties() as $fieldValues) {
             $fieldValue = $field->__get($fieldValues->name);
             $data = [];
-            $data["value"] = $fieldValue;
-            if (in_array($fieldValue, $defaultValues)) {
-                $data["default"] = TRUE;
+            if ($includeValue) {
+                $data["value"] = $fieldValue;
+                if (in_array($fieldValue, $defaultValues)) {
+                    $data["default"] = TRUE;
+                } else {
+                    $data["default"] = FALSE;
+                }
             } else {
-                $data["default"] = FALSE;
+                if (in_array($fieldValue, $defaultValues)) {
+                    $data = TRUE;
+                } else {
+                    $data = FALSE;
+                }
             }
             $changes[$fieldValues->name] = $data;
         }

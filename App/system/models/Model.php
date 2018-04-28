@@ -2,13 +2,14 @@
 
 namespace App\system\models;
 
+use App\system\DataStructureFile;
 use App\system\models\fields\Field;
 
 /**
  * Class Model: this is the model class to be extended of the model
  * @package system\models
  */
-abstract class Model {
+abstract class Model extends DataStructureFile {
 
     /**
      * MS_resource name to be used for the connection
@@ -24,17 +25,9 @@ abstract class Model {
     private $fieldCollection;
 
     /**
-     * name of the model
-     * @var string
-     */
-    private $modelName;
-
-    /**
      * Model constructor.
+     * @throws \ReflectionException
      */
-    final function __construct() {
-        $this->setModelName();
-    }
 
     /**
      * @return null
@@ -82,6 +75,8 @@ abstract class Model {
     /**
      * @param \App\system\models\fields\Field         $name
      * @param                                         $data
+     *
+     * @throws \Exception
      */
     private function fillProperty(Field $name, $data) {
         $name->setValue($data);
@@ -89,25 +84,10 @@ abstract class Model {
     }
 
     /**
-     * this function will set the model name
-     */
-    private function setModelName() {
-        $modelInformation = new \ReflectionClass($this);
-        $this->modelName = $modelInformation->getShortName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getLongModelName() {
-        return $this->modelName;
-    }
-
-    /**
      * @return string
      */
     public function getShortModelName() {
-        return str_replace("Model","",$this->modelName);
+        return str_replace("Model","",$this->getFileName());
     }
 
     /**

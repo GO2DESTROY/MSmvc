@@ -12,6 +12,6 @@ use App\system\databases\Migration;
 class test extends Migration{
 
     function up() {
-        $this->createField(string("Field")->setLength(47));
+        $this->updateField(string("field")->setLength(25));
     }
 }
