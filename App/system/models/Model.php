@@ -47,11 +47,17 @@ abstract class Model extends DataStructureFile {
      * @param \App\system\models\fields\Field $property
      *
      * @internal param \system\models\fields\Property $type type of the property
+     * @throws \Exception
      */
     protected function addField(Field $property) {
-        $this->fieldCollection[] = $property;
+        if(empty($this->fieldCollection[$property->name])) {
+            $this->fieldCollection[$property->name] = $property;
+        }
+        else
+        {
+            throw new \Exception('Field already exists.');
+        }
     }
-
 
     /**
      * we loop though the passed data and through the fields

@@ -27,6 +27,8 @@ use App\system\router\Route;
 */
 Route::any('/', ['uses' => 'example@index', 'as' => 'home']);
 
+Route::any('/connect/privacy',['uses'=>'connect@privacy', 'as' =>'connect_privacy']);
+
 Route::get('/generate', ['uses' => 'generate@index', 'as' => 'generateFormPage']);
 //Route::get('/generate/model/{id}',['uses' => 'generate@requestModelContent']);
 

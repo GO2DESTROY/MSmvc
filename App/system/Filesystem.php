@@ -268,12 +268,9 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
      * @param \SplFileInfo $file
      */
     private function executeAndReturnFileContent(\SplFileInfo $file) {
-        if (is_array($this->getLocalData())) {
-            extract($this->getLocalData(), EXTR_SKIP);
-        }
         ob_start();
-        if (!empty($this->localData)) {
-            extract($this->localData, EXTR_SKIP);
+        if (!empty($this->getLocalData())) {
+            extract($this->getLocalData(), EXTR_SKIP);
         }
         include $file->getPathname();
         $this->addFileContents(ob_get_clean());
@@ -353,7 +350,7 @@ class Filesystem implements \SeekableIterator, \RecursiveIterator {
     }
 
     /**
-     * @param array $data: the data to set
+     * @param array $data : the data to set
      */
     public function setLocalData(array $data) {
         $this->localData = $data;

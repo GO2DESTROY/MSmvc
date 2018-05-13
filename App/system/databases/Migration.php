@@ -29,6 +29,10 @@ abstract class Migration extends DataStructureFile {
         $this->fields[$field->name] = ["field" => $field, "new" => FALSE];;
     }
 
+    protected function replaceField(Field $field){
+        //todo: make this an option for when we are not sure what to use for the basic Migration!
+    }
+
     protected function deleteField(string $name) {
             unset($this->fields[$name]);
     }

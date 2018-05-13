@@ -8,22 +8,25 @@ use App\system\models\fields\Varchar;
 
 class testModel extends Model {
 
-	public function up() {
-		$this->dataBaseConnection = 'development';
-		$id = new Integer();
+    public function up() {
+        $this->dataBaseConnection = 'development';
+        $id = new Integer();
 
 
-		$id->name = "id";
-		$id->setLength(23);
-		$id->setPrimaryKey(true);
-		$id->setAutoIncrement(true);
-		$this->addField($id);
+        $id->name = "id";
+        $id->setLength(23);
+        $id->setPrimaryKey(TRUE);
+        $id->setAutoIncrement(TRUE);
 
-		$this->addField(int("id")->setAutoIncrement(TRUE));
-		$this->addField(string("name"));
+        try {
+            $this->addField($id);
+            $this->addField(int("id2")->setAutoIncrement(TRUE));
+            $this->addField(string("name"));
+            $test = new Varchar();
+            $test->name = 'test';
+            $this->addField($test);
+        } catch (\Exception $e) {
 
-		$test = new Varchar();
-		$test->name = 'test';
-		$this->addField($test);
-	}
+        }
+    }
 }

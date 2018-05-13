@@ -35,6 +35,11 @@ class MigrationBuilder {
     private $MigrationFieldCollection = [];
 
     /**
+     * @var array: this indexed array will hold the lines of code for the new migration
+     */
+    private $newMigrationLines = [];
+
+    /**
      * MigrationBuilder constructor.
      *
      * @param \App\system\models\Model $model
@@ -48,7 +53,7 @@ class MigrationBuilder {
     /**
      * @return mixed
      */
-    public function getModel() {
+    public function getModel(): Model {
         return $this->model;
     }
 
@@ -78,7 +83,60 @@ class MigrationBuilder {
         //
         // $this->buildChangeSet();
         //do stuff execute all the things
+        $this->createNewMigration();
 
+    }
+
+    /**
+     * this method will compare the current model with it's migration list and create a new migration based on the
+     * current model
+     */
+    private function createNewMigration() {
+        // $this->MigrationFieldCollection[$this->getModel()->getShortModelName()];
+        $changes = []; //these fields are added or updated if the fieldnames is not in this array delete it.
+        foreach ($this->getModel()->getFieldCollection() as $fieldName => $field) {
+            //var_dump($this->checkFieldProperties($field)); --mark if the fieldsproperties are default or not
+            $this->checkFieldProperties($field);
+            var_dump($field);
+
+            if (!empty($this->MigrationFieldCollection[$this->getModel()->getShortModelName()][$fieldName])) {
+                $reflection = new \ReflectionObject($field);
+                $changes = [];
+                $this->checkFieldProperties($field);
+
+                foreach ($reflection->getProperties() as $fieldValues) {
+
+                }
+                //we want to update this field
+            } else {
+
+                //copy this field since we create
+            }
+        }
+        foreach ($this->MigrationFieldCollection[$this->getModel()->getShortModelName()] as $migrationFieldName => $migrationField) {
+            if (!in_array($migrationFieldName, $changes)) {
+                $this->newMigrationLines[] = $this->modelFieldToMigrationString($migrationField['dataStructure'], 'delete');
+            }
+        }
+    }
+
+    /**
+     * @param \App\system\models\fields\Field $field
+     * @param string                          $type : 'add|update|delete'
+     *
+     * @return string
+     */
+    private function modelFieldToMigrationString(Field $field, $type = 'add'): string {
+        // return '';
+        switch ($type) {
+            case 'add':
+                break;
+            case 'update':
+                break;
+            case 'delete':
+                return '$this->deleteField("'.$field->name.'"")';
+                break;
+        }
     }
 
     /**
@@ -99,6 +157,7 @@ class MigrationBuilder {
 
     /**
      * this method will build a single datastructure based on all the migrations of the current model.
+     *
      * @param \App\system\databases\Migration $migration
      *
      * @throws \Exception
