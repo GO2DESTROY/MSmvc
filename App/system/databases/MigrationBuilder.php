@@ -130,11 +130,16 @@ class MigrationBuilder {
         // return '';
         switch ($type) {
             case 'add':
+                return NULL;
                 break;
             case 'update':
+                return NULL;
                 break;
             case 'delete':
                 return '$this->deleteField("'.$field->name.'"")';
+                break;
+            default:
+                return NULL;
                 break;
         }
     }
