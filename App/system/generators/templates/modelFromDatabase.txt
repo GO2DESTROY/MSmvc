@@ -1,0 +1,29 @@
+<?php
+
+namespace models;
+
+use system\helpers\Db;
+
+class $name$Model
+{
+
+    public static function retrieveAllResources() {
+        return Db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$");
+    }
+
+    public static function createSingleResource($values$) {
+       return Db::connection('$databaseConnectionSet$')->query("INSERT INTO $name$ ($columns$) VALUES ([$questionMarksForColumns$])",$values$);
+    }
+
+    public static function retrieveSingleResource($keys$) {
+       return Db::connection('$databaseConnectionSet$')->query("SELECT * FROM $name$ WHERE $questionSet$",[$keys$]);
+    }
+
+    public static function updateSingleResource($keys$,$values$) {
+          Db::connection('$databaseConnectionSet$')->query("UPDATE $name$ SET $columnAndQuestionMark$ WHERE $questionSet$",[$values$,$keys$]);
+    }
+
+    public static function deleteSingleResource($keys$) {
+          Db::connection('$databaseConnectionSet$')->query("DELETE FROM $name$ WHERE $questionSet$",[$keys$]);
+    }
+}

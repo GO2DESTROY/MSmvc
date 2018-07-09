@@ -1,0 +1,14 @@
+<?php
+
+namespace App\system\migrations;
+
+use App\system\databases\Migration;
+$property_uses$
+
+class templateClass extends Migration {
+
+	function up() {
+		///
+		$up_properties$
+	}
+}
