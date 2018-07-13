@@ -27,12 +27,12 @@ class Db {
 	}
 
 	/**
-	 * @param      $query : the SQL query to be executed
-	 * @param null $data  : the pdo data for prepare statement to be used
+	 * @param string $query : the SQL query to be executed
+	 * @param null   $data  : the pdo data for prepare statement to be used
 	 *
 	 * @return mixed : we return the query results
 	 */
-	public function query($query, $data = NULL) {
+	public function query(string $query, $data = NULL) {
 			$statement = $this->connection->prepare($query);
 			$statement->execute($data);
 			return $statement->fetchAll(\PDO::FETCH_OBJ);
